@@ -1,0 +1,2 @@
+cd "C:/Program Files (x86)/NCSoft/Aion"
+echo g_chatlog = “0” > system.ovr
