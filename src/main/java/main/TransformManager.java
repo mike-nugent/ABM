@@ -11,8 +11,9 @@ public class TransformManager
     static List<PlayerData> activeTransforms   = new LinkedList<PlayerData>();
     static List<PlayerData> cooldownTransforms = new LinkedList<PlayerData>();
 
-    static XformPopupStage   xformStage;
-    static LogPopupPage      scriptsStage;
+    static XformPopupStage   xformStage   = new XformPopupStage();
+    static LogPopupPage      scriptsStage = new LogPopupPage();
+    static ConfigPopupPage   configStage  = new ConfigPopupPage();
     static XformScreenButton xformButton;
 
     public static synchronized void transformDetected(final PlayerData data)
@@ -128,19 +129,21 @@ public class TransformManager
 
     }
 
-    public static void setXformStage(final XformPopupStage xformStage)
+    public static void toggleConfigPopup()
     {
-        TransformManager.xformStage = xformStage;
+        if (configStage.isShowing())
+        {
+            configStage.close();
+        }
+        else
+        {
+            configStage.show();
+        }
     }
 
     public static void setXformButton(final XformScreenButton xformButton)
     {
         TransformManager.xformButton = xformButton;
-    }
-
-    public static void setScriptsStage(final LogPopupPage scriptsDisplay)
-    {
-        TransformManager.scriptsStage = scriptsDisplay;
     }
 
 }

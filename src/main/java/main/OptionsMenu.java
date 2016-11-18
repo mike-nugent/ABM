@@ -42,7 +42,7 @@ public class OptionsMenu
                 @Override
                 public void handle(final ActionEvent t)
                 {
-                    System.out.println("TODO - configure main settings");
+                    TransformManager.toggleConfigPopup();
                 }
             });
             // ----------------------------------------------------------------

@@ -31,11 +31,10 @@ import logreader.AionLogReader;
 public class HelloWorld extends Application
 {
 
-    private double            xOffset = 0;
-    private double            yOffset = 0;
-    protected ContextMenu     _optionsMenu;
-    private XformPopupStage   xformDisplay;
-    private LogPopupPage      scriptsDisplay;
+    private double        xOffset = 0;
+    private double        yOffset = 0;
+    protected ContextMenu _optionsMenu;
+
     private ProgressIndicator _progressIcon;
 
     public static void main(final String[] args)
@@ -65,13 +64,6 @@ public class HelloWorld extends Application
 
         setupStage(primaryStage, background);
 
-        // Xform info
-        xformDisplay = new XformPopupStage();
-        TransformManager.setXformStage(xformDisplay);
-
-        scriptsDisplay = new LogPopupPage();
-        TransformManager.setScriptsStage(scriptsDisplay);
-
         // Create the buttons
         final HBox hbox = addScreenButtons();
         // hbox.setAlignment(Pos.TOP_CENTER);
@@ -88,9 +80,10 @@ public class HelloWorld extends Application
 
         // Create the options icon button
         final OptionsButton optionsButton = new OptionsButton();
+        final ConfigWarningButton configWarningButton = new ConfigWarningButton();
 
         // Add all children to the stage
-        root.getChildren().addAll(hbox, _progressIcon, optionsButton, slider);
+        root.getChildren().addAll(hbox, _progressIcon, optionsButton, configWarningButton, slider);
 
         // Reposition them all
         hbox.setLayoutX(10);
@@ -102,6 +95,9 @@ public class HelloWorld extends Application
 
         optionsButton.setLayoutX(350);
         optionsButton.setLayoutY(15);
+
+        configWarningButton.setLayoutX(315);
+        configWarningButton.setLayoutY(15);
 
         _progressIcon.setLayoutX(350);
         _progressIcon.setLayoutY(50);
