@@ -19,7 +19,7 @@ import gameinfo.PlayerData;
 import gameinfo.Race;
 import gameinfo.Rank;
 import gameinfo.Server;
-import main.Main;
+import main.MainSwing;
 
 public class TransformBar extends JPanel 
 {
@@ -39,10 +39,10 @@ public class TransformBar extends JPanel
 	private Server _server;
 	private Rank _rank;
 	private Archetype _clazz;
-	private Main _main;
+	private MainSwing _main;
 
 	
-	public TransformBar(Main main, PlayerData playerData) 
+	public TransformBar(MainSwing main, PlayerData playerData) 
 	{
 		_isAlive = true;
 		_main = main;

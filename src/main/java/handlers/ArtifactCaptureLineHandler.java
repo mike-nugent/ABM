@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import artifact.AbyssArtifact;
 import artifact.ArtifactData;
 import artifact.ArtifactOwner;
-import main.Main;
+import main.MainSwing;
 
 public class ArtifactCaptureLineHandler extends LineHandler 
 {

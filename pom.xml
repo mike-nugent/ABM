@@ -38,7 +38,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>main.Main</mainClass>
+							<mainClass>main.MainFX</mainClass>
 							// main being main.java which has my main method
 						</manifest>
 						<manifestEntries>

@@ -58,7 +58,7 @@ import xforms.XFormJPanel;
  * @author Mike
  *
  */
-public class Main
+public class MainSwing
 {
 	/** 
 	 * Create the GUI and show it. For thread safety, this method should be
@@ -108,7 +108,7 @@ public class Main
 	
 	private static void createAndShowGUI() throws IOException
 	{
-		Main main = new Main();
+		MainSwing main = new MainSwing();
 		main.verifyNoOtherInstancesAreRunning();
 		main.buildAndShowUI();
 		main.createTrayIcon();

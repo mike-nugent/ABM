@@ -16,17 +16,17 @@ import javax.swing.JTabbedPane;
 import gameinfo.PlayerData;
 import gameinfo.Race;
 import gameinfo.Server;
-import main.Main;
+import main.MainSwing;
 import sounds.SoundManager;
 
 public class XFormJPanel extends JPanel 
 {
 	private JTabbedPane tabbedPane;
-	private Main _main;
+	private MainSwing _main;
 	private Map<String, XFormDisplayJPanel> transformPanels  = new HashMap<String, XFormDisplayJPanel>();
 	private JLabel helpTxt;
 
-	public XFormJPanel(Main main) 
+	public XFormJPanel(MainSwing main) 
 	{
 		super();
 		_main = main;

@@ -20,8 +20,10 @@ public class XformPopupStage extends PopupStage
     Map<String, Tab>                             currentTabs        = new HashMap<String, Tab>();
     Map<PlayerData, TransformBar2>               activeTransforms   = new HashMap<PlayerData, TransformBar2>();
     private final Map<PlayerData, TransformBar2> cooldownTransforms = new HashMap<PlayerData, TransformBar2>();
-    Label                                        noInfo             = new Label(
-            "No transforms detected!\nInformation will show on this window\nwhen players transform into Guardian Generals.");
+    Label                                        noInfoTitle        = new Label("No transforms detected!");
+    Label                                        noInfoDescription  = new Label(
+            "Information will show on this window\nwhen players transform into Guardian Generals.");
+    VBox                                         infoBox            = new VBox();
 
     @SuppressWarnings("unchecked")
     public XformPopupStage()
@@ -31,8 +33,11 @@ public class XformPopupStage extends PopupStage
         _tabPane = new TabPane();
         stage.getChildren().add(_tabPane);
 
-        noInfo.setStyle("-fx-font-size: 18px;" + "-fx-font-weight: bold;");
-        stage.getChildren().add(noInfo);
+        noInfoTitle.setStyle("-fx-font-size: 18px;" + "-fx-font-weight: bold;");
+        noInfoDescription.setStyle("-fx-font-size: 16px;");
+
+        infoBox.getChildren().addAll(noInfoTitle, noInfoDescription);
+        stage.getChildren().add(infoBox);
 
         checkUpdateDisplay();
         new AnimationTimer()
@@ -187,12 +192,12 @@ public class XformPopupStage extends PopupStage
     {
         if (_tabPane.getTabs().size() <= 0)
         {
-            noInfo.setVisible(true);
+            infoBox.setVisible(true);
             this.setTitle("No Transforms Detected");
         }
         else
         {
-            noInfo.setVisible(false);
+            infoBox.setVisible(false);
             this.setTitle("Transforms Detected");
         }
     }

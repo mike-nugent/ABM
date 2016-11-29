@@ -10,16 +10,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import gameinfo.AbilityData;
-import main.Main;
+import main.MainSwing;
 
 public class InstanceJPanel extends JPanel
 {
-	private Main _main;
+	private MainSwing _main;
 	private JTabbedPane tabbedPane;
 	private IdgelDomeJPanel idPanel;
 	private DDPanel ddPanel;
 
-	public InstanceJPanel(Main main)
+	public InstanceJPanel(MainSwing main)
 	{
 		super(); 
 		_main = main;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import main.Main;
+import main.MainSwing;
 
 public abstract class LineHandler 
 {

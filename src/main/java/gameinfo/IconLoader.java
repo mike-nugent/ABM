@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import main.Main;
+import main.MainSwing;
 
 public class IconLoader {
 	public static final int ICON_SIZE = 40;

@@ -3,7 +3,7 @@ package logreader;
 import java.io.File;
 
 import config.ConfigFile;
-import main.Main;
+import main.MainSwing;
 
 public class AionLogReader 
 {

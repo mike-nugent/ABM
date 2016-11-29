@@ -29,7 +29,7 @@ import gameinfo.IconLoader;
 import gameinfo.PlayerData;
 import gameinfo.Race;
 import gameinfo.Server;
-import main.Main;
+import main.MainSwing;
 import utils.AionLogFileFilter;
 import utils.WrapLayout;
 
@@ -37,7 +37,7 @@ public class ConfigJPanel extends JPanel implements ActionListener, KeyListener
 {
 
 	private JButton _configureBtn;
-	private Main _main;
+	private MainSwing _main;
 	private JTextComponent _aionBox;
 	private JLabel nameLabel;
 	private JLabel serverLabel;
@@ -49,7 +49,7 @@ public class ConfigJPanel extends JPanel implements ActionListener, KeyListener
 	private JButton saveConfiguration;  
 	private String _oldName; //special case so we dont read a bunch of times on event;
 
-	public ConfigJPanel(Main main) 
+	public ConfigJPanel(MainSwing main) 
 	{
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		_main = main; 	

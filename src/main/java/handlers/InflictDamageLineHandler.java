@@ -5,7 +5,7 @@ import java.util.Date;
 import config.ConfigFile;
 import gameinfo.AbilityData;
 import gameinfo.Server;
-import main.Main;
+import main.MainSwing;
 
 public class InflictDamageLineHandler extends LineHandler 
 {
