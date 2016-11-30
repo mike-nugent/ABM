@@ -1,5 +1,8 @@
 package main;
 
+import java.io.File;
+import java.util.Optional;
+
 import config.ConfigFile;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
@@ -12,6 +15,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
@@ -38,6 +44,8 @@ public class MainFX extends Application
     protected ContextMenu _optionsMenu;
 
     private ProgressIndicator _progressIcon;
+	private ConfigWarningButton _configWarningButton;
+	private Stage _primaryStage;
 
     public static void main(final String[] args)
     {
@@ -50,21 +58,22 @@ public class MainFX extends Application
     @Override
     public void start(final Stage primaryStage)
     {
-        buildUI(primaryStage);
+    	_primaryStage = primaryStage;
+        buildUI();
         startLoggers();
     }
 
     /**
      * Creates and displays the main UI
      */
-    private void buildUI(final Stage primaryStage)
+    private void buildUI()
     {
         //
         final Pane root = new Pane();
         final DoubleProperty doubleProperty = new SimpleDoubleProperty(0);
         final Region background = setBackground(root, doubleProperty);
 
-        setupStage(primaryStage, background);
+        setupStage(_primaryStage, background);
 
         // Create the buttons
         final HBox hbox = addScreenButtons();
@@ -88,10 +97,11 @@ public class MainFX extends Application
 
         // Create the options icon button
         final OptionsButton optionsButton = new OptionsButton();
-        final ConfigWarningButton configWarningButton = new ConfigWarningButton();
+        _configWarningButton = new ConfigWarningButton();
+        _configWarningButton.setVisible(false);
 
         // Add all children to the stage
-        root.getChildren().addAll(hbox, clock, clockController, _progressIcon, optionsButton, configWarningButton,
+        root.getChildren().addAll(hbox, clock, clockController, _progressIcon, optionsButton, _configWarningButton,
                 slider);
 
         // Reposition them all
@@ -108,8 +118,8 @@ public class MainFX extends Application
         optionsButton.setLayoutX(350);
         optionsButton.setLayoutY(15);
 
-        configWarningButton.setLayoutX(315);
-        configWarningButton.setLayoutY(15);
+        _configWarningButton.setLayoutX(315);
+        _configWarningButton.setLayoutY(15);
 
         _progressIcon.setLayoutX(350);
         _progressIcon.setLayoutY(50);
@@ -119,8 +129,9 @@ public class MainFX extends Application
 
         final Scene scene = new Scene(root, 400, 200);
         scene.setFill(Color.TRANSPARENT);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        _primaryStage.setScene(scene);
+        _primaryStage.show();
+        
 
         final String stageLocation = ConfigFile.getProperty(ConfigFile.STAGE_LOCATION_PROPERTY);
         if (stageLocation != null)
@@ -129,19 +140,42 @@ public class MainFX extends Application
             final double winx = Double.parseDouble(XandY[0]);
             final double winy = Double.parseDouble(XandY[1]);
 
-            primaryStage.setX(winx);
-            primaryStage.setY(winy);
+            _primaryStage.setX(winx);
+            _primaryStage.setY(winy);
         }
     }
 
     /**
      * Creates and starts the asynchronous scanners on the Chat.log file
+     * @param primaryStage 
      */
     public void startLoggers()
     {
         // Quick verification the setup is correct:
         if (ConfigFile.isSetup())
         {
+        	_configWarningButton.setVisible(false);
+        	//Do some quick validation on the log file.
+        	File logFile = ConfigFile.getLogFile();
+        	if(!logFile.exists())
+        	{
+        		//If the log file doesn't exist, we need to create it. 
+        		Alert alert = new Alert(AlertType.CONFIRMATION);
+        		alert.setTitle("Log File Missing");
+        		alert.setHeaderText("Logging is not enabled in your aion setup");
+        		alert.setContentText("To use ASDM, logging must be enabled.\n"
+        				+ "We recommend enabling it now.  Proceed?");
+
+        		Optional<ButtonType> result = alert.showAndWait();
+        		if (result.get() == ButtonType.OK)
+        		{
+        		    // ... user chose OK
+        		} else {
+        		    // ... user chose CANCEL or closed the dialog
+        		}
+        	}
+        	
+        	
             final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
             final RecentHistoryParser parser = new RecentHistoryParser();
 
@@ -161,7 +195,7 @@ public class MainFX extends Application
                     }
                 }
             }.start();
-            ;
+            
 
             if (!AionLogReader.isRunning())
             {
@@ -171,7 +205,17 @@ public class MainFX extends Application
         else
         {
             // Is no set up. Spawn window and yell at user
-            System.out.println("Yell at user");
+        	_configWarningButton.setVisible(true);
+            TransformManager.toggleConfigPopup();
+            _primaryStage.hide();
+
+            
+            Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setTitle("Welcome Daeva!");
+    		alert.setHeaderText("Welcome Daeva!\nLet's set up your Aion Sovereign Daeva Meter");
+    		alert.setContentText("We will need some iformation about your character and computer setup.\n\n"
+    				+ "Please enter information on the following screens to get started.");
+    		alert.showAndWait();
         }
     }
 

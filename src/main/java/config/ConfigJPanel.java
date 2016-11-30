@@ -342,8 +342,8 @@ public class ConfigJPanel extends JPanel implements ActionListener, KeyListener
 			String name = nameText.getText();
 			Server server = (Server) serverBox.getSelectedItem();
 			Race race = (Race) raceBox.getSelectedItem();
-			String installLocation = _aionBox.getText();
-			ConfigFile.setProperties(name, server, race, installLocation);
+			//String installLocation = _aionBox.getText();
+			ConfigFile.setProperties(name, server, race);
 	    	saveConfiguration.setEnabled(false);
 	    	_oldName = name;
 	    	nameLabel.setIcon(IconLoader.check);

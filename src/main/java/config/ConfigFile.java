@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.swing.JOptionPane;
 
 import gameinfo.Race;
 import gameinfo.Server;
@@ -82,12 +81,14 @@ public class ConfigFile
 
     }
 
-    public synchronized static void setProperties(final String name, final Server server, final Race race,
-            final String installLocation)
+    public synchronized static void setProperties(
+    		final String name, 
+    		final Server server, 
+    		final Race race)
     {
         try
         {
-            System.out.println("Writing to file: " + name + " " + server + " " + race + " " + installLocation);
+            System.out.println("Writing to file: " + name + " " + server + " " + race);
             // Load the properties
             final Properties p = new Properties();
             final FileInputStream fis = new FileInputStream(CONFIG_FILE);
@@ -99,7 +100,6 @@ public class ConfigFile
             p.setProperty(NAME_KEY, name);
             p.setProperty(SERVER_KEY, server.name());
             p.setProperty(RACE_KEY, race.name());
-            p.setProperty(AION_DIR_KEY, installLocation);
             p.store(fos, "Last Modified: " + new Date().toString());
             fos.close();
 
@@ -176,10 +176,8 @@ public class ConfigFile
         }
         catch (final Exception e)
         {
-            JOptionPane.showMessageDialog(null,
-                    e + "\n\n\n\n\n" + Arrays.toString(e.getStackTrace()).replace(",", "\n"), "there was a problem",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return null;
+        	System.out.println("There was a problem, see? " + e);
+        	return null;
         }
     }
 
