@@ -1,84 +1,37 @@
 package javafx.timer;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import utils.Times;
 
-public class FxClockControl extends Pane
+public class FxClock extends Pane
 {
     final Label _minSecTxt = new Label("10:00");
     final Label _msTxt     = new Label("00");
 
-    Button         _startStopBtn  = new Button();
-    Button         _resetBtn      = new Button();
     protected long _startTime     = 0;
     long           _countDownFrom = Times.TEN_MIUTES;
 
     AnimationTimer animationtimer;
 
-    public FxClockControl()
+    public FxClock()
     {
-        // this.setMouseTransparent(true);
-        // Set the clock text
+        this.setMouseTransparent(true);
+        this.setEffect(new DropShadow(10, Color.DARKGRAY));
 
-        _resetBtn.setDisable(true);
-        _startStopBtn.setDisable(false);
         _minSecTxt.setStyle("-fx-font-size: 85px;" + "-fx-font-weight: bold;");
         _msTxt.setStyle("-fx-font-size: 30px;" + "-fx-font-weight: bold;");
 
         _msTxt.setLayoutX(220);
         _msTxt.setLayoutY(20);
 
-        // Set the buttons
-        _startStopBtn.setText("Start");
-        _startStopBtn.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(final ActionEvent e)
-            {
-                if (_startStopBtn.getText().equals("Start"))
-                {
-                    startClock();
-                }
-                else if (_startStopBtn.getText().equals("Stop"))
-                {
-                    stopClock();
-
-                }
-            }
-
-        });
-
-        _resetBtn.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(final ActionEvent e)
-            {
-                resetClock();
-            }
-
-        });
-
-        _startStopBtn.setMinWidth(50);
-        _resetBtn.setText("Reset");
-        _resetBtn.setMinWidth(50);
-
-        final VBox btnGrp = new VBox();
-        btnGrp.getChildren().addAll(_startStopBtn, _resetBtn);
-
-        btnGrp.setLayoutX(270);
-        btnGrp.setLayoutY(40);
-
-        this.getChildren().addAll(_minSecTxt, _msTxt, btnGrp);
+        this.getChildren().addAll(_minSecTxt, _msTxt);
     }
 
-    private void resetClock()
+    public void resetClock()
     {
         if (animationtimer != null)
         {
@@ -90,23 +43,17 @@ public class FxClockControl extends Pane
             _minSecTxt.setTextFill(new Color(0, 0, 0, 1));
             _msTxt.setTextFill(new Color(0, 0, 0, 1));
         }
-
-        _startStopBtn.setText("Start");
-        _startStopBtn.setDisable(false);
-        _resetBtn.setDisable(true);
     }
 
-    private void stopClock()
+    public void stopClock()
     {
         if (animationtimer != null)
         {
             animationtimer.stop();
         }
-        _startStopBtn.setText("Start");
-        _startStopBtn.setDisable(true);
     }
 
-    private void startClock()
+    public void startClock()
     {
         if (animationtimer == null)
         {
@@ -153,8 +100,6 @@ public class FxClockControl extends Pane
         }
 
         animationtimer.start();
-        _startStopBtn.setText("Stop");
-        _resetBtn.setDisable(false);
     }
 
     protected Color getColorBasedOnTime(final long diff)

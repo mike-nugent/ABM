@@ -25,7 +25,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.timer.FxClockControl;
+import javafx.timer.FxClock;
+import javafx.timer.FxClockController;
 import logreader.AionLogReader;
 
 // Java 8 code
@@ -58,6 +59,7 @@ public class MainFX extends Application
      */
     private void buildUI(final Stage primaryStage)
     {
+        //
         final Pane root = new Pane();
         final DoubleProperty doubleProperty = new SimpleDoubleProperty(0);
         final Region background = setBackground(root, doubleProperty);
@@ -69,7 +71,10 @@ public class MainFX extends Application
         // hbox.setAlignment(Pos.TOP_CENTER);
 
         // Create the timer
-        final FxClockControl clock = new FxClockControl();
+        final FxClock clock = new FxClock();
+        final FxClockController clockController = new FxClockController(clock);
+        clockController.setLayoutX(300);
+        clockController.setLayoutY(100);
 
         // Create the Slider
         final String lastSliderPosition = ConfigFile.getProperty(ConfigFile.SLIDER_POSITION_PROPERTY);
@@ -86,7 +91,8 @@ public class MainFX extends Application
         final ConfigWarningButton configWarningButton = new ConfigWarningButton();
 
         // Add all children to the stage
-        root.getChildren().addAll(hbox, clock, _progressIcon, optionsButton, configWarningButton, slider);
+        root.getChildren().addAll(hbox, clock, clockController, _progressIcon, optionsButton, configWarningButton,
+                slider);
 
         // Reposition them all
         hbox.setLayoutX(10);
