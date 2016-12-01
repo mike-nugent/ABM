@@ -1,9 +1,10 @@
 package main;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+import org.apache.commons.io.FileUtils;
 
 import config.ConfigFile;
 import gameinfo.IconLoader;
@@ -16,6 +17,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -25,16 +28,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 public class ConfigPopupPage extends PopupStage
 {
-    private final double CONTROL_SIZE = 280;
-    TabPane              _tabPane     = new TabPane();
-    private Label        ovrVer;
-    private Label        chatVer;
-    private TextField    aionLocation;
+    private final double    CONTROL_SIZE       = 280;
+    TabPane                 _tabPane           = new TabPane();
+    private final Label     ovrVer             = new Label("UNCHECKED");
+    private final Label     chatVer            = new Label("UNCHECKED");
+    private final TextField aionLocation       = new TextField();
+    private final Button    chatBtn            = new Button("Fix This");
+    private final Button    ovrBtn             = new Button("Fix This");
+    final Button            saveAndFinalizeBtn = new Button("Save and Finalize");
 
     public ConfigPopupPage()
     {
@@ -60,6 +67,8 @@ public class ConfigPopupPage extends PopupStage
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         final Text scenetitle = new Text("Your logging settings");
+        scenetitle.setStyle("-fx-font-size: 20px;");
+
         grid.add(scenetitle, 0, 0, 3, 1);
 
         // Create the left labels =======================================
@@ -75,13 +84,12 @@ public class ConfigPopupPage extends PopupStage
         grid.add(systemOvrTxt, 0, 3);
         GridPane.setHalignment(systemOvrTxt, HPos.RIGHT);
 
-        chatVer = new Label("MISSING");
+        chatVer.setStyle("-fx-font-size: 20px;" + "-fx-font-weight: bold;");
         grid.add(chatVer, 1, 2);
 
-        ovrVer = new Label("MISSING");
+        ovrVer.setStyle("-fx-font-size: 20px;" + "-fx-font-weight: bold;");
         grid.add(ovrVer, 1, 3);
 
-        aionLocation = new TextField();
         aionLocation.setEditable(false);
         final Button aionButton = new Button("", new ImageView(IconLoader.loadFxImage("config.png", 15)));
 
@@ -99,6 +107,7 @@ public class ConfigPopupPage extends PopupStage
                 if (file != null)
                 {
                     aionLocation.setText(file.getAbsolutePath());
+                    checkFiles();
                 }
             }
         });
@@ -109,15 +118,93 @@ public class ConfigPopupPage extends PopupStage
         grid.add(aionButton, 2, 1);
 
         // Create the right controls ====================================
-        final Button chatBtn = new Button();
-        chatBtn.setText("Fix This");
         chatBtn.setPrefWidth(100);
+        chatBtn.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                // Create the file if you can.
+
+                final File chatFileToMake = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_LOG_FILE_NAME);
+                try
+                {
+                    if (!chatFileToMake.exists())
+                    {
+                        chatFileToMake.createNewFile();
+                    }
+                }
+                catch (final IOException e1)
+                {
+                    final Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Did you run as Administrator?");
+                    alert.setHeaderText(
+                            "Oops!\nIn order to create the Chat.log file, ASDM needs to be run in Administrator Mode.");
+                    alert.setContentText(
+                            "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
+                                    + "That will allow ASDM to create the Chat.log file");
+                    alert.showAndWait();
+                }
+
+                checkFiles();
+            }
+        });
         grid.add(chatBtn, 2, 2);
 
-        final Button ovrBtn = new Button();
-        ovrBtn.setText("Fix This");
         ovrBtn.setPrefWidth(100);
+        ovrBtn.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                // Create the file if you can.
+
+                final File ovrFileToCreate = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_OVR_FILE_NAME);
+                try
+                {
+                    if (!ovrFileToCreate.exists())
+                    {
+                        ovrFileToCreate.createNewFile();
+                    }
+
+                    FileUtils.write(ovrFileToCreate, "g_chatlog = 1", Charset.defaultCharset());
+                }
+                catch (final Exception e1)
+                {
+                    final Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Did you run as Administrator?");
+                    alert.setHeaderText(
+                            "Oops!\nIn order to create the system.ovr file, ASDM needs to be run in Administrator Mode.");
+                    alert.setContentText(
+                            "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
+                                    + "That will allow ASDM to create the system.ovr file");
+                    alert.showAndWait();
+                }
+
+                checkFiles();
+            }
+        });
         grid.add(ovrBtn, 2, 3);
+
+        saveAndFinalizeBtn.setMinWidth(280);
+        saveAndFinalizeBtn.setMinHeight(40);
+        saveAndFinalizeBtn.setStyle("-fx-font-size: 25px;");
+        saveAndFinalizeBtn.setDisable(true);
+        saveAndFinalizeBtn.setOnAction(new EventHandler<ActionEvent>()
+        {
+
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                final String aionInstallLocation = aionLocation.getText();
+                ConfigFile.setAionInstallLocation(aionInstallLocation);
+                checkFiles();
+
+                MainFX.showStage();
+                me.close();
+            }
+        });
+        grid.add(saveAndFinalizeBtn, 1, 4);
 
         loggingTab.setContent(grid);
         return loggingTab;
@@ -131,10 +218,15 @@ public class ConfigPopupPage extends PopupStage
         if (chatFileCheck.exists() && chatFileCheck.isFile() && chatFileCheck.canRead())
         {
             chatVer.setText("VERIFIED");
+            chatVer.setTextFill(Color.DARKGREEN);
+            chatBtn.setVisible(false);
+
         }
         else
         {
-            chatVer.setText("MISSING");
+            chatVer.setText("MISSING                            -->");
+            chatVer.setTextFill(Color.RED);
+            chatBtn.setVisible(true);
         }
 
         if (ovrFileCheck.exists() && ovrFileCheck.isFile() && ovrFileCheck.canRead())
@@ -142,46 +234,44 @@ public class ConfigPopupPage extends PopupStage
             // Check the contents, make sure logging is turned on. Should look
             // like:
 
-            if (readFile1(ovrFileCheck).contains("g_chatlog = 1"))
+            try
             {
-                ovrVer.setText("VERIFIED");
+                if (FileUtils.readFileToString(ovrFileCheck, Charset.defaultCharset()).replaceAll(" ", "")
+                        .contains("g_chatlog=1"))
+                {
+                    ovrVer.setText("VERIFIED");
+                    ovrVer.setTextFill(Color.DARKGREEN);
+                    ovrBtn.setVisible(false);
+
+                }
+                else
+                {
+                    ovrVer.setText("NOT ENABLED                         -->");
+                    ovrVer.setTextFill(Color.LIGHTCORAL);
+                    ovrBtn.setVisible(true);
+
+                }
             }
-            else
+            catch (final Exception e)
             {
-                ovrVer.setText("NOT ENABLED");
+                System.out.println(e);
+                ovrVer.setText("ERROR IN READING                         -->");
+                ovrVer.setTextFill(Color.YELLOW);
+                ovrBtn.setVisible(true);
             }
         }
         else
         {
-            ovrVer.setText("MISSING");
+            ovrVer.setText("MISSING                            -->");
+            ovrVer.setTextFill(Color.RED);
+            ovrBtn.setVisible(true);
 
         }
-    }
 
-    private static String readFile1(final File fin)
-    {
-        String ret = "";
-        try
+        if (chatVer.getText().contains("VERIFIED") && ovrVer.getText().contains("VERIFIED"))
         {
-            final FileInputStream fis = new FileInputStream(fin);
-
-            // Construct BufferedReader from InputStreamReader
-            final BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-
-            String line = null;
-            while ((line = br.readLine()) != null)
-            {
-                ret += line;
-            }
-
-            br.close();
+            saveAndFinalizeBtn.setDisable(false);
         }
-        catch (final Exception e)
-        {
-            System.out.println("Error" + e);
-        }
-        return ret;
-
     }
 
     private Tab getChatacterSettings()
@@ -197,6 +287,8 @@ public class ConfigPopupPage extends PopupStage
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         final Text scenetitle = new Text("Who is your main character in Aion?");
+        scenetitle.setStyle("-fx-font-size: 20px;");
+
         grid.add(scenetitle, 0, 0, 2, 1);
 
         // Create the left labels =======================================
@@ -247,7 +339,7 @@ public class ConfigPopupPage extends PopupStage
                 final String name = nameField.getText();
                 final Server server = serverControl.getValue();
                 final Race race = raceControl.getValue();
-                ConfigFile.setProperties(name, server, race);
+                ConfigFile.setPlayerProperties(name, server, race);
 
                 actiontarget.setText("Changes have been saved!");
                 _tabPane.getSelectionModel().select(1);
@@ -288,6 +380,9 @@ public class ConfigPopupPage extends PopupStage
                 aionLocation.setText("Could not detect Aion install location");
             }
         }
+
+        // Do a check after setting the directory
+        checkFiles();
     }
 
     private void initializePlayerFields(final TextField nameField, final ComboBox<Server> serverControl,

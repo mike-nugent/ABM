@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Optional;
 
 import config.ConfigFile;
+import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
 import javafx.animation.AnimationTimer;
@@ -23,6 +24,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -43,13 +45,21 @@ public class MainFX extends Application
     private double        yOffset = 0;
     protected ContextMenu _optionsMenu;
 
-    private ProgressIndicator _progressIcon;
-	private ConfigWarningButton _configWarningButton;
-	private Stage _primaryStage;
+    private ProgressIndicator   _progressIcon;
+    private ConfigWarningButton _configWarningButton;
+    private static Stage        _primaryStage;
 
     public static void main(final String[] args)
     {
         launch(args);
+    }
+
+    public static void showStage()
+    {
+        if (_primaryStage != null)
+        {
+            _primaryStage.show();
+        }
     }
 
     /**
@@ -58,7 +68,7 @@ public class MainFX extends Application
     @Override
     public void start(final Stage primaryStage)
     {
-    	_primaryStage = primaryStage;
+        _primaryStage = primaryStage;
         buildUI();
         startLoggers();
     }
@@ -131,7 +141,6 @@ public class MainFX extends Application
         scene.setFill(Color.TRANSPARENT);
         _primaryStage.setScene(scene);
         _primaryStage.show();
-        
 
         final String stageLocation = ConfigFile.getProperty(ConfigFile.STAGE_LOCATION_PROPERTY);
         if (stageLocation != null)
@@ -147,35 +156,37 @@ public class MainFX extends Application
 
     /**
      * Creates and starts the asynchronous scanners on the Chat.log file
-     * @param primaryStage 
+     *
+     * @param primaryStage
      */
     public void startLoggers()
     {
         // Quick verification the setup is correct:
         if (ConfigFile.isSetup())
         {
-        	_configWarningButton.setVisible(false);
-        	//Do some quick validation on the log file.
-        	File logFile = ConfigFile.getLogFile();
-        	if(!logFile.exists())
-        	{
-        		//If the log file doesn't exist, we need to create it. 
-        		Alert alert = new Alert(AlertType.CONFIRMATION);
-        		alert.setTitle("Log File Missing");
-        		alert.setHeaderText("Logging is not enabled in your aion setup");
-        		alert.setContentText("To use ASDM, logging must be enabled.\n"
-        				+ "We recommend enabling it now.  Proceed?");
+            _configWarningButton.setVisible(false);
+            // Do some quick validation on the log file.
+            final File logFile = ConfigFile.getLogFile();
+            if (!logFile.exists())
+            {
+                // If the log file doesn't exist, we need to create it.
+                final Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Log File Missing");
+                alert.setHeaderText("Logging is not enabled in your aion setup");
+                alert.setContentText(
+                        "To use ASDM, logging must be enabled.\n" + "We recommend enabling it now.  Proceed?");
 
-        		Optional<ButtonType> result = alert.showAndWait();
-        		if (result.get() == ButtonType.OK)
-        		{
-        		    // ... user chose OK
-        		} else {
-        		    // ... user chose CANCEL or closed the dialog
-        		}
-        	}
-        	
-        	
+                final Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK)
+                {
+                    // ... user chose OK
+                }
+                else
+                {
+                    // ... user chose CANCEL or closed the dialog
+                }
+            }
+
             final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
             final RecentHistoryParser parser = new RecentHistoryParser();
 
@@ -195,7 +206,6 @@ public class MainFX extends Application
                     }
                 }
             }.start();
-            
 
             if (!AionLogReader.isRunning())
             {
@@ -205,17 +215,17 @@ public class MainFX extends Application
         else
         {
             // Is no set up. Spawn window and yell at user
-        	_configWarningButton.setVisible(true);
+            _configWarningButton.setVisible(true);
             TransformManager.toggleConfigPopup();
             _primaryStage.hide();
 
-            
-            Alert alert = new Alert(AlertType.INFORMATION);
-    		alert.setTitle("Welcome Daeva!");
-    		alert.setHeaderText("Welcome Daeva!\nLet's set up your Aion Sovereign Daeva Meter");
-    		alert.setContentText("We will need some iformation about your character and computer setup.\n\n"
-    				+ "Please enter information on the following screens to get started.");
-    		alert.showAndWait();
+            final Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Welcome Daeva!");
+            alert.setHeaderText("Welcome Daeva!\nLet's set up your Aion Sovereign Daeva Meter");
+            alert.setContentText("We will need some iformation about your character and setup.\n\n"
+                    + "Please enter information on the following screens to get started.");
+            alert.setGraphic(new ImageView(IconLoader.loadFxImage("faction2.png", 60)));
+            alert.showAndWait();
         }
     }
 

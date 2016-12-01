@@ -81,7 +81,31 @@ public class ConfigFile
 
     }
 
-    public synchronized static void setProperties(final String name, final Server server, final Race race)
+    public synchronized static void setAionInstallLocation(final String installLocation)
+    {
+        try
+        {
+            System.out.println("Writing to file: " + installLocation);
+            // Load the properties
+            final Properties p = new Properties();
+            final FileInputStream fis = new FileInputStream(CONFIG_FILE);
+            p.load(fis);
+            fis.close();
+
+            // Set the property and save it
+            final FileOutputStream fos = new FileOutputStream(CONFIG_FILE);
+            p.setProperty(AION_DIR_KEY, installLocation);
+            p.store(fos, "Last Modified: " + new Date().toString());
+            fos.close();
+
+        }
+        catch (final Exception e)
+        {
+            System.out.println("Error: " + e);
+        }
+    }
+
+    public synchronized static void setPlayerProperties(final String name, final Server server, final Race race)
     {
         try
         {
