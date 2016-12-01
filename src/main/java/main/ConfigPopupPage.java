@@ -1,6 +1,9 @@
 package main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 import config.ConfigFile;
 import gameinfo.IconLoader;
@@ -22,32 +25,34 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 public class ConfigPopupPage extends PopupStage
 {
     private final double CONTROL_SIZE = 280;
-    TabPane _tabPane = new TabPane();
+    TabPane              _tabPane     = new TabPane();
+    private Label        ovrVer;
+    private Label        chatVer;
+    private TextField    aionLocation;
 
     public ConfigPopupPage()
     {
         super("Configure ASDM");
-        Tab infoTab = getChatacterSettings();
-        Tab loggingTab = getLoggingSettings();
+        final Tab infoTab = getChatacterSettings();
+        final Tab loggingTab = getLoggingSettings();
         _tabPane.getTabs().addAll(infoTab, loggingTab);
         this.setAlwaysOnTop(false);
-        
+
         stage.getChildren().add(_tabPane);
     }
 
-	private Tab getLoggingSettings() 
-	{
-	    Tab loggingTab = new Tab("Logging Setting");
+    private Tab getLoggingSettings()
+    {
+        final Tab loggingTab = new Tab("Logging Setting");
         loggingTab.setStyle("-fx-font-size: 18px;");
         loggingTab.setClosable(false);
-             
+
         final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -56,13 +61,12 @@ public class ConfigPopupPage extends PopupStage
 
         final Text scenetitle = new Text("Your logging settings");
         grid.add(scenetitle, 0, 0, 3, 1);
-        
 
         // Create the left labels =======================================
         final Label aion = new Label("Aion Install:");
         grid.add(aion, 0, 1);
         GridPane.setHalignment(aion, HPos.RIGHT);
-        
+
         final Label chatLogTxt = new Label("Chat.log:");
         grid.add(chatLogTxt, 0, 2);
         GridPane.setHalignment(chatLogTxt, HPos.RIGHT);
@@ -70,27 +74,22 @@ public class ConfigPopupPage extends PopupStage
         final Label systemOvrTxt = new Label("system.ovr:");
         grid.add(systemOvrTxt, 0, 3);
         GridPane.setHalignment(systemOvrTxt, HPos.RIGHT);
-        
-  
-        
-        
-        final Label chatVer = new Label("MISSING");
+
+        chatVer = new Label("MISSING");
         grid.add(chatVer, 1, 2);
-        
-        final Label ovrVer = new Label("MISSING");
+
+        ovrVer = new Label("MISSING");
         grid.add(ovrVer, 1, 3);
-        
-        
-        
-        final TextField aionLocation = new TextField();
+
+        aionLocation = new TextField();
         aionLocation.setEditable(false);
         final Button aionButton = new Button("", new ImageView(IconLoader.loadFxImage("config.png", 15)));
 
         final DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Select the Aion directory location");
-        
-        initialiazeLoggingFileds( aionLocation, chooser);
-        
+
+        initialiazeLoggingFileds(aionLocation, chooser);
+
         aionButton.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
@@ -108,7 +107,7 @@ public class ConfigPopupPage extends PopupStage
         aionButton.setPrefWidth(50);
         grid.add(aionLocation, 1, 1);
         grid.add(aionButton, 2, 1);
-        
+
         // Create the right controls ====================================
         final Button chatBtn = new Button();
         chatBtn.setText("Fix This");
@@ -119,20 +118,77 @@ public class ConfigPopupPage extends PopupStage
         ovrBtn.setText("Fix This");
         ovrBtn.setPrefWidth(100);
         grid.add(ovrBtn, 2, 3);
-        
+
         loggingTab.setContent(grid);
         return loggingTab;
-	}
+    }
 
-		
+    private void checkFiles()
+    {
+        final File chatFileCheck = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_LOG_FILE_NAME);
+        final File ovrFileCheck = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_OVR_FILE_NAME);
 
-	private Tab getChatacterSettings() 
-	{
-        Tab infoTab = new Tab("Character Settings");
+        if (chatFileCheck.exists() && chatFileCheck.isFile() && chatFileCheck.canRead())
+        {
+            chatVer.setText("VERIFIED");
+        }
+        else
+        {
+            chatVer.setText("MISSING");
+        }
+
+        if (ovrFileCheck.exists() && ovrFileCheck.isFile() && ovrFileCheck.canRead())
+        {
+            // Check the contents, make sure logging is turned on. Should look
+            // like:
+
+            if (readFile1(ovrFileCheck).contains("g_chatlog = 1"))
+            {
+                ovrVer.setText("VERIFIED");
+            }
+            else
+            {
+                ovrVer.setText("NOT ENABLED");
+            }
+        }
+        else
+        {
+            ovrVer.setText("MISSING");
+
+        }
+    }
+
+    private static String readFile1(final File fin)
+    {
+        String ret = "";
+        try
+        {
+            final FileInputStream fis = new FileInputStream(fin);
+
+            // Construct BufferedReader from InputStreamReader
+            final BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String line = null;
+            while ((line = br.readLine()) != null)
+            {
+                ret += line;
+            }
+
+            br.close();
+        }
+        catch (final Exception e)
+        {
+            System.out.println("Error" + e);
+        }
+        return ret;
+
+    }
+
+    private Tab getChatacterSettings()
+    {
+        final Tab infoTab = new Tab("Character Settings");
         infoTab.setStyle("-fx-font-size: 18px;");
         infoTab.setClosable(false);
-        
-        
 
         final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -140,7 +196,7 @@ public class ConfigPopupPage extends PopupStage
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        final Text scenetitle = new Text("Who is your main character you play in Aion?");
+        final Text scenetitle = new Text("Who is your main character in Aion?");
         grid.add(scenetitle, 0, 0, 2, 1);
 
         // Create the left labels =======================================
@@ -155,8 +211,6 @@ public class ConfigPopupPage extends PopupStage
         final Label race = new Label("Your race:");
         grid.add(race, 0, 3);
         GridPane.setHalignment(race, HPos.RIGHT);
-
-
 
         // Create the right controls ====================================
         final TextField nameField = new TextField();
@@ -175,7 +229,6 @@ public class ConfigPopupPage extends PopupStage
 
         initializePlayerFields(nameField, serverControl, raceControl);
 
-
         final Button btn = new Button("Save and Next");
         final HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -191,57 +244,58 @@ public class ConfigPopupPage extends PopupStage
             @Override
             public void handle(final ActionEvent e)
             {
-            	String name = nameField.getText();
-    			Server server = serverControl.getValue();
-    			Race race = raceControl.getValue();
-    			ConfigFile.setProperties(name, server, race);
-    			
+                final String name = nameField.getText();
+                final Server server = serverControl.getValue();
+                final Race race = raceControl.getValue();
+                ConfigFile.setProperties(name, server, race);
+
                 actiontarget.setText("Changes have been saved!");
                 _tabPane.getSelectionModel().select(1);
-                
-               // TransformManager.toggleConfigPopup();
+                checkFiles();
+
+                // TransformManager.toggleConfigPopup();
             }
         });
 
         infoTab.setContent(grid);
         return infoTab;
-	}
-	
-	private void initialiazeLoggingFileds(TextField aionLocation, DirectoryChooser chooser)
-	{
-		String aionInstallLocation = ConfigFile.getAionInstallLocation();
-		if(aionInstallLocation == null)
-			aionInstallLocation = ConfigFile.DEFAULT_LOG_FILE_LOCATION;
-		
-		File aionFolder = new File(aionInstallLocation);
-		if(aionFolder.exists())
-		{
-			aionLocation.setText(aionInstallLocation);
-	        chooser.setInitialDirectory(aionFolder);
-		}
-		else
-		{
-			final File defaultDirectory = new File(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
-	        if (defaultDirectory.exists())
-	        {
-	            aionLocation.setText(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
-	            chooser.setInitialDirectory(defaultDirectory);
-	        }
-	        else
-	        {
-	            aionLocation.setText("Could not detect Aion install location");
-	        }
-		}
-	}
+    }
 
-	private void initializePlayerFields(
-			TextField nameField, 
-			ComboBox<Server> serverControl, 
-			ComboBox<Race> raceControl) 
-	{
-		nameField.setText(ConfigFile.getName());
-		serverControl.setValue(ConfigFile.getServer());
-		raceControl.setValue(ConfigFile.getRace());
-		
-	}
+    private void initialiazeLoggingFileds(final TextField aionLocation, final DirectoryChooser chooser)
+    {
+        String aionInstallLocation = ConfigFile.getAionInstallLocation();
+        if (aionInstallLocation == null)
+        {
+            aionInstallLocation = ConfigFile.DEFAULT_LOG_FILE_LOCATION;
+        }
+
+        final File aionFolder = new File(aionInstallLocation);
+        if (aionFolder.exists())
+        {
+            aionLocation.setText(aionInstallLocation);
+            chooser.setInitialDirectory(aionFolder);
+        }
+        else
+        {
+            final File defaultDirectory = new File(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
+            if (defaultDirectory.exists())
+            {
+                aionLocation.setText(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
+                chooser.setInitialDirectory(defaultDirectory);
+            }
+            else
+            {
+                aionLocation.setText("Could not detect Aion install location");
+            }
+        }
+    }
+
+    private void initializePlayerFields(final TextField nameField, final ComboBox<Server> serverControl,
+            final ComboBox<Race> raceControl)
+    {
+        nameField.setText(ConfigFile.getName());
+        serverControl.setValue(ConfigFile.getServer());
+        raceControl.setValue(ConfigFile.getRace());
+
+    }
 }

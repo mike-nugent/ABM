@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-
 import gameinfo.Race;
 import gameinfo.Server;
 
@@ -28,6 +27,7 @@ public class ConfigFile
     public static final String DEFAULT_LOG_FILE_NAME     = "Chat.log";
     public static final String DEBUG_LOG_FILE_NAME       = "TEST_Chat.log";
     public static final String SLIDER_POSITION_PROPERTY  = "sliderPosition";
+    public static final String DEFAULT_OVR_FILE_NAME     = "system.ovr";
     public static String       STAGE_LOCATION_PROPERTY   = "stageLocation";
 
     private static String _name;
@@ -81,10 +81,7 @@ public class ConfigFile
 
     }
 
-    public synchronized static void setProperties(
-    		final String name, 
-    		final Server server, 
-    		final Race race)
+    public synchronized static void setProperties(final String name, final Server server, final Race race)
     {
         try
         {
@@ -176,8 +173,8 @@ public class ConfigFile
         }
         catch (final Exception e)
         {
-        	System.out.println("There was a problem, see? " + e);
-        	return null;
+            System.out.println("There was a problem, see? " + e);
+            return null;
         }
     }
 
