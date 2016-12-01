@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.Optional;
 
 import config.ConfigFile;
+import database.AionDB;
+import fx.screens.PlayerScreenButton;
+import fx.screens.ScriptsScreenButton;
 import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
@@ -71,6 +74,7 @@ public class MainFX extends Application
         _primaryStage = primaryStage;
         buildUI();
         startLoggers();
+        setupDatabase();
     }
 
     /**
@@ -152,6 +156,11 @@ public class MainFX extends Application
             _primaryStage.setX(winx);
             _primaryStage.setY(winy);
         }
+    }
+
+    private void setupDatabase()
+    {
+        AionDB.instantiate();
     }
 
     /**
@@ -336,14 +345,14 @@ public class MainFX extends Application
     {
         final HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
+        hbox.setSpacing(15);
         final XformScreenButton xform = new XformScreenButton();
         TransformManager.setXformButton(xform);
-        final ScreenButton world = new ScreenButton("aion_area.png", 60);
-        final ScreenButton scripts = new LogScreenButton();
-        final ScreenButton faction = new ScreenButton("faction.png", 60);
+        final ScreenButton players = new PlayerScreenButton();
+        final ScreenButton scripts = new ScriptsScreenButton();
+        final ScreenButton logs = new LogScreenButton();
 
-        hbox.getChildren().addAll(xform, world, scripts, faction);
+        hbox.getChildren().addAll(xform, players, scripts, logs);
 
         return hbox;
     }

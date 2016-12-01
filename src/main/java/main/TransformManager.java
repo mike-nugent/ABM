@@ -3,6 +3,8 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
+import fx.screens.PlayersPopupPage;
+import fx.screens.ScriptsPopupPage;
 import gameinfo.PlayerData;
 import gameinfo.Race;
 
@@ -11,9 +13,12 @@ public class TransformManager
     static List<PlayerData> activeTransforms   = new LinkedList<PlayerData>();
     static List<PlayerData> cooldownTransforms = new LinkedList<PlayerData>();
 
-    static XformPopupStage   xformStage   = new XformPopupStage();
-    static LogPopupPage      scriptsStage = new LogPopupPage();
-    static ConfigPopupPage   configStage  = new ConfigPopupPage();
+    static XformPopupStage  xformStage   = new XformPopupStage();
+    static LogPopupPage     logsStage    = new LogPopupPage();
+    static ConfigPopupPage  configStage  = new ConfigPopupPage();
+    static PlayersPopupPage playersStage = new PlayersPopupPage();
+    static ScriptsPopupPage scriptsStage = new ScriptsPopupPage();
+
     static XformScreenButton xformButton;
 
     public static synchronized void transformDetected(final PlayerData data)
@@ -100,7 +105,8 @@ public class TransformManager
     public static void hideAllPopups()
     {
         xformStage.hide();
-        scriptsStage.hide();
+        logsStage.hide();
+        playersStage.hide();
     }
 
     public static void toggleTransformPopup()
@@ -116,15 +122,15 @@ public class TransformManager
 
     }
 
-    public static void toggleScriptsPopup()
+    public static void toggleLogsPopup()
     {
-        if (scriptsStage.isShowing())
+        if (logsStage.isShowing())
         {
-            scriptsStage.close();
+            logsStage.close();
         }
         else
         {
-            scriptsStage.show();
+            logsStage.show();
         }
 
     }
@@ -138,6 +144,30 @@ public class TransformManager
         else
         {
             configStage.show();
+        }
+    }
+
+    public static void togglePlayersPopup()
+    {
+        if (playersStage.isShowing())
+        {
+            playersStage.close();
+        }
+        else
+        {
+            playersStage.show();
+        }
+    }
+
+    public static void toggleScriptsPopup()
+    {
+        if (scriptsStage.isShowing())
+        {
+            scriptsStage.close();
+        }
+        else
+        {
+            scriptsStage.show();
         }
     }
 
