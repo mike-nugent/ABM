@@ -1,22 +1,20 @@
-package fx.screens;
+package fx.buttons;
 
 import javafx.scene.input.MouseEvent;
-import main.ScreenButton;
 import main.TransformManager;
 
-public class PlayerScreenButton extends ScreenButton
+public class LogScreenButton extends ScreenButton
 {
 
-    public PlayerScreenButton()
+    public LogScreenButton()
     {
-        super("aion_lore.png", 60);
-        // TODO Auto-generated constructor stub
+        super("log.png", 60);
     }
 
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.togglePlayersPopup();
+        TransformManager.toggleLogsPopup();
 
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();
@@ -36,4 +34,5 @@ public class PlayerScreenButton extends ScreenButton
         /// TransformManager.toggleTransformPopup();
 
     }
+
 }

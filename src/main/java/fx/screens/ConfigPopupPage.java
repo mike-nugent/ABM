@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +31,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import main.MainFX;
 
 public class ConfigPopupPage extends PopupStage
 {
@@ -56,8 +57,11 @@ public class ConfigPopupPage extends PopupStage
 
     private Tab getLoggingSettings()
     {
+        // _tabPane.setTabMinHeight(60);
+        _tabPane.setTabMaxHeight(40);
+
         final Tab loggingTab = new Tab("Logging Setting");
-        loggingTab.setStyle("-fx-font-size: 18px;");
+        loggingTab.setStyle("-fx-font-size: 18px; ");
         loggingTab.setClosable(false);
 
         final GridPane grid = new GridPane();

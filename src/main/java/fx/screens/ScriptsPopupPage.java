@@ -1,7 +1,5 @@
 package fx.screens;
 
-import main.PopupStage;
-
 public class ScriptsPopupPage extends PopupStage
 {
 

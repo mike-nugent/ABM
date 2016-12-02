@@ -1,42 +1,29 @@
 package fx.screens;
 
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import main.PopupStage;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 public class PlayersPopupPage extends PopupStage
 {
+    TabPane _tabPane = new TabPane();
 
     public PlayersPopupPage()
     {
         super("Shugo Database");
+        final Tab playersTab = new Tab("Players");
+        final Tab itemsTab = new Tab("XP & Items");
 
-        final TableView table = new TableView();
+        playersTab.setClosable(false);
+        itemsTab.setClosable(false);
 
-        final Scene scene = new Scene(new Group());
-        final Label label = new Label("Player List");
-        label.setFont(new Font("Arial", 20));
+        playersTab.setStyle("-fx-font-size: 18px; ");
+        itemsTab.setStyle("-fx-font-size: 18px; ");
 
-        table.setEditable(true);
+        _tabPane.getTabs().addAll(playersTab, itemsTab);
+        _tabPane.setTabMaxHeight(40);
 
-        final TableColumn nameCol = new TableColumn("Name");
-        final TableColumn serverCol = new TableColumn("Server");
-        final TableColumn raceCol = new TableColumn("Race");
-        final TableColumn classCol = new TableColumn("Class");
-
-        table.getColumns().addAll(nameCol, serverCol, raceCol, classCol);
-
-        final VBox vbox = new VBox();
-        vbox.setSpacing(5);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
-        vbox.getChildren().addAll(label, table);
-
-        stage.getChildren().addAll(vbox);
+        playersTab.setContent(new SearchPlayersScreen());
+        itemsTab.setContent(new SearchXpAndItemsScreen());
+        stage.getChildren().add(_tabPane);
     }
 }

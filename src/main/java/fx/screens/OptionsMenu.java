@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import gameinfo.IconLoader;
 import javafx.beans.value.ChangeListener;
@@ -11,6 +11,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import main.ASDMStage;
+import main.TransformManager;
 
 public class OptionsMenu
 {

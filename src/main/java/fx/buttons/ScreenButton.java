@@ -1,4 +1,4 @@
-package main;
+package fx.buttons;
 
 import gameinfo.IconLoader;
 import javafx.event.EventHandler;

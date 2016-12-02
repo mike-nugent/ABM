@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import java.io.File;
 import java.io.FileWriter;

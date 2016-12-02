@@ -3,8 +3,12 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
+import fx.buttons.XformScreenButton;
+import fx.screens.ConfigPopupPage;
+import fx.screens.LogPopupPage;
 import fx.screens.PlayersPopupPage;
 import fx.screens.ScriptsPopupPage;
+import fx.screens.XformPopupStage;
 import gameinfo.PlayerData;
 import gameinfo.Race;
 

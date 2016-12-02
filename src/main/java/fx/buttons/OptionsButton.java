@@ -1,5 +1,6 @@
-package main;
+package fx.buttons;
 
+import fx.screens.OptionsMenu;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;

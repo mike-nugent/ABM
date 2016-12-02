@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import javafx.scene.control.TextArea;
 

@@ -1,7 +1,6 @@
-package fx.screens;
+package fx.buttons;
 
 import javafx.scene.input.MouseEvent;
-import main.ScreenButton;
 import main.TransformManager;
 
 public class ScriptsScreenButton extends ScreenButton

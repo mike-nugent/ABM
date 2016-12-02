@@ -1,4 +1,4 @@
-package main;
+package fx.buttons;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import main.TransformManager;
 
 public class XformScreenButton extends ScreenButton
 {

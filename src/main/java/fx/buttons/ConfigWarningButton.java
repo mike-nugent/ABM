@@ -1,9 +1,10 @@
-package main;
+package fx.buttons;
 
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import main.TransformManager;
 
 public class ConfigWarningButton extends ScreenButton
 {

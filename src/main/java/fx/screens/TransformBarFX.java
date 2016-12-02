@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
-public class TransformBar2 extends HBox
+public class TransformBarFX extends HBox
 {
     private static final long TEN_MINUTES = 600000;
     public static final long  TWO_HOURS   = 7200000;
@@ -21,7 +21,7 @@ public class TransformBar2 extends HBox
     private Date              _transformStartTime;
     private Rank              _rank;
 
-    public TransformBar2()
+    public TransformBarFX()
     {
         this.setSpacing(20);
         this.setAlignment(Pos.CENTER_LEFT);

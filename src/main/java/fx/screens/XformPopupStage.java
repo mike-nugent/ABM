@@ -1,4 +1,4 @@
-package main;
+package fx.screens;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,13 +13,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import main.TransformManager;
 
 public class XformPopupStage extends PopupStage
 {
     private final TabPane                        _tabPane;
     Map<String, Tab>                             currentTabs        = new HashMap<String, Tab>();
-    Map<PlayerData, TransformBar2>               activeTransforms   = new HashMap<PlayerData, TransformBar2>();
-    private final Map<PlayerData, TransformBar2> cooldownTransforms = new HashMap<PlayerData, TransformBar2>();
+    Map<PlayerData, TransformBarFX>               activeTransforms   = new HashMap<PlayerData, TransformBarFX>();
+    private final Map<PlayerData, TransformBarFX> cooldownTransforms = new HashMap<PlayerData, TransformBarFX>();
     Label                                        noInfoTitle        = new Label("No transforms detected!");
     Label                                        noInfoDescription  = new Label(
             "Information will show on this window\nwhen players transform into Guardian Generals.");
@@ -60,7 +61,7 @@ public class XformPopupStage extends PopupStage
             final Date currentTime = new Date();
             for (final PlayerData key : cooldownTransforms.keySet())
             {
-                final TransformBar2 bar = cooldownTransforms.get(key);
+                final TransformBarFX bar = cooldownTransforms.get(key);
                 final long timeLeft = bar.updateTimerForCooldown(currentTime);
                 if (timeLeft <= 0)
                 {
@@ -88,7 +89,7 @@ public class XformPopupStage extends PopupStage
             final Date currentTime = new Date();
             for (final PlayerData key : activeTransforms.keySet())
             {
-                final TransformBar2 bar = activeTransforms.get(key);
+                final TransformBarFX bar = activeTransforms.get(key);
                 final long timeLeft = bar.updateTimerForActive(currentTime);
                 if (timeLeft <= 0)
                 {
@@ -141,7 +142,7 @@ public class XformPopupStage extends PopupStage
         final Tab currentTab = getOrCreateTab(key);
 
         final VBox box = (VBox) ((ScrollPane) currentTab.getContent()).getContent();
-        final TransformBar2 player = new TransformBar2();
+        final TransformBarFX player = new TransformBarFX();
         player.setInfo(newXform);
         activeTransforms.put(newXform, player);
 
@@ -154,7 +155,7 @@ public class XformPopupStage extends PopupStage
 
     public void transitionFromActiveToCooldown(final PlayerData data)
     {
-        final TransformBar2 bar = activeTransforms.remove(data);
+        final TransformBarFX bar = activeTransforms.remove(data);
         final String key = data.server.getServerString() + "-" + data.race.getAcyonym();
 
         final Tab t = currentTabs.get(key);
@@ -204,7 +205,7 @@ public class XformPopupStage extends PopupStage
 
     public void removeCooldown(final PlayerData data)
     {
-        final TransformBar2 bar = cooldownTransforms.remove(data);
+        final TransformBarFX bar = cooldownTransforms.remove(data);
         final Tab tab = currentTabs.get("Cooldowns");
         final VBox box = getContent(tab);
         box.getChildren().remove(bar);

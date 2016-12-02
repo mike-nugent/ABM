@@ -19,7 +19,7 @@ public enum Archetype
 	
 	private String _iconName;
 	private Archetype(String icon)
-	{
+	{ 
 		_iconName = icon;
 	}
 	
