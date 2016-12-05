@@ -17,7 +17,6 @@ public class PopupStage extends Stage
 
         this.setWidth(600);
         this.setHeight(600);
-        this.setAlwaysOnTop(true);
 
         this.initStyle(StageStyle.UTILITY);
         this.setTitle(title);

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import gameinfo.IconLoader;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -78,7 +80,7 @@ public class LogPopupPage extends PopupStage
         topBarWrapper.getChildren().addAll(hbox, lineCountBox);
 
         VBox.setVgrow(textArea, Priority.ALWAYS);
-        final Button saveBtn = new Button("Save To File...");
+        final Button saveBtn = new Button("Save To File...", new ImageView(IconLoader.loadFxImage("save.png", 20)));
 
         saveBtn.setOnAction(new EventHandler<ActionEvent>()
         {

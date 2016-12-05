@@ -23,7 +23,8 @@ public class XformPopupStage extends PopupStage
     private final Map<PlayerData, TransformBarFX> cooldownTransforms = new HashMap<PlayerData, TransformBarFX>();
     Label                                        noInfoTitle        = new Label("No transforms detected!");
     Label                                        noInfoDescription  = new Label(
-            "Information will show on this window\nwhen players transform into Guardian Generals.");
+            "Information will show on this window when\n" +
+            "players transform into Guardian Generals.");
     VBox                                         infoBox            = new VBox();
 
     @SuppressWarnings("unchecked")
@@ -34,9 +35,10 @@ public class XformPopupStage extends PopupStage
         _tabPane = new TabPane();
         stage.getChildren().add(_tabPane);
 
-        noInfoTitle.setStyle("-fx-font-size: 18px;" + "-fx-font-weight: bold;");
+        noInfoTitle.setStyle("-fx-font-size: 30px;" + "-fx-font-weight: bold;");
         noInfoDescription.setStyle("-fx-font-size: 16px;");
-
+        
+        infoBox.setAlignment(Pos.CENTER);
         infoBox.getChildren().addAll(noInfoTitle, noInfoDescription);
         stage.getChildren().add(infoBox);
 

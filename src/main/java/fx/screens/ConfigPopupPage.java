@@ -171,7 +171,7 @@ public class ConfigPopupPage extends PopupStage
                         ovrFileToCreate.createNewFile();
                     }
 
-                    FileUtils.write(ovrFileToCreate, "g_chatlog = 1", Charset.defaultCharset());
+                    FileUtils.write(ovrFileToCreate, "g_chatlog = \"1\"", Charset.defaultCharset());
                 }
                 catch (final Exception e1)
                 {
@@ -241,7 +241,7 @@ public class ConfigPopupPage extends PopupStage
             try
             {
                 if (FileUtils.readFileToString(ovrFileCheck, Charset.defaultCharset()).replaceAll(" ", "")
-                        .contains("g_chatlog=1"))
+                        .contains("g_chatlog=\"1\""))
                 {
                     ovrVer.setText("VERIFIED");
                     ovrVer.setTextFill(Color.DARKGREEN);
