@@ -77,9 +77,10 @@ public class MainFX extends Application
     public void start(final Stage primaryStage)
     {
         _primaryStage = primaryStage;
+        setupDatabase();
+
         buildUI();
         startLoggers();
-        setupDatabase();
     }
 
     /**

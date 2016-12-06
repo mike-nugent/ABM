@@ -1,5 +1,8 @@
 package fx.screens;
 
+import java.util.List;
+
+import database.AionDB;
 import gameinfo.Archetype;
 import gameinfo.HackList;
 import gameinfo.IconLoader;
@@ -9,6 +12,8 @@ import gameinfo.Rank;
 import gameinfo.Server;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -77,6 +82,19 @@ public class SearchPlayersScreen extends VBox
 
         // Reset
         final Button resetButton = new Button("", new ImageView(IconLoader.loadFxImage("refresh-icon.png", 20)));
+        resetButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                // AionDB.addOrUpdatePlayer(PlayerData.generateRandom());
+
+                final List<PlayerData> playerList = AionDB.getAllPlayers();
+                final ObservableList<PlayerData> personData = FXCollections.observableArrayList(playerList);
+
+                table.setItems(personData);
+            }
+        });
 
         bottomBox.getChildren().addAll(serverControl, classControl, raceControl, rankControl, resetButton);
 
@@ -103,12 +121,8 @@ public class SearchPlayersScreen extends VBox
 
         table.getColumns().addAll(nameCol, serverCol, raceCol, classCol, rankCol, hackCol);
 
-        final ObservableList<PlayerData> personData = FXCollections.observableArrayList();
-
-        for (int i = 0; i < 100; i++)
-        {
-            personData.add(PlayerData.generateRandom());
-        }
+        final List<PlayerData> playerList = AionDB.getAllPlayers();
+        final ObservableList<PlayerData> personData = FXCollections.observableArrayList(playerList);
 
         table.setItems(personData);
 

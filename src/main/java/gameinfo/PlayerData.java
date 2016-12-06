@@ -31,6 +31,15 @@ public class PlayerData
         this.race = race;
         this.clazz = clazz;
         this.location = location;
+        this.hacks = HackList.No_Accusations;
+    }
+
+    public static PlayerData fromDB(final Date dateTime, final String name, final String server, final String race,
+            final String rank, final String archtype, final String location)
+    {
+        return new PlayerData(new Date(), name, Server.getServer(server), Race.getRace(race), Rank.getRank(rank),
+                Archetype.fromString(archtype), location);
+
     }
 
     public static PlayerData parseXform(final String xformLine)

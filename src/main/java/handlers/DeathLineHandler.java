@@ -3,6 +3,7 @@ package handlers;
 import java.util.Date;
 
 import config.ConfigFile;
+import database.AionDB;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
@@ -88,6 +89,7 @@ public class DeathLineHandler extends LineHandler
             {
                 System.out.println("sending data now...");
                 TransformManager.checkPlayerDeath(data);
+                AionDB.addOrUpdatePlayer(data);
             }
         });
     }
