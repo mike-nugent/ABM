@@ -26,7 +26,7 @@ public class AionDB
 
             final Statement stmt = _conn.createStatement();
             // PLAYERS(NAME, SERVER, RACE, CLASS, RANK)
-            // stmt.executeUpdate("DROP TABLE PLAYERS");
+             stmt.executeUpdate("DROP TABLE PLAYERS");
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS PLAYERS(NAME VARCHAR(255), SERVER VARCHAR(255), RACE VARCHAR(255), CLASS VARCHAR(255), RANK VARCHAR(255));");
 

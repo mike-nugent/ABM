@@ -205,6 +205,7 @@ public class ConfigPopupPage extends PopupStage
                 checkFiles();
 
                 MainFX.showStage();
+                MainFX.jumpStartLoggers();
                 me.close();
             }
         });

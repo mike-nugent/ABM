@@ -9,7 +9,7 @@ import utils.Times;
 
 public class FxClock extends Pane
 {
-    final Label _minSecTxt = new Label("10:00");
+    final Label _minSecTxt = new Label("00:00");
     final Label _msTxt     = new Label("00");
 
     protected long _startTime     = 0;
@@ -37,7 +37,7 @@ public class FxClock extends Pane
         {
             animationtimer.stop();
             animationtimer = null;
-            _minSecTxt.setText("10:00");
+            _minSecTxt.setText("00:00");
             _msTxt.setText("00");
 
             _minSecTxt.setTextFill(new Color(0, 0, 0, 1));

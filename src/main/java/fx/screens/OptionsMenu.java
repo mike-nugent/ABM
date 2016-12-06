@@ -1,5 +1,6 @@
 package fx.screens;
 
+import config.ConfigFile;
 import gameinfo.IconLoader;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -62,7 +63,19 @@ public class OptionsMenu
 
             final CheckMenuItem lockUI = new CheckMenuItem("Lock UI position",
                     new ImageView(IconLoader.loadFxImage("lock.png", 30)));
-            lockUI.setSelected(false);
+            
+            String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
+            if(isSet != null && isSet.equals("true"))
+            {
+                lockUI.setSelected(true);
+            }
+            else
+            {
+                lockUI.setSelected(false);
+            }
+            
+            
+            
             lockUI.selectedProperty().addListener(new ChangeListener<Boolean>()
             {
                 @Override
@@ -70,6 +83,7 @@ public class OptionsMenu
                 {
                     // ASDMStage.getStage().setAlwaysOnTop(new_val);
                     ASDMStage.setWindowLock(new_val);
+                    ConfigFile.setProperty(ConfigFile.LOCK_WINDOW_POSITION, new_val+"");
                 }
             });
 
@@ -105,7 +119,7 @@ public class OptionsMenu
             _optionsMenu.show(stage);
 
             _optionsMenu.setX(stage.getX() + stage.getWidth() - _optionsMenu.getWidth());
-            _optionsMenu.setY(stage.getY() - _optionsMenu.getHeight() + 30);
+            _optionsMenu.setY(stage.getY() - _optionsMenu.getHeight() + 20);
 
         }
     }

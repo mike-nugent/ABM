@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fx.buttons.XformScreenButton;
+import fx.screens.ClockPopupPage;
 import fx.screens.ConfigPopupPage;
 import fx.screens.LogPopupPage;
 import fx.screens.PlayersPopupPage;
@@ -11,6 +12,7 @@ import fx.screens.ScriptsPopupPage;
 import fx.screens.XformPopupStage;
 import gameinfo.PlayerData;
 import gameinfo.Race;
+import javafx.stage.Window;
 
 public class TransformManager
 {
@@ -22,6 +24,7 @@ public class TransformManager
     static ConfigPopupPage  configStage  = new ConfigPopupPage();
     static PlayersPopupPage playersStage = new PlayersPopupPage();
     static ScriptsPopupPage scriptsStage = new ScriptsPopupPage();
+    static ClockPopupPage   clockStage   = new ClockPopupPage();
 
     static XformScreenButton xformButton;
 
@@ -49,7 +52,6 @@ public class TransformManager
         System.out.println("Removing " + data);
         xformStage.transitionFromActiveToCooldown(data);
         updateUIWithTransform();
-
     }
 
     public static void checkPlayerDeath(final PlayerData data)
@@ -72,7 +74,6 @@ public class TransformManager
         {
             transitionFromActiveToCooldown(flagRemoval);
         }
-
     }
 
     private static void updateUIWithTransform()
@@ -111,6 +112,7 @@ public class TransformManager
         xformStage.hide();
         logsStage.hide();
         playersStage.hide();
+        scriptsStage.hide();
     }
 
     public static void toggleTransformPopup()
@@ -121,6 +123,7 @@ public class TransformManager
         }
         else
         {
+        	hideAllPopups();
             xformStage.show();
         }
 
@@ -134,6 +137,7 @@ public class TransformManager
         }
         else
         {
+        	hideAllPopups();
             logsStage.show();
         }
 
@@ -147,6 +151,7 @@ public class TransformManager
         }
         else
         {
+        	hideAllPopups();
             configStage.show();
         }
     }
@@ -159,6 +164,7 @@ public class TransformManager
         }
         else
         {
+        	hideAllPopups();
             playersStage.show();
         }
     }
@@ -171,13 +177,33 @@ public class TransformManager
         }
         else
         {
+        	hideAllPopups();
             scriptsStage.show();
         }
     }
+    
+    public static void showClockPopup()
+    {
+    	clockStage.show();
+    }
+    
+    public static void hideClockPopup()
+    {
+    	clockStage.hide();
+    }
+    
+    public static boolean isClockShowing()
+    {
+    	return clockStage.isShowing();
+    }
 
+
+
+    
     public static void setXformButton(final XformScreenButton xformButton)
     {
         TransformManager.xformButton = xformButton;
     }
+
 
 }

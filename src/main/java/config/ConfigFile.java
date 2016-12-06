@@ -28,7 +28,10 @@ public class ConfigFile
     public static final String DEBUG_LOG_FILE_NAME       = "TEST_Chat.log";
     public static final String SLIDER_POSITION_PROPERTY  = "sliderPosition";
     public static final String DEFAULT_OVR_FILE_NAME     = "system.ovr";
-    public static String       STAGE_LOCATION_PROPERTY   = "stageLocation";
+    public static final String STAGE_LOCATION_PROPERTY   = "stageLocation";
+    public static final String CLOCK_LOCATION_PROPERTY   = "clockLocation";
+	public static final String IS_CLOCK_SHOWING 		 = "isClockShowing";
+	public static final String LOCK_WINDOW_POSITION      = "lockWindowPositions";
 
     private static String _name;
     private static Race   _race;

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import config.ConfigFile;
 import database.AionDB;
+import fx.buttons.ClockScreenButton;
 import fx.buttons.ConfigWarningButton;
 import fx.buttons.LogScreenButton;
 import fx.buttons.OptionsButton;
@@ -38,6 +39,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -51,12 +53,26 @@ public class MainFX extends Application
 
     private double        xOffset = 0;
     private double        yOffset = 0;
-    protected ContextMenu _optionsMenu;
 
-    private ProgressIndicator   _progressIcon;
-    private ConfigWarningButton _configWarningButton;
-    private static Stage        _primaryStage;
+    private ProgressIndicator   _progressIcon = new ProgressIndicator();
+    private ConfigWarningButton _configWarningButton = new ConfigWarningButton();
+	private OptionsButton _optionsButton = new OptionsButton();
+	
+	//References back to this class instance for use by static methods.
+    private static Stage  _primaryStage;
+    private static MainFX _me;
+    
+    //The current width and height of the stage.
+    private static int STAGE_WIDTH = 600;
+    private static int STAGE_HEIGHT = 200;
+    
+    //Starts the loggers from the config page
+    public static void jumpStartLoggers()
+    {
+    	_me.startLoggers();
+    }
 
+    //Main entrance to the program
     public static void main(final String[] args)
     {
         launch(args);
@@ -76,14 +92,25 @@ public class MainFX extends Application
     @Override
     public void start(final Stage primaryStage)
     {
+    	_me = this;
         _primaryStage = primaryStage;
         setupDatabase();
 
         buildUI();
         startLoggers();
+        loadConfigOptions();
     }
 
-    /**
+    private void loadConfigOptions() 
+    {
+        String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
+        if(isSet != null && isSet.equals("true"))
+        {
+            ASDMStage.setWindowLock(true);
+        }		
+	}
+
+	/**
      * Creates and displays the main UI
      */
     private void buildUI()
@@ -96,14 +123,9 @@ public class MainFX extends Application
         setupStage(_primaryStage, background);
 
         // Create the buttons
-        final HBox hbox = addScreenButtons();
-        // hbox.setAlignment(Pos.TOP_CENTER);
+        final HBox buttonsListBox = addScreenButtons();
+        final HBox optionsListBox = addOptionsList();
 
-        // Create the timer
-        final FxClock clock = new FxClock();
-        final FxClockController clockController = new FxClockController(clock);
-        clockController.setLayoutX(300);
-        clockController.setLayoutY(100);
 
         // Create the Slider
         final String lastSliderPosition = ConfigFile.getProperty(ConfigFile.SLIDER_POSITION_PROPERTY);
@@ -111,43 +133,29 @@ public class MainFX extends Application
         final StackPane slider = createSlider(doubleProperty, initialValue);
 
         // Set the Progress Indicator for Async tasks
-        _progressIcon = new ProgressIndicator();
         _progressIcon.setMaxSize(25, 25);
         _progressIcon.setTooltip(new Tooltip("Performing a Quick Check on the Chat.log file"));
-
-        // Create the options icon button
-        final OptionsButton optionsButton = new OptionsButton();
-        _configWarningButton = new ConfigWarningButton();
-        _configWarningButton.setVisible(false);
-
+        
+      
         // Add all children to the stage
-        root.getChildren().addAll(hbox, clock, clockController, _progressIcon, optionsButton, _configWarningButton,
-                slider);
+        root.getChildren().addAll(buttonsListBox, optionsListBox, slider);
 
+        optionsListBox.setLayoutX(STAGE_WIDTH -90);
+        optionsListBox.setLayoutY(0);
+        
         // Reposition them all
-        hbox.setLayoutX(10);
-        hbox.setLayoutY(-10);
+        buttonsListBox.setLayoutX(10);
+        buttonsListBox.setLayoutY(-10);
 
-        clock.setLayoutX(20);
-        clock.setLayoutY(55);
 
         slider.setMinWidth(300);
         slider.setLayoutY(160);
         slider.setLayoutX(45);
 
-        optionsButton.setLayoutX(350);
-        optionsButton.setLayoutY(15);
+        root.setMinWidth(STAGE_WIDTH);
+        root.setMinHeight(STAGE_HEIGHT);
 
-        _configWarningButton.setLayoutX(315);
-        _configWarningButton.setLayoutY(15);
-
-        _progressIcon.setLayoutX(350);
-        _progressIcon.setLayoutY(50);
-
-        root.setMinWidth(400);
-        root.setMinHeight(200);
-
-        final Scene scene = new Scene(root, 400, 200);
+        final Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
         scene.setFill(Color.TRANSPARENT);
         _primaryStage.setScene(scene);
         _primaryStage.show();
@@ -164,7 +172,43 @@ public class MainFX extends Application
         }
     }
 
-    private void setupDatabase()
+    private HBox addOptionsList() 
+    {
+      /* <pre>
+        -----------
+    	|    |    |
+    	|  A | B  |
+    	|    |    |
+    	-----------
+    	|    |    |
+    	|    |  C |
+    	|    |    |
+    	----------- 
+    	</pre>
+    	*/
+
+    	//Set up wrappers for options buttons
+        HBox oWrapper = new HBox();
+        VBox leftBox = new VBox();
+        VBox rightBox = new VBox();
+        
+        leftBox.setAlignment(Pos.TOP_CENTER);
+        rightBox.setAlignment(Pos.TOP_CENTER);
+        
+        leftBox.setSpacing(10);
+        rightBox.setSpacing(10);
+        
+        leftBox.setPadding(new Insets(5, 5, 0, 0));
+        rightBox.setPadding(new Insets(5, 0, 0, 5));
+
+        leftBox.getChildren().add(_configWarningButton);
+        rightBox.getChildren().addAll(_optionsButton, _progressIcon);
+        oWrapper.getChildren().addAll(leftBox, rightBox);
+        oWrapper.setAlignment(Pos.TOP_RIGHT);
+        return oWrapper;
+	}
+
+	private void setupDatabase()
     {
         AionDB.instantiate();
     }
@@ -184,22 +228,15 @@ public class MainFX extends Application
             final File logFile = ConfigFile.getLogFile();
             if (!logFile.exists())
             {
+                TransformManager.toggleConfigPopup();
+
                 // If the log file doesn't exist, we need to create it.
                 final Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Log File Missing");
-                alert.setHeaderText("Logging is not enabled in your aion setup");
+                alert.setTitle("Error in Setup");
+                alert.setHeaderText("Check your logging settings");
                 alert.setContentText(
-                        "To use ASDM, logging must be enabled.\n" + "We recommend enabling it now.  Proceed?");
-
-                final Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK)
-                {
-                    // ... user chose OK
-                }
-                else
-                {
-                    // ... user chose CANCEL or closed the dialog
-                }
+                        "There may be an issue with your setup, check your settings.");
+                return;
             }
 
             final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
@@ -250,8 +287,8 @@ public class MainFX extends Application
     private Region setBackground(final Pane root, final DoubleProperty doubleProperty)
     {
         final Region region = new Region();
-        region.setMinWidth(380);
-        region.setMinHeight(180);
+        region.setMinWidth(STAGE_WIDTH - 20);
+        region.setMinHeight(STAGE_HEIGHT - 20);
         region.styleProperty()
                 .bind(Bindings.concat("-fx-background-radius:20; -fx-background-color: rgba(109, 155, 155, ")
                         .concat(doubleProperty).concat(");"));
@@ -338,7 +375,7 @@ public class MainFX extends Application
         final StackPane sliderPane = new StackPane();
         sliderPane.setAlignment(Pos.BOTTOM_CENTER);
         sliderPane.getChildren().add(slider);
-        slider.setMaxWidth(300);
+        slider.setMaxWidth(STAGE_WIDTH);
         doubleProperty.bind(slider.valueProperty());
         return sliderPane;
     }
@@ -357,8 +394,9 @@ public class MainFX extends Application
         final ScreenButton players = new PlayerScreenButton();
         final ScreenButton scripts = new ScriptsScreenButton();
         final ScreenButton logs = new LogScreenButton();
+        final ClockScreenButton clock = new ClockScreenButton();
 
-        hbox.getChildren().addAll(xform, players, scripts, logs);
+        hbox.getChildren().addAll(xform, players, scripts, logs, clock);
 
         return hbox;
     }
