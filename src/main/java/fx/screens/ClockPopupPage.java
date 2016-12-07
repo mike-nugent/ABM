@@ -19,13 +19,15 @@ import javafx.stage.StageStyle;
 import javafx.timer.FxClock;
 import javafx.timer.FxClockController;
 import main.ASDMStage;
+import main.LockFx;
 
 public class ClockPopupPage extends PopupStage 
 {
 	private double xOffset = 0;
 	private double yOffset = 0;
 
-	public ClockPopupPage() {
+	public ClockPopupPage() 
+	{
 		super("Clock Stage");
 		final Pane root = new Pane();
 		root.setStyle("-fx-background-color: null;");
@@ -35,7 +37,9 @@ public class ClockPopupPage extends PopupStage
 		FxClock clock = new FxClock();
         final FxClockController clockController = new FxClockController(clock);
         HBox box = new HBox();
-        box.getChildren().addAll(clock, clockController);
+    	LockFx lock = new LockFx();
+
+        box.getChildren().addAll(clock, clockController, lock);
 
 		root.getChildren().addAll(box);
 		positionListener(root);

@@ -47,9 +47,15 @@ public class ConfigPopupPage extends PopupStage
     public ConfigPopupPage()
     {
         super("Configure ASDM");
+        
+
+        
         final Tab infoTab = getChatacterSettings();
         final Tab loggingTab = getLoggingSettings();
         _tabPane.getTabs().addAll(infoTab, loggingTab);
+        
+
+        
         this.setAlwaysOnTop(false);
 
         stage.getChildren().add(_tabPane);
@@ -212,6 +218,14 @@ public class ConfigPopupPage extends PopupStage
         grid.add(saveAndFinalizeBtn, 1, 4);
 
         loggingTab.setContent(grid);
+        
+        
+   /* How to turn background into an image
+    *     String image = IconLoader.class.getResource("/reshanta.png").toExternalForm();
+        grid.setStyle("-fx-background-image: url('" + image + "'); " +
+                   "-fx-background-position: center center; " +
+                   "-fx-background-repeat: stretch;");
+     */   
         return loggingTab;
     }
 

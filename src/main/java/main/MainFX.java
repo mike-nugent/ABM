@@ -24,6 +24,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -53,14 +54,12 @@ public class MainFX extends Application
     private final ProgressIndicator   _progressIcon        = new ProgressIndicator();
     private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
     private final OptionsButton       _optionsButton       = new OptionsButton();
+	private final Pane 	              _moveCursor 		   = new Pane(new ImageView(IconLoader.loadFxImage("move-cursor.png", 25)));
 
     // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
     private static MainFX _me;
 
-    // The current width and height of the stage.
-    private static int STAGE_WIDTH  = 480;
-    private static int STAGE_HEIGHT = 160;
 
     // Starts the loggers from the config page
     public static void jumpStartLoggers()
@@ -111,44 +110,23 @@ public class MainFX extends Application
      */
     private void buildUI()
     {
-        //
-        final Pane root = new Pane();
-        final DoubleProperty doubleProperty = new SimpleDoubleProperty(0);
-        final Region background = setBackground(root, doubleProperty);
+        final HBox root = new HBox();
+        root.setStyle("-fx-background-color: null;");
 
-        setupStage(_primaryStage, background);
+        setupStage(_primaryStage);
 
         // Create the buttons
         final HBox buttonsListBox = addScreenButtons();
         final HBox optionsListBox = addOptionsList();
-
-        // Create the Slider
-        final String lastSliderPosition = ConfigFile.getProperty(ConfigFile.SLIDER_POSITION_PROPERTY);
-        final double initialValue = (lastSliderPosition != null) ? Double.parseDouble(lastSliderPosition) : 0.3;
-        final StackPane slider = createSlider(doubleProperty, initialValue);
 
         // Set the Progress Indicator for Async tasks
         _progressIcon.setMaxSize(25, 25);
         _progressIcon.setTooltip(new Tooltip("Performing a Quick Check on the Chat.log file"));
 
         // Add all children to the stage
-        root.getChildren().addAll(buttonsListBox, optionsListBox, slider);
+        root.getChildren().addAll(buttonsListBox, optionsListBox);
 
-        optionsListBox.setLayoutX(STAGE_WIDTH - 90);
-        optionsListBox.setLayoutY(0);
-
-        // Reposition them all
-        buttonsListBox.setLayoutX(10);
-        buttonsListBox.setLayoutY(-10);
-
-        slider.setMinWidth(STAGE_WIDTH);
-        slider.setLayoutY(STAGE_HEIGHT - 40);
-        slider.setLayoutX(45);
-
-        root.setMinWidth(STAGE_WIDTH);
-        root.setMinHeight(STAGE_HEIGHT);
-
-        final Scene scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
+        final Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);
         _primaryStage.setScene(scene);
         _primaryStage.show();
@@ -167,10 +145,7 @@ public class MainFX extends Application
 
     private HBox addOptionsList()
     {
-        /*
-         * <pre> ----------- | | | | A | B | | | | ----------- | | | | | C | | |
-         * | ----------- </pre>
-         */
+
 
         // Set up wrappers for options buttons
         final HBox oWrapper = new HBox();
@@ -186,8 +161,8 @@ public class MainFX extends Application
         leftBox.setPadding(new Insets(5, 5, 0, 0));
         rightBox.setPadding(new Insets(5, 0, 0, 5));
 
-        leftBox.getChildren().add(_configWarningButton);
-        rightBox.getChildren().addAll(_optionsButton, _progressIcon);
+        leftBox.getChildren().addAll(_moveCursor,_configWarningButton);
+        rightBox.getChildren().addAll(_optionsButton, _progressIcon );
         oWrapper.getChildren().addAll(leftBox, rightBox);
         oWrapper.setAlignment(Pos.TOP_RIGHT);
         return oWrapper;
@@ -266,35 +241,40 @@ public class MainFX extends Application
         }
     }
 
-    /**
-     * Sets the background of the main app display
-     */
-    private Region setBackground(final Pane root, final DoubleProperty doubleProperty)
-    {
-        final Region region = new Region();
-        region.setMinWidth(STAGE_WIDTH - 20);
-        region.setMinHeight(STAGE_HEIGHT - 20);
-        region.styleProperty()
-                .bind(Bindings.concat("-fx-background-radius:20; -fx-background-color: rgba(109, 155, 155, ")
-                        .concat(doubleProperty).concat(");"));
-        region.setEffect(new DropShadow(10, Color.BLACK));
-        root.getChildren().addAll(region);
-        root.setStyle("-fx-background-color: null;");
-        root.setPadding(new Insets(10));
-        return region;
-    }
+
 
     /**
      * Sets common functionality of the main stage
      */
-    private void setupStage(final Stage primaryStage, final Region root)
+    private void setupStage(final Stage primaryStage)
     {
         ASDMStage.setStage(primaryStage);
 
         primaryStage.setAlwaysOnTop(true);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-        root.setOnMousePressed(new EventHandler<MouseEvent>()
+        _moveCursor.setOnMouseEntered(new EventHandler<MouseEvent>() 
+        {
+        	@Override
+            public void handle(MouseEvent me) 
+            {
+    		   if (ASDMStage.getWindowLock())
+               {
+                   return;
+               }
+        		_moveCursor.getScene().setCursor(Cursor.MOVE); //Change cursor to hand
+            }
+        });
+        _moveCursor.setOnMouseExited(new EventHandler<MouseEvent>() 
+        {
+        	@Override
+            public void handle(MouseEvent me) 
+            {
+        		_moveCursor.getScene().setCursor(Cursor.DEFAULT); //Change cursor to hand
+            }
+        });
+		_moveCursor.setEffect(new DropShadow(10, Color.DARKGRAY));
+        _moveCursor.setOnMousePressed(new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(final MouseEvent event)
@@ -308,7 +288,7 @@ public class MainFX extends Application
                 yOffset = event.getSceneY();
             }
         });
-        root.setOnMouseDragged(new EventHandler<MouseEvent>()
+        _moveCursor.setOnMouseDragged(new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(final MouseEvent event)
@@ -321,7 +301,7 @@ public class MainFX extends Application
                 primaryStage.setY(event.getScreenY() - yOffset);
             }
         });
-        root.setOnMouseReleased(new EventHandler<MouseEvent>()
+        _moveCursor.setOnMouseReleased(new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(final MouseEvent event)
@@ -341,29 +321,6 @@ public class MainFX extends Application
         });
     }
 
-    /**
-     * Create the slider used to scale background alpha
-     */
-    private StackPane createSlider(final DoubleProperty doubleProperty, final double initialValue)
-    {
-        final Slider slider = new Slider(0.01, 0.9, initialValue);
-
-        slider.setOnMouseReleased(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(final MouseEvent event)
-            {
-                ConfigFile.setProperty(ConfigFile.SLIDER_POSITION_PROPERTY, slider.getValue() + "");
-            }
-        });
-
-        final StackPane sliderPane = new StackPane();
-        sliderPane.setAlignment(Pos.BOTTOM_LEFT);
-        sliderPane.getChildren().add(slider);
-        slider.setMaxWidth(STAGE_WIDTH - 90);
-        doubleProperty.bind(slider.valueProperty());
-        return sliderPane;
-    }
 
     /**
      * Create the main buttons on the overlay display
@@ -374,6 +331,7 @@ public class MainFX extends Application
         final HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(15);
+        hbox.setAlignment(Pos.CENTER);
         final XformScreenButton xform = new XformScreenButton();
         TransformManager.setXformButton(xform);
         final ScreenButton players = new PlayerScreenButton();

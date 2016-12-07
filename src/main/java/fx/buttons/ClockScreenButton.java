@@ -36,9 +36,11 @@ public class ClockScreenButton extends ScreenButton
 
 	private void setupRegion(Region region2) 
 	{
-		region.setMinWidth(60);
-		region.setMinHeight(60);
-		region.setStyle("-fx-background-radius:20; -fx-background-color: #F2C26E");
+		//region.setMinWidth(60);
+		//region.setMinHeight(60);
+		region.setMaxWidth(50);
+		region.setMaxHeight(70);
+		region.setStyle("-fx-background-radius:15; -fx-background-color: rgba(255, 255, 153, 0.5);");
 		//region.setEffect(new DropShadow(10, Color.BLACK));
 		this.getChildren().add(0, region);		
 	}
