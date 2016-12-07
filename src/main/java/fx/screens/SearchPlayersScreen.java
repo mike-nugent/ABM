@@ -10,6 +10,8 @@ import gameinfo.PlayerData;
 import gameinfo.Race;
 import gameinfo.Rank;
 import gameinfo.Server;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,18 +33,39 @@ import javafx.scene.text.Font;
 
 public class SearchPlayersScreen extends VBox
 {
+    final Button                searchBtn   = new Button("",
+            new ImageView(IconLoader.loadFxImage("search_icon.png", 30)));
+    final TextField             searchFiled = new TextField();
+    final TableView<PlayerData> table       = new TableView<PlayerData>();
+
     public SearchPlayersScreen()
     {
-        final TableView<PlayerData> table = new TableView<PlayerData>();
 
         // Create search fields
         final Label label = new Label("Player Database");
         label.setFont(new Font("Arial", 20));
-        final TextField searchFiled = new TextField();
         searchFiled.setFont(new Font("Arial", 20));
         // searchFiled.setPrefWidth(320);
 
-        final Button searchBtn = new Button("", new ImageView(IconLoader.loadFxImage("search_icon.png", 30)));
+        searchBtn.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                updateSearch();
+            }
+        });
+
+        searchFiled.textProperty().addListener(new ChangeListener<String>()
+        {
+            @Override
+            public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+                    final String newValue)
+            {
+                updateSearch();
+            }
+        });
+
         final HBox barNBtn = new HBox();
         barNBtn.setSpacing(15);
         barNBtn.getChildren().addAll(searchFiled, searchBtn);
@@ -129,5 +152,12 @@ public class SearchPlayersScreen extends VBox
         this.setSpacing(5);
         this.setPadding(new Insets(10, 10, 10, 10));
         this.getChildren().addAll(searchVBox, table);
+    }
+
+    public void updateSearch()
+    {
+        final List<PlayerData> results = AionDB.getPlayerByName(searchFiled.getText());
+        final ObservableList<PlayerData> personData = FXCollections.observableArrayList(results);
+        table.setItems(personData);
     }
 }

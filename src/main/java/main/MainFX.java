@@ -1,10 +1,10 @@
 package main;
 
 import java.io.File;
-import java.util.Optional;
 
 import config.ConfigFile;
 import database.AionDB;
+import database.PlayerBaseUpdater;
 import fx.buttons.ClockScreenButton;
 import fx.buttons.ConfigWarningButton;
 import fx.buttons.LogScreenButton;
@@ -27,8 +27,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
@@ -43,36 +41,34 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.timer.FxClock;
-import javafx.timer.FxClockController;
 import logreader.AionLogReader;
 
 // Java 8 code
 public class MainFX extends Application
 {
 
-    private double        xOffset = 0;
-    private double        yOffset = 0;
+    private double xOffset = 0;
+    private double yOffset = 0;
 
-    private ProgressIndicator   _progressIcon = new ProgressIndicator();
-    private ConfigWarningButton _configWarningButton = new ConfigWarningButton();
-	private OptionsButton _optionsButton = new OptionsButton();
-	
-	//References back to this class instance for use by static methods.
+    private final ProgressIndicator   _progressIcon        = new ProgressIndicator();
+    private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
+    private final OptionsButton       _optionsButton       = new OptionsButton();
+
+    // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
     private static MainFX _me;
-    
-    //The current width and height of the stage.
-    private static int STAGE_WIDTH = 600;
-    private static int STAGE_HEIGHT = 200;
-    
-    //Starts the loggers from the config page
+
+    // The current width and height of the stage.
+    private static int STAGE_WIDTH  = 480;
+    private static int STAGE_HEIGHT = 160;
+
+    // Starts the loggers from the config page
     public static void jumpStartLoggers()
     {
-    	_me.startLoggers();
+        _me.startLoggers();
     }
 
-    //Main entrance to the program
+    // Main entrance to the program
     public static void main(final String[] args)
     {
         launch(args);
@@ -92,7 +88,7 @@ public class MainFX extends Application
     @Override
     public void start(final Stage primaryStage)
     {
-    	_me = this;
+        _me = this;
         _primaryStage = primaryStage;
         setupDatabase();
 
@@ -101,16 +97,16 @@ public class MainFX extends Application
         loadConfigOptions();
     }
 
-    private void loadConfigOptions() 
+    private void loadConfigOptions()
     {
-        String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
-        if(isSet != null && isSet.equals("true"))
+        final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
+        if (isSet != null && isSet.equals("true"))
         {
             ASDMStage.setWindowLock(true);
-        }		
-	}
+        }
+    }
 
-	/**
+    /**
      * Creates and displays the main UI
      */
     private void buildUI()
@@ -126,7 +122,6 @@ public class MainFX extends Application
         final HBox buttonsListBox = addScreenButtons();
         final HBox optionsListBox = addOptionsList();
 
-
         // Create the Slider
         final String lastSliderPosition = ConfigFile.getProperty(ConfigFile.SLIDER_POSITION_PROPERTY);
         final double initialValue = (lastSliderPosition != null) ? Double.parseDouble(lastSliderPosition) : 0.3;
@@ -135,21 +130,19 @@ public class MainFX extends Application
         // Set the Progress Indicator for Async tasks
         _progressIcon.setMaxSize(25, 25);
         _progressIcon.setTooltip(new Tooltip("Performing a Quick Check on the Chat.log file"));
-        
-      
+
         // Add all children to the stage
         root.getChildren().addAll(buttonsListBox, optionsListBox, slider);
 
-        optionsListBox.setLayoutX(STAGE_WIDTH -90);
+        optionsListBox.setLayoutX(STAGE_WIDTH - 90);
         optionsListBox.setLayoutY(0);
-        
+
         // Reposition them all
         buttonsListBox.setLayoutX(10);
         buttonsListBox.setLayoutY(-10);
 
-
-        slider.setMinWidth(300);
-        slider.setLayoutY(160);
+        slider.setMinWidth(STAGE_WIDTH);
+        slider.setLayoutY(STAGE_HEIGHT - 40);
         slider.setLayoutX(45);
 
         root.setMinWidth(STAGE_WIDTH);
@@ -172,32 +165,24 @@ public class MainFX extends Application
         }
     }
 
-    private HBox addOptionsList() 
+    private HBox addOptionsList()
     {
-      /* <pre>
-        -----------
-    	|    |    |
-    	|  A | B  |
-    	|    |    |
-    	-----------
-    	|    |    |
-    	|    |  C |
-    	|    |    |
-    	----------- 
-    	</pre>
-    	*/
+        /*
+         * <pre> ----------- | | | | A | B | | | | ----------- | | | | | C | | |
+         * | ----------- </pre>
+         */
 
-    	//Set up wrappers for options buttons
-        HBox oWrapper = new HBox();
-        VBox leftBox = new VBox();
-        VBox rightBox = new VBox();
-        
+        // Set up wrappers for options buttons
+        final HBox oWrapper = new HBox();
+        final VBox leftBox = new VBox();
+        final VBox rightBox = new VBox();
+
         leftBox.setAlignment(Pos.TOP_CENTER);
         rightBox.setAlignment(Pos.TOP_CENTER);
-        
+
         leftBox.setSpacing(10);
         rightBox.setSpacing(10);
-        
+
         leftBox.setPadding(new Insets(5, 5, 0, 0));
         rightBox.setPadding(new Insets(5, 0, 0, 5));
 
@@ -206,11 +191,12 @@ public class MainFX extends Application
         oWrapper.getChildren().addAll(leftBox, rightBox);
         oWrapper.setAlignment(Pos.TOP_RIGHT);
         return oWrapper;
-	}
+    }
 
-	private void setupDatabase()
+    private void setupDatabase()
     {
         AionDB.instantiate();
+        PlayerBaseUpdater.initialize();
     }
 
     /**
@@ -234,8 +220,7 @@ public class MainFX extends Application
                 final Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Error in Setup");
                 alert.setHeaderText("Check your logging settings");
-                alert.setContentText(
-                        "There may be an issue with your setup, check your settings.");
+                alert.setContentText("There may be an issue with your setup, check your settings.");
                 return;
             }
 
@@ -373,9 +358,9 @@ public class MainFX extends Application
         });
 
         final StackPane sliderPane = new StackPane();
-        sliderPane.setAlignment(Pos.BOTTOM_CENTER);
+        sliderPane.setAlignment(Pos.BOTTOM_LEFT);
         sliderPane.getChildren().add(slider);
-        slider.setMaxWidth(STAGE_WIDTH);
+        slider.setMaxWidth(STAGE_WIDTH - 90);
         doubleProperty.bind(slider.valueProperty());
         return sliderPane;
     }

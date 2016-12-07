@@ -3,7 +3,7 @@ package handlers;
 import java.util.Date;
 
 import config.ConfigFile;
-import database.AionDB;
+import database.PlayerBaseUpdater;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
@@ -99,7 +99,7 @@ public class TransformLineHandler extends LineHandler
             {
                 System.out.println("sending data now...");
                 TransformManager.transformDetected(data);
-                AionDB.addOrUpdatePlayer(data);
+                PlayerBaseUpdater.addOrUpdatePlayer(data);
             }
         });
     }

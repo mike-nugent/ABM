@@ -26,7 +26,7 @@ public class AionDB
 
             final Statement stmt = _conn.createStatement();
             // PLAYERS(NAME, SERVER, RACE, CLASS, RANK)
-             stmt.executeUpdate("DROP TABLE PLAYERS");
+            // stmt.executeUpdate("DROP TABLE PLAYERS");
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS PLAYERS(NAME VARCHAR(255), SERVER VARCHAR(255), RACE VARCHAR(255), CLASS VARCHAR(255), RANK VARCHAR(255));");
 
@@ -37,7 +37,9 @@ public class AionDB
             // SOUNDS(NAME, PATH)
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS SOUNDS(NAME VARCHAR(255), PATH VARCHAR(255));");
             final PlayerData r = PlayerData.generateRandom();
-      //      stmt.executeUpdate("INSERT INTO PLAYERS VALUES ( '" + r.name + "', '" + r.server + "', '" + r.race + "', '"+ r.clazz + "', '" + r.rank + "' )");
+            // stmt.executeUpdate("INSERT INTO PLAYERS VALUES ( '" + r.name +
+            // "', '" + r.server + "', '" + r.race + "', '"+ r.clazz + "', '" +
+            // r.rank + "' )");
 
             /**
              * <pre>
@@ -107,8 +109,40 @@ public class AionDB
         }
     }
 
+    public static List<PlayerData> getPlayerByName(final String searchName)
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            final List<PlayerData> returnData = new LinkedList<PlayerData>();
+            final ResultSet rs = stmt
+                    .executeQuery("SELECT * FROM PLAYERS WHERE upper(NAME) LIKE '%" + searchName.toUpperCase() + "%';");
+            while (rs.next())
+            {
+                final String name = rs.getString("NAME");
+                final String server = rs.getString("SERVER");
+                final String race = rs.getString("RACE");
+                final String archtype = rs.getString("CLASS");
+                final String rank = rs.getString("RANK");
+
+                returnData.add(PlayerData.fromDB(new Date(), name, server, race, rank, archtype, "Bazaar"));
+            }
+            stmt.close();
+
+            return returnData;
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+        return null;
+
+    }
+
     public static void addOrUpdatePlayer(final PlayerData r)
     {
+
         try
         {
             final Statement stmt = _conn.createStatement();
