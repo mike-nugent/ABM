@@ -1,189 +1,119 @@
 package fx.screens;
 
 import gameinfo.IconLoader;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import gameinfo.ScriptData;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
-public class ScriptBar extends Pane 
+public class ScriptBar extends HBox
 {
-	public static int COMPONENT_SIZE = 200;
+    public TextField textField    = new TextField();
+    ImageView        editButton   = new ImageView(IconLoader.loadFxImage("edit-icon.png", 25));
+    ImageView        deleteButton = new ImageView(IconLoader.loadFxImage("close-icon.png", 25));
+    Button           saveButton   = new Button("Save Changes", new ImageView(IconLoader.loadFxImage("check.png", 25)));
 
-	
-	private Region scriptField;
-	private ComboBox<String> soundList;
-	private CheckBox alertBox;
-	private TextField customAlertField;
-	private Button closeBtn;
-	private Button saveBtn;
-	private ComboBox<String> timerList;
-	private CheckBox timerCheckbox;
-	private TextField timeText;
-	private CheckBox soundCheck;
+    private final ScriptData _data;
 
-	public ScriptBar()
-	{
-		setupLogField();
-		setupSoundOptions();
-		setupAlertOptions();
-		setupTimerOptions();
-		setupButtons();
+    ScriptBar me;
 
-		// Create the left box
-		VBox leftBox = new VBox();
-		leftBox.setSpacing(10);
-		leftBox.setPadding(new Insets(10, 10, 10, 10));
-		leftBox.setAlignment(Pos.CENTER_LEFT);
-		leftBox.setStyle("-fx-background-color: #dddddd;");
-		leftBox.getChildren().addAll(
-				new Label("When the following log is encountered, do the following..."),
-				scriptField,
-				wrap(saveBtn, closeBtn));
+    public ScriptBar(final ScriptData data)
+    {
+        me = this;
+        _data = data;
+        textField.setText(_data.script);
+        textField.setStyle("-fx-control-inner-background: #dddddd");
+        textField.setPrefWidth(600);
+        textField.setEditable(false);
 
-		// Create the right box
-		VBox rightBox = new VBox();
-		rightBox.setSpacing(10);
-		rightBox.setPadding(new Insets(10, 10, 10, 10));
-		rightBox.setAlignment(Pos.CENTER_LEFT);
-		rightBox.setStyle("-fx-background-color: #cccccc;");
-		rightBox.getChildren().addAll(wrap(timerCheckbox, timerList, timeText), wrap(soundCheck, soundList),
-				wrap(alertBox, customAlertField));
+        saveButton.setVisible(false);
 
-		// Create the wrapper
-		HBox wrapper = new HBox();
-		wrapper.getChildren().addAll(leftBox, rightBox);
-		this.getChildren().add(wrapper);
-	}
+        this.setAlignment(Pos.CENTER);
+        this.setSpacing(10);
 
-	private void setupButtons()
-	{
-		ScriptBar local = this;
-		closeBtn = new Button("Delete", new ImageView(IconLoader.loadFxImage("close.png", 20)));
-		saveBtn = new Button("Save & Apply", new ImageView(IconLoader.loadFxImage("save.png", 20)));
-		
-		closeBtn.setOnAction(new EventHandler<ActionEvent>() 
-		{
-			@Override
-			public void handle(ActionEvent e)
-			{
-				ScriptsController.deleteScript(local);
-			}
-		});
-		
-	}
+        doEdit();
+        doDelete();
+        doSave();
 
-	private void setupTimerOptions() 
-	{
-		timerCheckbox = new CheckBox("Start Timer");
+        me.getChildren().addAll(editButton, textField, deleteButton);
+    }
 
-		timerCheckbox.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if (timerCheckbox.isSelected()) {
-					timerList.setVisible(true);
-					timeText.setVisible(true);
+    private void doDelete()
+    {
+        deleteButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                ScriptsUpdater.deleteScript(me, _data);
+            }
+        });
+    }
 
-				} else {
-					timerList.setVisible(false);
-					timeText.setVisible(false);
+    public void setDisabledColor(final TextField tf)
+    {
+        tf.setEditable(false);
+        tf.setStyle("-fx-control-inner-background: #dddddd");
+    }
 
-				}
-			}
-		});
-		final ObservableList<String> timerOptions = FXCollections.observableArrayList("Count Down From", "Count Up To");
+    public void setEnabledColor(final TextField tf)
+    {
+        tf.setEditable(true);
+        tf.setStyle("-fx-control-inner-background: #ffffff");
 
-		timerList = new ComboBox<String>(timerOptions);
-		timerList.setPrefWidth(COMPONENT_SIZE);
-		timerList.getSelectionModel().select("Count Down From");
-		timerList.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				System.out.println("Time selected: " + timerList.getValue());
-			}
-		});
+    }
 
-		timeText = new TextField();
-		timeText.setPrefWidth(COMPONENT_SIZE);
-		timerList.setVisible(false);
-		timeText.setVisible(false);		
-	}
+    private void doSave()
+    {
+        saveButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                // otherwise the user wants to save
+                setDisabledColor(textField);
+                deleteButton.setVisible(true);
+                saveButton.setVisible(false);
+                editButton.setVisible(true);
+                me.getChildren().remove(saveButton);
+                me.getChildren().add(0, editButton);
 
-	private void setupAlertOptions() 
-	{
-		alertBox = new CheckBox("Show Alert");
-		alertBox.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if (alertBox.isSelected()) {
-					customAlertField.setVisible(true);
-				} else {
-					customAlertField.setVisible(false);
-				}
-			}
-		});
+                final String newTxt = textField.getText();
+                final String oldTxt = _data.script;
 
-		customAlertField = new TextField();
-		customAlertField.setPrefWidth(COMPONENT_SIZE);
-		customAlertField.setText("<custom alert text here>");
-		customAlertField.setVisible(false);
-	}
+                if (!newTxt.equals(oldTxt))
+                {
+                    _data.script = textField.getText();
+                    ScriptsUpdater.updateScript(_data);
+                }
+                else
+                {
+                    System.out.println("no need to modify");
+                }
+            }
+        });
+    }
 
-	private void setupSoundOptions()
-	{
-		soundCheck = new CheckBox("Play Sound");
-		soundCheck.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				if (soundCheck.isSelected()) {
-					soundList.setVisible(true);
-				} else {
-					soundList.setVisible(false);
-				}
-			}
-		});
+    private void doEdit()
+    {
+        editButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
 
-		final ObservableList<String> classOptions = FXCollections.observableArrayList("<none>", "soundA", "soundB", "soundC", "soundD");
-		soundList = new ComboBox<String>(classOptions);
-		soundList.setPrefWidth(COMPONENT_SIZE);
-		soundList.setVisible(false);
-		soundList.getSelectionModel().select("<none>");
-		soundList.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				System.out.println("Sound selected: " + soundList.getValue());
-			}
-		});
-	}
-
-	private void setupLogField() 
-	{
-		scriptField = new TextField();
-		scriptField.setPrefWidth(300);
-	}
-
-	public HBox wrap(Node... children) 
-	{
-		HBox box = new HBox();
-		box.setSpacing(10);
-		box.setPadding(new Insets(2, 10, 2, 10));
-		box.setAlignment(Pos.BASELINE_LEFT);
-		box.setStyle("-fx-background-color: #dddddd;");
-		box.getChildren().addAll(children);
-
-		return box;
-	}
+                // User wants to edit. let them do this
+                setEnabledColor(textField);
+                deleteButton.setVisible(false);
+                saveButton.setVisible(true);
+                editButton.setVisible(false);
+                me.getChildren().remove(editButton);
+                me.getChildren().add(0, saveButton);
+            }
+        });
+    }
 }

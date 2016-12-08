@@ -10,6 +10,7 @@ import java.util.List;
 
 import config.ConfigFile;
 import gameinfo.PlayerData;
+import gameinfo.ScriptData;
 
 public class AionDB
 {
@@ -31,10 +32,13 @@ public class AionDB
                     "CREATE TABLE IF NOT EXISTS PLAYERS(NAME VARCHAR(255), SERVER VARCHAR(255), RACE VARCHAR(255), CLASS VARCHAR(255), RANK VARCHAR(255));");
 
             // SCRIPTS(LOG,TIME,SOUND,ALERT)
+            // stmt.executeUpdate("DROP TABLE SCRIPTS");
+
             stmt.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS SCRIPTS(LOG VARCHAR(255), TIME VARCHAR(255), SOUND VARCHAR(255), ALERT VARCHAR(255));");
+                    "CREATE TABLE IF NOT EXISTS SCRIPTS(ID INT NOT NULL AUTO_INCREMENT, SCRIPT VARCHAR(255) NOT NULL, PRIMARY KEY (ID));");
 
             // SOUNDS(NAME, PATH)
+
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS SOUNDS(NAME VARCHAR(255), PATH VARCHAR(255));");
             final PlayerData r = PlayerData.generateRandom();
             // stmt.executeUpdate("INSERT INTO PLAYERS VALUES ( '" + r.name +
@@ -151,6 +155,90 @@ public class AionDB
 
             stmt.close();
 
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+    }
+
+    public static List<ScriptData> getAllScripts()
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            final List<ScriptData> returnData = new LinkedList<ScriptData>();
+            final ResultSet rs = stmt.executeQuery("SELECT * FROM SCRIPTS");
+            while (rs.next())
+            {
+                final int id = rs.getInt("ID");
+                final String script = rs.getString("SCRIPT");
+
+                returnData.add(new ScriptData(id, script));
+            }
+            stmt.close();
+
+            return returnData;
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+        return null;
+    }
+
+    public static void updateScript(final ScriptData scriptData)
+    {
+
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.executeUpdate("UPDATE SCRIPTS SET SCRIPT='" + scriptData.script + "' WHERE ID=" + scriptData.id + ";");
+            stmt.close();
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+    }
+
+    public static ScriptData createScript(final String completedScript)
+    {
+
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.execute("INSERT INTO SCRIPTS (SCRIPT) VALUES ( '" + completedScript + "' );",
+                    Statement.RETURN_GENERATED_KEYS);
+
+            final ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            final int ID = rs.getInt(1);
+
+            System.out.println(ID);
+            stmt.close();
+
+            return new ScriptData(ID, completedScript);
+
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+        return null;
+    }
+
+    public static void deleteScript(final ScriptData data)
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.executeUpdate("DELETE FROM SCRIPTS WHERE ID=" + data.id + ";");
+            stmt.close();
         }
         catch (final Exception e)
         {

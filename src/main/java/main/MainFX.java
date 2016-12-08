@@ -13,14 +13,12 @@ import fx.buttons.PlayerScreenButton;
 import fx.buttons.ScreenButton;
 import fx.buttons.ScriptsScreenButton;
 import fx.buttons.XformScreenButton;
+import fx.screens.ScriptsUpdater;
 import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,15 +27,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -54,12 +49,12 @@ public class MainFX extends Application
     private final ProgressIndicator   _progressIcon        = new ProgressIndicator();
     private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
     private final OptionsButton       _optionsButton       = new OptionsButton();
-	private final Pane 	              _moveCursor 		   = new Pane(new ImageView(IconLoader.loadFxImage("move-cursor.png", 25)));
+    private final Pane                _moveCursor          = new Pane(
+            new ImageView(IconLoader.loadFxImage("move-cursor.png", 25)));
 
     // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
     private static MainFX _me;
-
 
     // Starts the loggers from the config page
     public static void jumpStartLoggers()
@@ -146,7 +141,6 @@ public class MainFX extends Application
     private HBox addOptionsList()
     {
 
-
         // Set up wrappers for options buttons
         final HBox oWrapper = new HBox();
         final VBox leftBox = new VBox();
@@ -161,8 +155,8 @@ public class MainFX extends Application
         leftBox.setPadding(new Insets(5, 5, 0, 0));
         rightBox.setPadding(new Insets(5, 0, 0, 5));
 
-        leftBox.getChildren().addAll(_moveCursor,_configWarningButton);
-        rightBox.getChildren().addAll(_optionsButton, _progressIcon );
+        leftBox.getChildren().addAll(_moveCursor, _configWarningButton);
+        rightBox.getChildren().addAll(_optionsButton, _progressIcon);
         oWrapper.getChildren().addAll(leftBox, rightBox);
         oWrapper.setAlignment(Pos.TOP_RIGHT);
         return oWrapper;
@@ -172,6 +166,7 @@ public class MainFX extends Application
     {
         AionDB.instantiate();
         PlayerBaseUpdater.initialize();
+        ScriptsUpdater.initialize();
     }
 
     /**
@@ -241,8 +236,6 @@ public class MainFX extends Application
         }
     }
 
-
-
     /**
      * Sets common functionality of the main stage
      */
@@ -253,27 +246,30 @@ public class MainFX extends Application
         primaryStage.setAlwaysOnTop(true);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-        _moveCursor.setOnMouseEntered(new EventHandler<MouseEvent>() 
+        _moveCursor.setOnMouseEntered(new EventHandler<MouseEvent>()
         {
-        	@Override
-            public void handle(MouseEvent me) 
+            @Override
+            public void handle(final MouseEvent me)
             {
-    		   if (ASDMStage.getWindowLock())
-               {
-                   return;
-               }
-        		_moveCursor.getScene().setCursor(Cursor.MOVE); //Change cursor to hand
+                if (ASDMStage.getWindowLock())
+                {
+                    return;
+                }
+                _moveCursor.getScene().setCursor(Cursor.MOVE); // Change cursor
+                                                               // to hand
             }
         });
-        _moveCursor.setOnMouseExited(new EventHandler<MouseEvent>() 
+        _moveCursor.setOnMouseExited(new EventHandler<MouseEvent>()
         {
-        	@Override
-            public void handle(MouseEvent me) 
+            @Override
+            public void handle(final MouseEvent me)
             {
-        		_moveCursor.getScene().setCursor(Cursor.DEFAULT); //Change cursor to hand
+                _moveCursor.getScene().setCursor(Cursor.DEFAULT); // Change
+                                                                  // cursor to
+                                                                  // hand
             }
         });
-		_moveCursor.setEffect(new DropShadow(10, Color.DARKGRAY));
+        _moveCursor.setEffect(new DropShadow(10, Color.DARKGRAY));
         _moveCursor.setOnMousePressed(new EventHandler<MouseEvent>()
         {
             @Override
@@ -320,7 +316,6 @@ public class MainFX extends Application
             }
         });
     }
-
 
     /**
      * Create the main buttons on the overlay display
