@@ -5,39 +5,98 @@ import java.util.concurrent.TimeUnit;
 
 import gameinfo.IconLoader;
 import gameinfo.PlayerData;
+import gameinfo.Race;
 import gameinfo.Rank;
+import gameinfo.Server;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class TransformBarFX extends HBox
 {
     private static final long TEN_MINUTES = 600000;
     public static final long  TWO_HOURS   = 7200000;
     private String            _name;
-    Label                     _timeTxt;
+    private Label      		  _timeTxt;
     private Date              _transformStartTime;
     private Rank              _rank;
+    private ImageView   	   _icon;
+	private Server			  _server;
+	private Race _race;
+	
+	private Label nameLabel;
+	private Label serverLabel;
+	private Label rankLabel;
+    public static int TIME_SIZE = 17;
 
     public TransformBarFX()
     {
-        this.setSpacing(20);
+        this.setSpacing(10);
+        this.setPadding(new Insets(0, 7, 0, 0));
         this.setAlignment(Pos.CENTER_LEFT);
     }
 
     public void setInfo(final PlayerData newXform)
     {
-        final ImageView icon = new ImageView(IconLoader.loadFxImage(newXform.clazz.getIconName()));
+    	_icon = new ImageView(IconLoader.loadFxImage(newXform.clazz.getIconName(), 26));
         _name = newXform.name;
         _transformStartTime = newXform.dateTime;
         _timeTxt = getTimeLabel();
         _rank = newXform.rank;
-        final Label rn = new Label(_name + " - " + _rank.getRankTitle());
-        rn.setFont(Font.font(25));
-        this.getChildren().addAll(icon, _timeTxt, rn);
+        _server = newXform.server;
+        _race = newXform.race;
+        
+        nameLabel = new Label(_name);
+        serverLabel = new Label(_server.getServerString() + "-" + _race.getAcyonym());
+        rankLabel = new Label(_rank.getRankTitle());
+        
+        
+        updateLabel(nameLabel, Color.LIGHTBLUE, 15, "bold");
+        updateLabel(serverLabel, Color.WHITE, 15, "bold");
+        updateLabel(rankLabel, Color.GRAY, 15, "bold");
+
+        BorderPane box = new BorderPane();
+        HBox left = new HBox();
+        HBox center = new HBox();
+        HBox right = new HBox();
+
+        left.setPrefWidth(120);
+        center.setPrefWidth(50);
+        right.setPrefWidth(100);
+
+        left.setAlignment(Pos.CENTER_LEFT);
+        center.setAlignment(Pos.BASELINE_RIGHT);
+        center.setAlignment(Pos.CENTER_LEFT);
+
+        
+        this.getChildren().addAll(_timeTxt, _icon);
+        left.getChildren().add(nameLabel);
+        center.getChildren().add(serverLabel);
+        right.getChildren().add(rankLabel);
+
+        box.setLeft(left);
+        box.setCenter(center);
+        box.setRight(right);
+       //box.setAlignment(Pos.CENTER_LEFT);
+       //.getChildren().addAll(icon, _timeTxt, rn);
+        this.getChildren().add(box);
     }
+    
+    private void updateLabel(Label label, Color c, int size, String font_weight) 
+    {
+    	label.setTextFill(c);
+    	label.setFont(new Font(size));
+    	label.setStyle("-fx-font-weight: "+font_weight+";");
+	}
+
 
     private Label getTimeLabel()
     {
@@ -108,7 +167,7 @@ public class TransformBarFX extends HBox
         }
 
         _timeTxt.setStyle("-fx-font-weight: bold;" + "-fx-text-fill: rgba(" + R + "," + G + "," + B + ",1);"
-                + "-fx-font-size: 30px;");
+                + "-fx-font-size: "+TIME_SIZE+"px;");
 
         return countDown;
     }

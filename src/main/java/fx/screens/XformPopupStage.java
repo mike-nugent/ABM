@@ -8,41 +8,47 @@ import gameinfo.PlayerData;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.TransformManager;
 
-public class XformPopupStage extends PopupStage
+public class XformPopupStage extends Stage
 {
-    private final TabPane                        _tabPane;
-    Map<String, Tab>                             currentTabs        = new HashMap<String, Tab>();
     Map<PlayerData, TransformBarFX>               activeTransforms   = new HashMap<PlayerData, TransformBarFX>();
     private final Map<PlayerData, TransformBarFX> cooldownTransforms = new HashMap<PlayerData, TransformBarFX>();
-    Label                                        noInfoTitle        = new Label("No transforms detected!");
-    Label                                        noInfoDescription  = new Label(
-            "Information will show on this window when\n" +
-            "players transform into Guardian Generals.");
-    VBox                                         infoBox            = new VBox();
+    VBox transformStage = new VBox();
+    ScrollPane pane = new ScrollPane();
+
 
     @SuppressWarnings("unchecked")
     public XformPopupStage()
     {
-        super("Transforms Detected");
 
-        _tabPane = new TabPane();
-        stage.getChildren().add(_tabPane);
+		this.setAlwaysOnTop(true);
+		this.initStyle(StageStyle.TRANSPARENT);
+		
+    	final Pane root = new Pane();
+		root.setStyle("-fx-background-color: null;");
+		pane.setStyle("-fx-control-inner-background:null;");
 
-        noInfoTitle.setStyle("-fx-font-size: 30px;" + "-fx-font-weight: bold;");
-        noInfoDescription.setStyle("-fx-font-size: 16px;");
-        
-        infoBox.setAlignment(Pos.CENTER);
-        infoBox.getChildren().addAll(noInfoTitle, noInfoDescription);
-        stage.getChildren().add(infoBox);
+		root.setPadding(new Insets(10));
+		root.getChildren().add(transformStage);
+		
 
-        checkUpdateDisplay();
+		
+        pane.setContent(root);
+        pane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        pane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        pane.setMaxHeight(600);
         new AnimationTimer()
         {
             @Override
@@ -53,6 +59,17 @@ public class XformPopupStage extends PopupStage
             }
 
         }.start();
+        
+        for(int i = 0; i < 100; i++)
+        {
+        	addNewXform(PlayerData.generateRandom());
+        }
+        
+        
+        final Scene scene = new Scene(pane);
+        scene.setFill(Color.TRANSPARENT);
+        this.setScene(scene);
+        
     }
 
     private void cooldownXformEffectTimer()
@@ -111,117 +128,31 @@ public class XformPopupStage extends PopupStage
         }
     }
 
-    public Tab getOrCreateTab(final String nameKey)
-    {
-
-        Tab currentTab = currentTabs.get(nameKey);
-        if (currentTab == null)
-        {
-            final Tab tab = new Tab(nameKey);
-            tab.setStyle("-fx-font-size: 18px;");
-            tab.setClosable(false);
-            currentTabs.put(nameKey, tab);
-            _tabPane.getTabs().add(tab);
-
-            final VBox vbox = new VBox();
-            vbox.setPadding(new Insets(10));
-            vbox.setAlignment(Pos.TOP_LEFT);
-
-            final ScrollPane sp = new ScrollPane();
-            sp.setContent(vbox);
-            tab.setContent(sp);
-
-            currentTab = tab;
-        }
-
-        return currentTab;
-    }
-
     public void addNewXform(final PlayerData newXform)
     {
-        final String key = newXform.server.getServerString() + "-" + newXform.race.getAcyonym();
 
-        final Tab currentTab = getOrCreateTab(key);
-
-        final VBox box = (VBox) ((ScrollPane) currentTab.getContent()).getContent();
         final TransformBarFX player = new TransformBarFX();
         player.setInfo(newXform);
         activeTransforms.put(newXform, player);
 
         // Check to see if we should put back up a no-data message
-        checkUpdateDisplay();
-        box.getChildren().add(player);
-
-        currentTab.setText(key + " (" + box.getChildren().size() + ") ");
+        transformStage.getChildren().add(player);
     }
 
     public void transitionFromActiveToCooldown(final PlayerData data)
     {
         final TransformBarFX bar = activeTransforms.remove(data);
-        final String key = data.server.getServerString() + "-" + data.race.getAcyonym();
-
-        final Tab t = currentTabs.get(key);
-        final VBox box = getContent(t);
-        box.getChildren().remove(bar);
-
-        if (box.getChildren().size() == 0)
-        {
-            _tabPane.getTabs().remove(t);
-            currentTabs.remove(key);
-        }
-        else
-        {
-            t.setText(key + " (" + box.getChildren().size() + ") ");
-
-        }
 
         cooldownTransforms.put(data, bar);
-        final Tab cooldownTab = getOrCreateTab("Cooldowns");
-        cooldownTab.setText("Cooldowns (" + box.getChildren().size() + ") ");
-
-        final VBox cdbox = getContent(cooldownTab);
-        cdbox.getChildren().add(bar);
-
-        checkUpdateDisplay();
 
     }
 
-    private VBox getContent(final Tab tab)
-    {
-        return (VBox) ((ScrollPane) tab.getContent()).getContent();
-    }
 
-    private void checkUpdateDisplay()
-    {
-        if (_tabPane.getTabs().size() <= 0)
-        {
-            infoBox.setVisible(true);
-            this.setTitle("No Transforms Detected");
-        }
-        else
-        {
-            infoBox.setVisible(false);
-            this.setTitle("Transforms Detected");
-        }
-    }
 
     public void removeCooldown(final PlayerData data)
     {
         final TransformBarFX bar = cooldownTransforms.remove(data);
-        final Tab tab = currentTabs.get("Cooldowns");
-        final VBox box = getContent(tab);
-        box.getChildren().remove(bar);
+        transformStage.getChildren().remove(bar);
 
-        if (box.getChildren().size() == 0)
-        {
-            _tabPane.getTabs().remove(tab);
-            currentTabs.remove("Cooldowns");
-        }
-        else
-        {
-            tab.setText("Cooldowns (" + box.getChildren().size() + ") ");
-        }
-
-        checkUpdateDisplay();
     }
 }

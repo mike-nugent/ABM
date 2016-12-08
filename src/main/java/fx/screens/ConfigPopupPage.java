@@ -36,7 +36,7 @@ import main.MainFX;
 public class ConfigPopupPage extends PopupStage
 {
     private final double    CONTROL_SIZE       = 280;
-    TabPane                 _tabPane           = new TabPane();
+    private final TabPane   _tabPane           = new TabPane();
     private final Label     ovrVer             = new Label("UNCHECKED");
     private final Label     chatVer            = new Label("UNCHECKED");
     private final TextField aionLocation       = new TextField();
