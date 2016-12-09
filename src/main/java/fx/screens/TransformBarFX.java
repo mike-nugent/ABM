@@ -16,24 +16,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import utils.Times;
 
 public class TransformBarFX extends HBox
 {
     private static final long TEN_MINUTES = Times.TEN_MIUTES;
-    public static final long  TWO_HOURS   = Times.ONE_HOUR*2;
+    public static final long  TWO_HOURS   = Times.ONE_HOUR * 2;
     private String            _name;
-    private Label      		  _timeTxt;
+    private Label             _timeTxt;
     private Date              _transformStartTime;
     private Rank              _rank;
-    private ImageView   	   _icon;
-	private Server			  _server;
-	private Race _race;
-	
-	private Label nameLabel;
-	private Label serverLabel;
-	private Label rankLabel;
+    private ImageView         _icon;
+    private Server            _server;
+    private Race              _race;
+
+    private Label nameLabel;
+    private Label serverLabel;
+    private Label rankLabel;
+
+    private boolean   isActive  = true;
     public static int TIME_SIZE = 17;
 
     public TransformBarFX()
@@ -45,85 +46,104 @@ public class TransformBarFX extends HBox
 
     public void setInfo(final PlayerData newXform)
     {
-    	_icon = new ImageView(IconLoader.loadFxImage(newXform.clazz.getIconName(), 26));
+        _icon = new ImageView(IconLoader.loadFxImage(newXform.clazz.getIconName(), 26));
         _name = newXform.name;
+        final Date d = new Date();
+        d.setTime((long) (System.currentTimeMillis() - Math.random() * TEN_MINUTES));
+        // change for testing _transformStartTime = d;
         _transformStartTime = newXform.dateTime;
         _timeTxt = getTimeLabel();
         _rank = newXform.rank;
         _server = newXform.server;
         _race = newXform.race;
-        
-        nameLabel = new Label(_name+"-"+_server.getServerString());
+
+        nameLabel = new Label(_name + "-" + _server.getServerString());
         serverLabel = new Label(_server.getServerString());
-        rankLabel = new Label(_rank.getRankAcronym());
-        
-        if(Race.Asmodian.equals(_race))
+        rankLabel = new Label(_rank.name());
+
+        if (Race.Asmodian.equals(_race))
         {
-            updateLabel(nameLabel, Color.DODGERBLUE, 15, "bold");
+            if (Rank.V.equals(_rank) || Rank.IV.equals(_rank))
+            {
+                updateLabel(nameLabel, Color.GOLD, 15, "bold");
+            }
+            else
+            {
+                updateLabel(nameLabel, Color.DODGERBLUE, 15, "bold");
+            }
         }
         else
         {
-            updateLabel(nameLabel, Color.LIMEGREEN, 15, "bold");
+
+            if (Rank.V.equals(_rank) || Rank.IV.equals(_rank))
+            {
+                updateLabel(nameLabel, Color.GOLD, 15, "bold");
+            }
+            else
+            {
+                updateLabel(nameLabel, Color.ORANGERED, 15, "bold");
+            }
         }
         updateLabel(serverLabel, Color.WHITE, 15, "bold");
-        
+
         updateRankColor(_rank);
 
-        BorderPane box = new BorderPane();
-        HBox left = new HBox();
-        HBox center = new HBox();
+        final BorderPane box = new BorderPane();
+        final HBox left = new HBox();
+        // final HBox center = new HBox();
 
-        left.setPrefWidth(140);
-        //center.setPrefWidth(50);
+        // left.setPrefWidth(140);
+        // center.setPrefWidth(50);
 
         left.setAlignment(Pos.CENTER_LEFT);
-        center.setAlignment(Pos.CENTER_LEFT);
+        // center.setAlignment(Pos.CENTER_LEFT);
 
-        
-        this.getChildren().addAll(_timeTxt, _icon);
-        left.getChildren().add(nameLabel);
-        center.getChildren().add(rankLabel);
+        this.getChildren().addAll(_timeTxt, _icon, nameLabel);
+        // left.getChildren().add(nameLabel);
+        // center.getChildren().add(rankLabel);
 
-        box.setLeft(left);
-        box.setCenter(center);
-        this.getChildren().add(box);
+        // box.setLeft(left);
+        // box.setCenter(center);
+
+        // this.setEffect(new DropShadow(10, Color.BLACK));
+        //
+        // .getChildren().add(box);
+
     }
-    
-    private void updateRankColor(Rank rank) 
+
+    private void updateRankColor(final Rank rank)
     {
-    	if(Rank.I.equals(rank))
-    	{
+        if (Rank.I.equals(rank))
+        {
             updateLabel(rankLabel, Color.web("bbbbbb"), 15, "bold");
-    	}
-    	else if(Rank.II.equals(rank))
-    	{
+        }
+        else if (Rank.II.equals(rank))
+        {
             updateLabel(rankLabel, Color.web("cccccc"), 15, "bold");
-    	} 
-    	else if(Rank.III.equals(rank))
-    	{
-            updateLabel(rankLabel,Color.web("dddddd"), 15, "bold");
-    	}    	
-    	else if(Rank.IV.equals(rank))
-    	{
-            updateLabel(rankLabel,Color.GOLDENROD, 15, "bold");
-    	}    	
-    	else if(Rank.V.equals(rank))
-    	{
+        }
+        else if (Rank.III.equals(rank))
+        {
+            updateLabel(rankLabel, Color.web("dddddd"), 15, "bold");
+        }
+        else if (Rank.IV.equals(rank))
+        {
+            updateLabel(rankLabel, Color.GOLDENROD, 15, "bold");
+        }
+        else if (Rank.V.equals(rank))
+        {
             updateLabel(rankLabel, Color.GOLD, 15, "bold");
-    	}
-    	else
-    	{
+        }
+        else
+        {
             updateLabel(rankLabel, Color.GRAY, 15, "bold");
-    	}		
-	}
+        }
+    }
 
-	private void updateLabel(Label label, Color c, int size, String font_weight) 
+    private void updateLabel(final Label label, final Color c, final int size, final String font_weight)
     {
-    	label.setTextFill(c);
-    	label.setFont(new Font(size));
-    	label.setStyle("-fx-font-weight: "+font_weight+";");
-	}
-
+        label.setTextFill(c);
+        label.setStyle("-fx-font-weight: " + font_weight + "; " + "-fx-font-size: " + size + "px;");
+    }
 
     private Label getTimeLabel()
     {
@@ -194,7 +214,7 @@ public class TransformBarFX extends HBox
         }
 
         _timeTxt.setStyle("-fx-font-weight: bold;" + "-fx-text-fill: rgba(" + R + "," + G + "," + B + ",1);"
-                + "-fx-font-size: "+TIME_SIZE+"px;");
+                + "-fx-font-size: " + TIME_SIZE + "px;");
 
         return countDown;
     }
@@ -209,10 +229,19 @@ public class TransformBarFX extends HBox
         return cooldownLeft;
     }
 
-	public void goInactiveColors()
-	{
-		ColorAdjust grayscale = new ColorAdjust();
-		grayscale.setSaturation(-1);
-		this.setEffect(grayscale);		
-	}
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void goInactiveColors()
+    {
+        nameLabel.setTextFill(Color.LIGHTGRAY);
+        _timeTxt.setTextFill(Color.LIGHTGREY);
+        final ColorAdjust grayscale = new ColorAdjust();
+        grayscale.setSaturation(-1);
+        this.setEffect(grayscale);
+
+        isActive = false;
+    }
 }
