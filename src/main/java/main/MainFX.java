@@ -8,6 +8,7 @@ import database.PlayerBaseUpdater;
 import fx.buttons.ClockScreenButton;
 import fx.buttons.ConfigWarningButton;
 import fx.buttons.LogScreenButton;
+import fx.buttons.MoveCursor;
 import fx.buttons.OptionsButton;
 import fx.buttons.PlayerScreenButton;
 import fx.buttons.ScreenButton;
@@ -49,8 +50,7 @@ public class MainFX extends Application
     private final ProgressIndicator   _progressIcon        = new ProgressIndicator();
     private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
     private final OptionsButton       _optionsButton       = new OptionsButton();
-    private final Pane                _moveCursor          = new Pane(
-            new ImageView(IconLoader.loadFxImage("move-cursor.png", 25)));
+    private final MoveCursor          _moveCursor          = new MoveCursor();
 
     // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
@@ -246,29 +246,7 @@ public class MainFX extends Application
         primaryStage.setAlwaysOnTop(true);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-        _moveCursor.setOnMouseEntered(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(final MouseEvent me)
-            {
-                if (ASDMStage.getWindowLock())
-                {
-                    return;
-                }
-                _moveCursor.getScene().setCursor(Cursor.MOVE); // Change cursor
-                                                               // to hand
-            }
-        });
-        _moveCursor.setOnMouseExited(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(final MouseEvent me)
-            {
-                _moveCursor.getScene().setCursor(Cursor.DEFAULT); // Change
-                                                                  // cursor to
-                                                                  // hand
-            }
-        });
+
         _moveCursor.setEffect(new DropShadow(10, Color.DARKGRAY));
         _moveCursor.setOnMousePressed(new EventHandler<MouseEvent>()
         {

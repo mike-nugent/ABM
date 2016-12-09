@@ -32,6 +32,7 @@ public class ConfigFile
     public static final String CLOCK_LOCATION_PROPERTY   = "clockLocation";
 	public static final String IS_CLOCK_SHOWING 		 = "isClockShowing";
 	public static final String LOCK_WINDOW_POSITION      = "lockWindowPositions";
+	public static final String XFORM_LOCATION_PROPERTY = "xformLocation";
 
     private static String _name;
     private static Race   _race;
