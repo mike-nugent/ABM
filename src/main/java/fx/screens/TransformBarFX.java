@@ -3,6 +3,7 @@ package fx.screens;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import config.ConfigFile;
 import gameinfo.IconLoader;
 import gameinfo.PlayerData;
 import gameinfo.Race;
@@ -63,25 +64,46 @@ public class TransformBarFX extends HBox
 
         if (Race.Asmodian.equals(_race))
         {
-            if (Rank.V.equals(_rank) || Rank.IV.equals(_rank))
+            if (Rank.V.equals(_rank))
             {
                 updateLabel(nameLabel, Color.GOLD, 15, "bold");
             }
+            else if (Rank.IV.equals(_rank))
+            {
+                updateLabel(nameLabel, Color.GOLDENROD, 15, "bold");
+            }
             else
             {
-                updateLabel(nameLabel, Color.DODGERBLUE, 15, "bold");
+                if (ConfigFile.getRace().equals(Race.Elyos))
+                {
+                    updateLabel(nameLabel, Color.ORANGERED, 15, "bold");
+                }
+                else
+                {
+                    updateLabel(nameLabel, Color.DODGERBLUE, 15, "bold");
+                }
             }
         }
         else
         {
-
-            if (Rank.V.equals(_rank) || Rank.IV.equals(_rank))
+            if (Rank.V.equals(_rank))
             {
                 updateLabel(nameLabel, Color.GOLD, 15, "bold");
             }
+            else if (Rank.IV.equals(_rank))
+            {
+                updateLabel(nameLabel, Color.GOLDENROD, 15, "bold");
+            }
             else
             {
-                updateLabel(nameLabel, Color.ORANGERED, 15, "bold");
+                if (ConfigFile.getRace().equals(Race.Asmodian))
+                {
+                    updateLabel(nameLabel, Color.ORANGERED, 15, "bold");
+                }
+                else
+                {
+                    updateLabel(nameLabel, Color.LIMEGREEN, 15, "bold");
+                }
             }
         }
         updateLabel(serverLabel, Color.WHITE, 15, "bold");

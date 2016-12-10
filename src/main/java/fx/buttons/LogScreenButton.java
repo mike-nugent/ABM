@@ -1,7 +1,7 @@
 package fx.buttons;
 
 import javafx.scene.input.MouseEvent;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class LogScreenButton extends ScreenButton
 {
@@ -14,7 +14,7 @@ public class LogScreenButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.toggleLogsPopup();
+        DisplayManager.toggleLogsPopup();
 
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();

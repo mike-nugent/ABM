@@ -181,7 +181,7 @@ public class MainFX extends Application
             final File logFile = ConfigFile.getLogFile();
             if (!logFile.exists())
             {
-                TransformManager.toggleConfigPopup();
+                DisplayManager.toggleConfigPopup();
 
                 // If the log file doesn't exist, we need to create it.
                 final Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -220,7 +220,7 @@ public class MainFX extends Application
         {
             // Is no set up. Spawn window and yell at user
             _configWarningButton.setVisible(true);
-            TransformManager.toggleConfigPopup();
+            DisplayManager.toggleConfigPopup();
             _primaryStage.hide();
 
             final Alert alert = new Alert(AlertType.INFORMATION);
@@ -302,7 +302,7 @@ public class MainFX extends Application
         hbox.setSpacing(15);
         hbox.setAlignment(Pos.CENTER);
         final XformScreenButton xform = new XformScreenButton();
-        TransformManager.setXformButton(xform);
+        DisplayManager.setXformButton(xform);
         final ScreenButton players = new PlayerScreenButton();
         final ScreenButton scripts = new ScriptsScreenButton();
         final ScreenButton logs = new LogScreenButton();

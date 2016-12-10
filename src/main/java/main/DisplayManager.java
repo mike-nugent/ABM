@@ -12,9 +12,8 @@ import fx.screens.ScriptsPopupPage;
 import fx.screens.XformPopupStage;
 import gameinfo.PlayerData;
 import gameinfo.Race;
-import javafx.stage.Window;
 
-public class TransformManager
+public class DisplayManager
 {
     static List<PlayerData> activeTransforms   = new LinkedList<PlayerData>();
     static List<PlayerData> cooldownTransforms = new LinkedList<PlayerData>();
@@ -109,24 +108,10 @@ public class TransformManager
 
     public static void hideAllPopups()
     {
-        xformStage.hide();
+        // xformStage.hide();
         logsStage.hide();
         playersStage.hide();
         scriptsStage.hide();
-    }
-
-    public static void toggleTransformPopup()
-    {
-        if (xformStage.isShowing())
-        {
-            xformStage.close();
-        }
-        else
-        {
-        	hideAllPopups();
-            xformStage.show();
-        }
-
     }
 
     public static void toggleLogsPopup()
@@ -137,7 +122,7 @@ public class TransformManager
         }
         else
         {
-        	hideAllPopups();
+            hideAllPopups();
             logsStage.show();
         }
 
@@ -151,7 +136,7 @@ public class TransformManager
         }
         else
         {
-        	hideAllPopups();
+            hideAllPopups();
             configStage.show();
         }
     }
@@ -164,7 +149,7 @@ public class TransformManager
         }
         else
         {
-        	hideAllPopups();
+            hideAllPopups();
             playersStage.show();
         }
     }
@@ -177,33 +162,44 @@ public class TransformManager
         }
         else
         {
-        	hideAllPopups();
+            hideAllPopups();
             scriptsStage.show();
         }
     }
-    
+
+    public static void showTransformPopup()
+    {
+        xformStage.show();
+    }
+
+    public static void hideTransformPopup()
+    {
+        xformStage.close();
+    }
+
     public static void showClockPopup()
     {
-    	clockStage.show();
+        clockStage.show();
     }
-    
+
     public static void hideClockPopup()
     {
-    	clockStage.hide();
+        clockStage.hide();
     }
-    
+
     public static boolean isClockShowing()
     {
-    	return clockStage.isShowing();
+        return clockStage.isShowing();
     }
 
+    public static boolean isTransformShowing()
+    {
+        return xformStage.isShowing();
+    }
 
-
-    
     public static void setXformButton(final XformScreenButton xformButton)
     {
-        TransformManager.xformButton = xformButton;
+        DisplayManager.xformButton = xformButton;
     }
-
 
 }

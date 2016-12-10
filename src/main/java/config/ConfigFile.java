@@ -30,9 +30,10 @@ public class ConfigFile
     public static final String DEFAULT_OVR_FILE_NAME     = "system.ovr";
     public static final String STAGE_LOCATION_PROPERTY   = "stageLocation";
     public static final String CLOCK_LOCATION_PROPERTY   = "clockLocation";
-	public static final String IS_CLOCK_SHOWING 		 = "isClockShowing";
-	public static final String LOCK_WINDOW_POSITION      = "lockWindowPositions";
-	public static final String XFORM_LOCATION_PROPERTY = "xformLocation";
+    public static final String IS_CLOCK_SHOWING          = "isClockShowing";
+    public static final String IS_XFORM_SHOWING          = "isXformShowing";
+    public static final String LOCK_WINDOW_POSITION      = "lockWindowPositions";
+    public static final String XFORM_LOCATION_PROPERTY   = "xformLocation";
 
     private static String _name;
     private static Race   _race;

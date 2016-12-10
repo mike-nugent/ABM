@@ -1,7 +1,7 @@
 package fx.buttons;
 
 import javafx.scene.input.MouseEvent;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class PlayerScreenButton extends ScreenButton
 {
@@ -15,7 +15,7 @@ public class PlayerScreenButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.togglePlayersPopup();
+        DisplayManager.togglePlayersPopup();
 
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();

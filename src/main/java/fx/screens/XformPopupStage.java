@@ -28,7 +28,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.ASDMStage;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class XformPopupStage extends Stage
 {
@@ -258,7 +258,7 @@ public class XformPopupStage extends Stage
 
             if (removeFlag != null)
             {
-                TransformManager.removeCooldown(removeFlag);
+                DisplayManager.removeCooldown(removeFlag);
             }
 
         }
@@ -286,7 +286,7 @@ public class XformPopupStage extends Stage
 
             if (removeFlag != null)
             {
-                TransformManager.transitionFromActiveToCooldown(removeFlag);
+                DisplayManager.transitionFromActiveToCooldown(removeFlag);
             }
 
         }

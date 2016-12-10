@@ -1,7 +1,7 @@
 package fx.buttons;
 
 import javafx.scene.input.MouseEvent;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class ScriptsScreenButton extends ScreenButton
 {
@@ -13,7 +13,7 @@ public class ScriptsScreenButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.toggleScriptsPopup();
+        DisplayManager.toggleScriptsPopup();
 
     }
 

@@ -4,7 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class ConfigWarningButton extends ScreenButton
 {
@@ -18,6 +18,6 @@ public class ConfigWarningButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.toggleConfigPopup();
+        DisplayManager.toggleConfigPopup();
     }
 }

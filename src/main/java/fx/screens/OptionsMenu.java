@@ -13,7 +13,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import main.ASDMStage;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class OptionsMenu
 {
@@ -45,7 +45,7 @@ public class OptionsMenu
                 @Override
                 public void handle(final ActionEvent t)
                 {
-                    TransformManager.toggleConfigPopup();
+                    DisplayManager.toggleConfigPopup();
                 }
             });
             // ----------------------------------------------------------------

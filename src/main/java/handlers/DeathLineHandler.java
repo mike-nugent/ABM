@@ -10,7 +10,7 @@ import gameinfo.Race;
 import gameinfo.Rank;
 import gameinfo.Server;
 import javafx.application.Platform;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class DeathLineHandler extends LineHandler
 {
@@ -88,7 +88,7 @@ public class DeathLineHandler extends LineHandler
             public void run()
             {
                 System.out.println("sending data now...");
-                TransformManager.checkPlayerDeath(data);
+                DisplayManager.checkPlayerDeath(data);
                 PlayerBaseUpdater.addOrUpdatePlayer(data);
             }
         });

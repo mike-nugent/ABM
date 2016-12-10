@@ -1,5 +1,6 @@
 package fx.buttons;
 
+import config.ConfigFile;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
@@ -8,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class XformScreenButton extends ScreenButton
 {
@@ -43,6 +44,20 @@ public class XformScreenButton extends ScreenButton
 
         p.getChildren().addAll(_elyPane, _asmoPane);
 
+        setupRegion(region, 80, 80);
+        final String isShowing = ConfigFile.getProperty(ConfigFile.IS_XFORM_SHOWING);
+
+        if (isShowing != null && isShowing.equals("true"))
+        {
+            DisplayManager.showTransformPopup();
+            region.setVisible(true);
+        }
+        else
+        {
+            DisplayManager.hideTransformPopup();
+            region.setVisible(false);
+        }
+
         this.getChildren().add(p);
     }
 
@@ -63,8 +78,18 @@ public class XformScreenButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        TransformManager.toggleTransformPopup();
-
+        if (DisplayManager.isTransformShowing())
+        {
+            DisplayManager.hideTransformPopup();
+            region.setVisible(false);
+            ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "false");
+        }
+        else
+        {
+            DisplayManager.showTransformPopup();
+            region.setVisible(true);
+            ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "true");
+        }
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();
         // TransformManager.transformDetected(random);

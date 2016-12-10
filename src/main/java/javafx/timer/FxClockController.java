@@ -1,66 +1,71 @@
 package javafx.timer;
 
-import javafx.event.ActionEvent;
+import gameinfo.IconLoader;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import sounds.SoundManager;
 
 public class FxClockController extends Pane
 {
-    Button _startStopBtn = new Button();
-    Button _resetBtn     = new Button();
+    Image startIcon = IconLoader.loadFxImage("play-icon.png", 25);
+    Image stopIcon  = IconLoader.loadFxImage("stop-icon.png", 25);
+    Image resetIcon = IconLoader.loadFxImage("reset-icon.png", 25);
+
+    ImageView _startStopBtn = new ImageView(startIcon);
+    ImageView _resetBtn     = new ImageView(resetIcon);
+    FxClock   _clock;
 
     public FxClockController(final FxClock clock)
     {
-        _resetBtn.setDisable(true);
-        _startStopBtn.setDisable(false);
-        _startStopBtn.setMinWidth(50);
-        _resetBtn.setMinWidth(50);
-        _resetBtn.setText("Reset");
-        _startStopBtn.setText("Start");
-
-        _startStopBtn.setOnAction(new EventHandler<ActionEvent>()
+        _clock = clock;
+        _startStopBtn.setVisible(true);
+        _resetBtn.setVisible(false);
+        _startStopBtn.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
+
             @Override
-            public void handle(final ActionEvent e)
+            public void handle(final MouseEvent e)
             {
                 SoundManager.playTickSound();
 
-                if (_startStopBtn.getText().equals("Start"))
+                if (!_clock.isPlaying())
                 {
                     clock.startClock();
-                    _startStopBtn.setText("Stop");
-                    _resetBtn.setDisable(false);
+                    _startStopBtn.setImage(stopIcon);
                 }
-                else if (_startStopBtn.getText().equals("Stop"))
+                else if (_clock.isPlaying())
                 {
                     clock.stopClock();
-                    _startStopBtn.setText("Start");
-                    _startStopBtn.setDisable(true);
-
+                    _startStopBtn.setImage(startIcon);
+                    _startStopBtn.setVisible(false);
+                    _resetBtn.setVisible(true);
                 }
             }
 
         });
 
-        _resetBtn.setOnAction(new EventHandler<ActionEvent>()
+        _resetBtn.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             @Override
-            public void handle(final ActionEvent e)
+            public void handle(final MouseEvent e)
             {
                 SoundManager.playTickSound();
 
                 clock.resetClock();
-                _startStopBtn.setText("Start");
-                _startStopBtn.setDisable(false);
-                _resetBtn.setDisable(true);
+                _startStopBtn.setImage(startIcon);
+                _startStopBtn.setVisible(true);
+                _resetBtn.setVisible(false);
             }
 
         });
 
-        final VBox btnGrp = new VBox();
+        final StackPane btnGrp = new StackPane();
+        btnGrp.setPadding(new Insets(10));
         btnGrp.getChildren().addAll(_startStopBtn, _resetBtn);
         this.getChildren().add(btnGrp);
     }

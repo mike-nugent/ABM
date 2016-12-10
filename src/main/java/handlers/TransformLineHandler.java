@@ -10,7 +10,7 @@ import gameinfo.Race;
 import gameinfo.Rank;
 import gameinfo.Server;
 import javafx.application.Platform;
-import main.TransformManager;
+import main.DisplayManager;
 
 public class TransformLineHandler extends LineHandler
 {
@@ -98,7 +98,7 @@ public class TransformLineHandler extends LineHandler
             public void run()
             {
                 System.out.println("sending data now...");
-                TransformManager.transformDetected(data);
+                DisplayManager.transformDetected(data);
                 PlayerBaseUpdater.addOrUpdatePlayer(data);
             }
         });
