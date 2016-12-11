@@ -53,7 +53,7 @@ public class XformPopupStage extends Stage
     @SuppressWarnings("unchecked")
     public XformPopupStage()
     {
-        asmoXforms.setTooltip(new Tooltip("There are no asmodians with xforms active"));
+        asmoXforms.setTooltip(new Tooltip("There are no asmodians with xforms active")); // f
         me = this;
         this.setAlwaysOnTop(true);
         this.initStyle(StageStyle.TRANSPARENT);
@@ -83,7 +83,9 @@ public class XformPopupStage extends Stage
         // Change number for testing
         for (int i = 0; i < 0; i++)
         {
-            addNewXform(PlayerData.generateRandom());
+            final PlayerData d = PlayerData.generateRandom();
+            d.name = "sclloppppppplips";
+            addNewXform(d);
         }
 
         final HBox counters = new HBox();
@@ -186,7 +188,8 @@ public class XformPopupStage extends Stage
         pane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         pane.setMaxHeight(300);
         pane.setMinHeight(100);
-        pane.setMinWidth(50);
+        pane.setMinWidth(150);
+        pane.setPrefWidth(280);
 
         pane.setStyle("-fx-border-color: rgb(100,100,100);");
         return pane;
