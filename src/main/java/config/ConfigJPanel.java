@@ -146,11 +146,11 @@ public class ConfigJPanel extends JPanel implements ActionListener, KeyListener
     	if(_aionBox.getText() == null || _aionBox.getText().trim().length() == 0)
     	{
     		//Check to see if we can find it ourselves.
-            boolean chatFileExists = ConfigFile.validateAionPath(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
+            boolean chatFileExists = ConfigFile.validateAionPath(ConfigFile.DEFAULT_AION_LOCATION);
             if(chatFileExists)
             {
         		aionInstallLabel.setIcon(IconLoader.check);
-        		_aionBox.setText(ConfigFile.DEFAULT_LOG_FILE_LOCATION);
+        		_aionBox.setText(ConfigFile.DEFAULT_AION_LOCATION);
             }
             else
             {
@@ -251,7 +251,7 @@ public class ConfigJPanel extends JPanel implements ActionListener, KeyListener
 		{
 			System.out.println("Button clicked");
 			final JFileChooser fc = new JFileChooser();
-			fc.setCurrentDirectory(new File(ConfigFile.DEFAULT_LOG_FILE_LOCATION));
+			fc.setCurrentDirectory(new File(ConfigFile.DEFAULT_AION_LOCATION));
 			fc.setDialogTitle("Locate the Chat.log file in your Aion installation directory");
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.setAcceptAllFileFilterUsed(false);

@@ -23,17 +23,17 @@ public class ConfigFile
 
     private static File CONFIG_FILE = getOrCreateConfigFile();
 
-    public static final String DEFAULT_LOG_FILE_LOCATION = "C:/Program Files (x86)/NCSoft/Aion";
-    public static final String DEFAULT_LOG_FILE_NAME     = "Chat.log";
-    public static final String DEBUG_LOG_FILE_NAME       = "TEST_Chat.log";
-    public static final String SLIDER_POSITION_PROPERTY  = "sliderPosition";
-    public static final String DEFAULT_OVR_FILE_NAME     = "system.ovr";
-    public static final String STAGE_LOCATION_PROPERTY   = "stageLocation";
-    public static final String CLOCK_LOCATION_PROPERTY   = "clockLocation";
-    public static final String IS_CLOCK_SHOWING          = "isClockShowing";
-    public static final String IS_XFORM_SHOWING          = "isXformShowing";
-    public static final String LOCK_WINDOW_POSITION      = "lockWindowPositions";
-    public static final String XFORM_LOCATION_PROPERTY   = "xformLocation";
+    public static final String DEFAULT_AION_LOCATION    = "C:/Program Files (x86)/NCSOFT/Aion";
+    public static final String DEFAULT_LOG_FILE_NAME    = "Chat.log";
+    public static final String DEFAULT_CFG_FILE_NAME    = "system.cfg";
+    public static final String DEBUG_LOG_FILE_NAME      = "TEST_Chat.log";
+    public static final String SLIDER_POSITION_PROPERTY = "sliderPosition";
+    public static final String STAGE_LOCATION_PROPERTY  = "stageLocation";
+    public static final String CLOCK_LOCATION_PROPERTY  = "clockLocation";
+    public static final String IS_CLOCK_SHOWING         = "isClockShowing";
+    public static final String IS_XFORM_SHOWING         = "isXformShowing";
+    public static final String LOCK_WINDOW_POSITION     = "lockWindowPositions";
+    public static final String XFORM_LOCATION_PROPERTY  = "xformLocation";
 
     private static String _name;
     private static Race   _race;
@@ -44,10 +44,24 @@ public class ConfigFile
         String path = getAionInstallLocation();
         if (path == null)
         {
-            path = DEFAULT_LOG_FILE_LOCATION;
+            path = DEFAULT_AION_LOCATION;
         }
 
         final File file = new File(path + "/" + DEFAULT_LOG_FILE_NAME);
+        // final File file = new File(DEBUG_LOG_FILE_NAME);
+
+        return file;
+    }
+
+    public static File getCfgFile()
+    {
+        String path = getAionInstallLocation();
+        if (path == null)
+        {
+            path = DEFAULT_AION_LOCATION;
+        }
+
+        final File file = new File(path + "/" + DEFAULT_CFG_FILE_NAME);
         // final File file = new File(DEBUG_LOG_FILE_NAME);
 
         return file;
