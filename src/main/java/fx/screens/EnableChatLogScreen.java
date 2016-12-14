@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import config.ConfigFile;
+import config.SystemConfigFileEditor;
 import gameinfo.IconLoader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import main.MainFX;
-import main.SystemConfigFileEditor;
 
 public class EnableChatLogScreen extends HBox
 {

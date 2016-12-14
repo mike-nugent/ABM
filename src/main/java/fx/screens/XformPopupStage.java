@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.ASDMStage;
 import main.DisplayManager;
+import skins.Skins;
 
 public class XformPopupStage extends Stage
 {
@@ -183,7 +184,7 @@ public class XformPopupStage extends Stage
     {
         final ScrollPane pane = new ScrollPane();
         pane.setPadding(new Insets(10));
-        pane.getStylesheets().add("skins/CustomScrollPane.css");
+        pane.getStylesheets().add(Skins.get("CustomScrollPane.css"));
         pane.setHbarPolicy(ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         pane.setMaxHeight(300);

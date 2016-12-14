@@ -11,6 +11,7 @@ import java.util.List;
 import config.ConfigFile;
 import gameinfo.PlayerData;
 import gameinfo.ScriptData;
+import gameinfo.SoundData;
 
 public class AionDB
 {
@@ -38,8 +39,10 @@ public class AionDB
                     "CREATE TABLE IF NOT EXISTS SCRIPTS(ID INT NOT NULL AUTO_INCREMENT, SCRIPT VARCHAR(255) NOT NULL, PRIMARY KEY (ID));");
 
             // SOUNDS(NAME, PATH)
+            // stmt.executeUpdate("DROP TABLE SOUNDS");
 
-            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS SOUNDS(NAME VARCHAR(255), PATH VARCHAR(255));");
+            stmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS SOUNDS(ID INT NOT NULL AUTO_INCREMENT, NAME VARCHAR(255), PATH VARCHAR(255) NOT NULL, PRIMARY KEY (ID));");
             final PlayerData r = PlayerData.generateRandom();
             // stmt.executeUpdate("INSERT INTO PLAYERS VALUES ( '" + r.name +
             // "', '" + r.server + "', '" + r.race + "', '"+ r.clazz + "', '" +
@@ -246,4 +249,71 @@ public class AionDB
             System.out.println("Caught db error: " + e);
         }
     }
+
+    // ------------------------ SOUNDS ------------------------------
+    public static List<SoundData> getAllCustomSounds()
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            final List<SoundData> returnData = new LinkedList<SoundData>();
+            final ResultSet rs = stmt.executeQuery("SELECT * FROM SOUNDS");
+            while (rs.next())
+            {
+                final int id = rs.getInt("ID");
+                final String name = rs.getString("NAME");
+                final String path = rs.getString("PATH");
+
+                returnData.add(new SoundData(id, name, path));
+            }
+            stmt.close();
+
+            return returnData;
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+        return null;
+    }
+
+    public static SoundData createSound(final String name, final String soundPath)
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.execute("INSERT INTO SOUNDS (NAME, PATH) VALUES ( '" + name + "', '" + soundPath + "' );",
+                    Statement.RETURN_GENERATED_KEYS);
+
+            final ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            final int ID = rs.getInt(1);
+            stmt.close();
+
+            return new SoundData(ID, name, soundPath);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+        return null;
+    }
+
+    public static void deleteSound(final SoundData data)
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.executeUpdate("DELETE FROM SOUNDS WHERE ID=" + data.id + ";");
+            stmt.close();
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+    }
+
 }

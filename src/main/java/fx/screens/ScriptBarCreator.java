@@ -17,21 +17,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import sounds.SoundManager;
 
 public class ScriptBarCreator extends Pane
 {
-    public static int COMPONENT_SIZE = 200;
+    public static int COMPONENT_SIZE = 100;
 
-    private TextField        scriptField;
-    private ComboBox<String> soundList;
-    private CheckBox         alertBox;
-    private TextField        customAlertField;
-    private Button           closeBtn;
-    private Button           saveBtn;
-    private ComboBox<String> timerList;
-    private CheckBox         timerCheckbox;
-    private TextField        timeText;
-    private CheckBox         soundCheck;
+    private final TextField        scriptField      = new TextField();
+    private final ComboBox<String> soundList        = new ComboBox<String>();
+    private final CheckBox         soundCheck       = new CheckBox("Play Sound");
+    private final ComboBox<String> timerList        = new ComboBox<String>();
+    private final ComboBox<String> timeChoice       = new ComboBox<String>();
+    private final CheckBox         timerCheckbox    = new CheckBox("Start Timer");
+    private final CheckBox         alertBox         = new CheckBox("Show Alert");
+    private final TextField        customAlertField = new TextField();
+
+    private final Button closeBtn     = new Button("Cancel", new ImageView(IconLoader.loadFxImage("close.png", 20)));
+    private final Button saveBtn      = new Button("Create", new ImageView(IconLoader.loadFxImage("save.png", 20)));
+    private final Button soundTestBtn = new Button("", new ImageView(IconLoader.loadFxImage("play-icon.png", 20)));
 
     public ScriptBarCreator()
     {
@@ -41,23 +44,26 @@ public class ScriptBarCreator extends Pane
         setupTimerOptions();
         setupButtons();
 
+        final Label leftLabel = new Label("When the following log is encountered...");
+        final Label rightLabel = new Label("...do the following");
+
         // Create the left box
         final VBox leftBox = new VBox();
         leftBox.setSpacing(10);
         leftBox.setPadding(new Insets(10, 10, 10, 10));
-        leftBox.setAlignment(Pos.CENTER_LEFT);
+        leftBox.setAlignment(Pos.TOP_LEFT);
         leftBox.setStyle("-fx-background-color: #dddddd;");
-        leftBox.getChildren().addAll(new Label("When the following log is encountered, do the following..."),
-                scriptField, wrap(saveBtn, closeBtn));
+
+        leftBox.getChildren().addAll(leftLabel, scriptField, wrap(saveBtn, closeBtn));
 
         // Create the right box
         final VBox rightBox = new VBox();
         rightBox.setSpacing(10);
         rightBox.setPadding(new Insets(10, 10, 10, 10));
-        rightBox.setAlignment(Pos.CENTER_LEFT);
+        rightBox.setAlignment(Pos.TOP_LEFT);
         rightBox.setStyle("-fx-background-color: #cccccc;");
-        rightBox.getChildren().addAll(wrap(timerCheckbox, timerList, timeText), wrap(soundCheck, soundList),
-                wrap(alertBox, customAlertField));
+        rightBox.getChildren().addAll(rightLabel, wrap(timerCheckbox, timerList, timeChoice),
+                wrap(soundCheck, soundList, soundTestBtn), wrap(alertBox, customAlertField));
 
         // Create the wrapper
         final HBox wrapper = new HBox();
@@ -68,8 +74,6 @@ public class ScriptBarCreator extends Pane
     private void setupButtons()
     {
         final ScriptBarCreator local = this;
-        closeBtn = new Button("Cancel", new ImageView(IconLoader.loadFxImage("close.png", 20)));
-        saveBtn = new Button("Create & Apply", new ImageView(IconLoader.loadFxImage("save.png", 20)));
 
         closeBtn.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -89,7 +93,8 @@ public class ScriptBarCreator extends Pane
                 completedScript += "WHEN [" + scriptField.getText() + "], ";
                 if (timerCheckbox.isSelected())
                 {
-                    completedScript += "START [" + timerList.getSelectionModel().getSelectedItem() + "], ";
+                    completedScript += "START [" + timerList.getSelectionModel().getSelectedItem() + ","
+                            + timeChoice.getSelectionModel().getSelectedItem() + "], ";
                 }
                 if (alertBox.isSelected())
                 {
@@ -109,7 +114,6 @@ public class ScriptBarCreator extends Pane
 
     private void setupTimerOptions()
     {
-        timerCheckbox = new CheckBox("Start Timer");
 
         timerCheckbox.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -119,21 +123,21 @@ public class ScriptBarCreator extends Pane
                 if (timerCheckbox.isSelected())
                 {
                     timerList.setVisible(true);
-                    timeText.setVisible(true);
+                    timeChoice.setVisible(true);
 
                 }
                 else
                 {
                     timerList.setVisible(false);
-                    timeText.setVisible(false);
+                    timeChoice.setVisible(false);
 
                 }
             }
         });
         final ObservableList<String> timerOptions = FXCollections.observableArrayList("Count Down From", "Count Up To");
 
-        timerList = new ComboBox<String>(timerOptions);
-        timerList.setPrefWidth(COMPONENT_SIZE);
+        timerList.setItems(timerOptions);
+        timerList.setPrefWidth(150);
         timerList.getSelectionModel().select("Count Down From");
         timerList.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -144,15 +148,18 @@ public class ScriptBarCreator extends Pane
             }
         });
 
-        timeText = new TextField();
-        timeText.setPrefWidth(COMPONENT_SIZE);
+        final ObservableList<String> timeOptions = FXCollections.observableArrayList("00:05", "00:10", "00:15", "00:30",
+                "00:45", "00:55", "01:00", "01:30", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
+                "09:00", "10:00", "20:00", "30:00", "40:00", "50:00", "60:00");
+        timeChoice.setItems(timeOptions);
+        timeChoice.getSelectionModel().select("05:00");
+        timeChoice.setPrefWidth(75);
         timerList.setVisible(false);
-        timeText.setVisible(false);
+        timeChoice.setVisible(false);
     }
 
     private void setupAlertOptions()
     {
-        alertBox = new CheckBox("Show Alert");
         alertBox.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
@@ -169,15 +176,27 @@ public class ScriptBarCreator extends Pane
             }
         });
 
-        customAlertField = new TextField();
-        customAlertField.setPrefWidth(COMPONENT_SIZE);
+        customAlertField.setPrefWidth(250);
         customAlertField.setText("<custom alert text here>");
         customAlertField.setVisible(false);
     }
 
     private void setupSoundOptions()
     {
-        soundCheck = new CheckBox("Play Sound");
+
+        soundTestBtn.setOnAction(new EventHandler<ActionEvent>()
+        {
+
+            @Override
+            public void handle(final ActionEvent event)
+            {
+                if (!soundList.getValue().equals("<none>"))
+                {
+                    SoundManager.playEmbeddedSound(soundList.getValue());
+                }
+
+            }
+        });
         soundCheck.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
@@ -186,33 +205,42 @@ public class ScriptBarCreator extends Pane
                 if (soundCheck.isSelected())
                 {
                     soundList.setVisible(true);
+                    if (!soundList.getValue().equals("<none>"))
+                    {
+                        soundTestBtn.setVisible(true);
+                    }
                 }
                 else
                 {
                     soundList.setVisible(false);
+                    soundTestBtn.setVisible(false);
                 }
             }
         });
 
-        final ObservableList<String> classOptions = FXCollections.observableArrayList("<none>", "soundA", "soundB",
-                "soundC", "soundD");
-        soundList = new ComboBox<String>(classOptions);
-        soundList.setPrefWidth(COMPONENT_SIZE);
+        final ObservableList<String> classOptions = FXCollections.observableArrayList(SoundManager.getEmbeddedSounds());
+        soundList.setItems(classOptions);
+        soundList.setPrefWidth(200);
         soundList.setVisible(false);
+        soundTestBtn.setVisible(false);
+        soundTestBtn.setPrefWidth(40);
         soundList.getSelectionModel().select("<none>");
         soundList.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
             public void handle(final ActionEvent e)
             {
-                System.out.println("Sound selected: " + soundList.getValue());
+                if (!soundTestBtn.isVisible())
+                {
+                    soundTestBtn.setVisible(true);
+                }
+                // undManager.playEmbeddedSound(soundList.getValue());
             }
         });
     }
 
     private void setupLogField()
     {
-        scriptField = new TextField();
         scriptField.setPrefWidth(300);
     }
 

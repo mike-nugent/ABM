@@ -16,13 +16,13 @@ public class ScriptsUpdater
 
     public static void deleteScript(final ScriptBarCreator bar)
     {
-        ScriptsPopupPage.deleteScriptCreator(bar);
+        ScriptsScreen.deleteScriptCreator(bar);
     }
 
     public static void createScript(final String completedScript, final ScriptBarCreator local)
     {
         final ScriptData returnData = AionDB.createScript(completedScript);
-        ScriptsPopupPage.createScript(returnData, local);
+        ScriptsScreen.createScript(returnData, local);
         allScripts.add(returnData);
     }
 
@@ -32,7 +32,7 @@ public class ScriptsUpdater
         for (final ScriptData script : allScripts)
         {
             System.out.println("Script: " + script.id + " " + script.script);
-            ScriptsPopupPage.createScript(script, null);
+            ScriptsScreen.createScript(script, null);
         }
     }
 
@@ -43,9 +43,12 @@ public class ScriptsUpdater
 
     public static void deleteScript(final ScriptBar bar, final ScriptData data)
     {
-        AionDB.deleteScript(data);
-        allScripts.remove(data);
-        ScriptsPopupPage.deleteScript(bar);
+        final boolean wasDeleted = ScriptsScreen.deleteScript(bar);
+        if (wasDeleted)
+        {
+            AionDB.deleteScript(data);
+            allScripts.remove(data);
+        }
     }
 
 }

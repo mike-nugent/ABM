@@ -36,6 +36,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logreader.AionLogReader;
+import sounds.SoundManager;
+import triage.ExceptionHandler;
 
 // Java 8 code
 public class MainFX extends Application
@@ -75,17 +77,26 @@ public class MainFX extends Application
 
     /**
      * Built in JavaFX mechanism for starting the program.
+     *
+     * @throws Exception
      */
     @Override
-    public void start(final Stage primaryStage)
+    public void start(final Stage primaryStage) throws Exception
     {
-        _me = this;
-        _primaryStage = primaryStage;
-        setupDatabase();
+        try
+        {
+            _me = this;
+            _primaryStage = primaryStage;
+            setupDatabase();
 
-        buildUI();
-        startLoggers();
-        loadConfigOptions();
+            buildUI();
+            startLoggers();
+            loadConfigOptions();
+        }
+        catch (final Exception e)
+        {
+            ExceptionHandler.handleException(e);
+        }
     }
 
     private void loadConfigOptions()
@@ -164,6 +175,7 @@ public class MainFX extends Application
         AionDB.instantiate();
         PlayerBaseUpdater.initialize();
         ScriptsUpdater.initialize();
+        SoundManager.initialize();
     }
 
     /**

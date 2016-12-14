@@ -1,4 +1,4 @@
-package main;
+package config;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.CharsetDecoder;
@@ -14,6 +15,7 @@ import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 
@@ -36,19 +38,9 @@ public class SystemConfigFileEditor
     {
         try
         {
-            final ClassLoader classLoader = SystemConfigFileEditor.class.getClassLoader();
-            final File EF = new File(classLoader.getResource("configFile/on.cfg").getFile());
-            String enableLine = "";
+            final String enableLine = getStringFromFile("on.cfg");
             final File systemCFG = new File(cfgFileInput);// ConfigFile.getCfgFile();//
-            // new
 
-            if (!systemCFG.exists())
-            {
-                System.out.println("There was an issue, system.cfg file not found");
-                return false;
-            }
-
-            enableLine = FileUtils.readFileToString(EF, StandardCharsets.ISO_8859_1);
             final String cfgFileTxt = FileUtils.readFileToString(systemCFG, StandardCharsets.ISO_8859_1);
             if (cfgFileTxt.contains(enableLine))
             {
@@ -66,6 +58,46 @@ public class SystemConfigFileEditor
         }
     }
 
+    public static String getStringFromFile(final String file)
+    {
+        Scanner sc = null;
+        InputStream in = null;
+        String returnLine = "";
+        try
+        {
+            in = SystemConfigFileEditor.class.getResourceAsStream(file);
+            sc = new Scanner(in, StandardCharsets.ISO_8859_1.name());
+            while (sc.hasNextLine())
+            {
+                final String line = sc.nextLine();
+                if (line != null)
+                {
+                    returnLine += line;
+                }
+            }
+        }
+        finally
+        {
+            if (in != null)
+            {
+                try
+                {
+                    in.close();
+                }
+                catch (final IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (sc != null)
+            {
+                sc.close();
+            }
+        }
+
+        return returnLine;
+    }
+
     /**
      * This method will attempt to enable the chat.log file.
      *
@@ -78,12 +110,6 @@ public class SystemConfigFileEditor
     {
         // Get the correct encodings saved in resources
         final ClassLoader classLoader = SystemConfigFileEditor.class.getClassLoader();
-        final File EF = new File(classLoader.getResource("configFile/on.cfg").getFile());
-        final File DF = new File(classLoader.getResource("configFile/off.cfg").getFile());
-
-        // These will hold the encoded values for g_chatlog = "1"
-        String enableLine = "";
-        String disableLine = "";
 
         // get the system.cfg file of the aion install directory
         final File systemCFG = new File(cfgFileInput);// ConfigFile.getCfgFile();//
@@ -97,8 +123,8 @@ public class SystemConfigFileEditor
 
         try
         {
-            enableLine = FileUtils.readFileToString(EF, StandardCharsets.ISO_8859_1);
-            disableLine = FileUtils.readFileToString(DF, StandardCharsets.ISO_8859_1);
+            final String enableLine = getStringFromFile("on.cfg");
+            final String disableLine = getStringFromFile("off.cfg");
 
             final String cfgFile = FileUtils.readFileToString(systemCFG, StandardCharsets.ISO_8859_1);
             if (cfgFile.contains(disableLine))
