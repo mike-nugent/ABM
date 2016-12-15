@@ -21,6 +21,10 @@ public class ScriptData
     public void updateScript(final String newLine)
     {
         script = newLine;
+        line   = null;
+        sound  = null;
+        alert  = null;
+        time   = null;
         parseData();
     }
 
