@@ -93,7 +93,7 @@ public class ScriptBarCreator extends Pane
                 completedScript += "WHEN [" + scriptField.getText() + "], ";
                 if (timerCheckbox.isSelected())
                 {
-                    completedScript += "START [" + timerList.getSelectionModel().getSelectedItem() + ","
+                    completedScript += "START [" + timerList.getSelectionModel().getSelectedItem() + ":"
                             + timeChoice.getSelectionModel().getSelectedItem() + "], ";
                 }
                 if (alertBox.isSelected())
@@ -106,7 +106,6 @@ public class ScriptBarCreator extends Pane
                 }
 
                 ScriptsUpdater.createScript(completedScript, local);
-
             }
         });
 
@@ -192,7 +191,9 @@ public class ScriptBarCreator extends Pane
             {
                 if (!soundList.getValue().equals("<none>"))
                 {
-                    SoundManager.playEmbeddedSound(soundList.getValue());
+                    final String soundRef = soundList.getValue();
+                    SoundManager.playSound(soundRef);
+
                 }
 
             }
@@ -218,7 +219,7 @@ public class ScriptBarCreator extends Pane
             }
         });
 
-        final ObservableList<String> classOptions = FXCollections.observableArrayList(SoundManager.getEmbeddedSounds());
+        final ObservableList<String> classOptions = FXCollections.observableArrayList(SoundManager.getAllSounds());
         soundList.setItems(classOptions);
         soundList.setPrefWidth(200);
         soundList.setVisible(false);

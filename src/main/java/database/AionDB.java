@@ -198,7 +198,8 @@ public class AionDB
         try
         {
             final Statement stmt = _conn.createStatement();
-            stmt.executeUpdate("UPDATE SCRIPTS SET SCRIPT='" + scriptData.script + "' WHERE ID=" + scriptData.id + ";");
+            stmt.executeUpdate(
+                    "UPDATE SCRIPTS SET SCRIPT='" + scriptData.getScript() + "' WHERE ID=" + scriptData.getID() + ";");
             stmt.close();
         }
         catch (final Exception e)
@@ -240,7 +241,7 @@ public class AionDB
         try
         {
             final Statement stmt = _conn.createStatement();
-            stmt.executeUpdate("DELETE FROM SCRIPTS WHERE ID=" + data.id + ";");
+            stmt.executeUpdate("DELETE FROM SCRIPTS WHERE ID=" + data.getID() + ";");
             stmt.close();
         }
         catch (final Exception e)

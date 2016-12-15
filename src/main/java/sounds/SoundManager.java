@@ -35,6 +35,24 @@ public class SoundManager
         customSounds = AionDB.getAllCustomSounds();
     }
 
+    public static List<String> getAllSounds()
+    {
+        final List<String> sounds = new ArrayList<String>();
+
+        for (final String e : embeddedSounds)
+        {
+            sounds.add("E: " + e);
+        }
+
+        for (final SoundData s : customSounds)
+        {
+            sounds.add("C: " + s.name);
+        }
+
+        return sounds;
+
+    }
+
     public static SoundData createNewCustomSound(final String name, final String path)
     {
         final SoundData data = AionDB.createSound(name, path);
@@ -263,7 +281,25 @@ public class SoundManager
                 }
             }
         }).start();
+    }
 
+    /**
+     * format: C: sound E: sound
+     */
+    public static void playSound(final String soundRef)
+    {
+        if (soundRef.contains("E:"))
+        {
+            // sound is embedded;
+            final String embeddedSound = parseEmbedded(soundRef);
+            playEmbeddedSound(embeddedSound);
+        }
+        else
+        {
+            // sound is custom
+            final SoundData customSound = parseCustom(soundRef);
+            playLocalSound(customSound);
+        }
     }
 
     public static void deleteCustomSound(final SoundData data, final SoundBar bar)
@@ -274,6 +310,29 @@ public class SoundManager
             AionDB.deleteSound(data);
             customSounds.remove(data);
         }
+    }
+
+    public static String parseEmbedded(final String soundRef)
+    {
+        final String ret = soundRef.replace("E: ", "");
+        System.out.println(ret);
+        return ret;
+    }
+
+    public static SoundData parseCustom(final String soundRef)
+    {
+        final String ret = soundRef.replace("C: ", "");
+        System.out.println(ret);
+
+        for (final SoundData cus : customSounds)
+        {
+            if (cus.name.equals(ret))
+            {
+                return cus;
+            }
+        }
+
+        return null;
     }
 
 }

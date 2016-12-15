@@ -14,7 +14,7 @@ public abstract class LineHandler
     static SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
     // regex for "any string or *"
-    private static String X = ".*?";
+    protected static String X = ".*?";
 
     // Damage dealt:
     protected static Pattern auto_attack    = Pattern.compile(X + "inflicted" + X + "damage on" + X);
@@ -145,6 +145,7 @@ public abstract class LineHandler
             // The order of these should be added in order of most frequent ->
             // less frequent
             handlers = new ArrayList<LineHandler>();
+            handlers.addAll(HandlerManager.getCustomHandlers());
             // handlers.add(new InflictDamageLineHandler());
             // handlers.add(new UsesCooldownLineHandler());
             handlers.add(new DeathLineHandler());
@@ -153,6 +154,11 @@ public abstract class LineHandler
         }
 
         return handlers;
+    }
+
+    public static void addNewCustomHandler(final LineHandler handler)
+    {
+        handlers.add(handler);
     }
 
 }

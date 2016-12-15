@@ -4,6 +4,7 @@ import java.util.List;
 
 import database.AionDB;
 import gameinfo.ScriptData;
+import handlers.HandlerManager;
 
 public class ScriptsUpdater
 {
@@ -12,6 +13,11 @@ public class ScriptsUpdater
     public static void initialize()
     {
         allScripts = AionDB.getAllScripts();
+    }
+
+    public static List<ScriptData> getAllScripts()
+    {
+        return allScripts;
     }
 
     public static void deleteScript(final ScriptBarCreator bar)
@@ -24,6 +30,7 @@ public class ScriptsUpdater
         final ScriptData returnData = AionDB.createScript(completedScript);
         ScriptsScreen.createScript(returnData, local);
         allScripts.add(returnData);
+        HandlerManager.addNewHandler(returnData);
     }
 
     public static void populateScriptsFromDatabase()
@@ -31,14 +38,18 @@ public class ScriptsUpdater
         // initialize from database
         for (final ScriptData script : allScripts)
         {
-            System.out.println("Script: " + script.id + " " + script.script);
+            System.out.println("Script: " + script.getID() + " " + script.getScript());
             ScriptsScreen.createScript(script, null);
         }
     }
 
     public static void updateScript(final ScriptData data)
     {
+        System.out.println("before db: " + data.getScript());
         AionDB.updateScript(data);
+        System.out.println("after db: " + data.getScript());
+
+        HandlerManager.updateLineHandler(data);
     }
 
     public static void deleteScript(final ScriptBar bar, final ScriptData data)

@@ -27,7 +27,7 @@ public class ScriptBar extends HBox
     {
         me = this;
         _data = data;
-        textField.setText(_data.script);
+        textField.setText(_data.getScript());
         textField.setStyle("-fx-control-inner-background: #dddddd");
         textField.setPrefWidth(600);
         textField.setEditable(false);
@@ -88,11 +88,13 @@ public class ScriptBar extends HBox
                 me.getChildren().add(0, editButton);
 
                 final String newTxt = textField.getText();
-                final String oldTxt = _data.script;
+                final String oldTxt = _data.getScript();
 
                 if (!newTxt.equals(oldTxt))
                 {
-                    _data.script = textField.getText();
+                    System.out.println("in old:" + _data.getScript());
+                    _data.updateScript(textField.getText());
+                    System.out.println("in new:" + _data.getScript());
                     ScriptsUpdater.updateScript(_data);
                 }
                 else
