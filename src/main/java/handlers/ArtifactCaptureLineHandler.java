@@ -89,7 +89,7 @@ public class ArtifactCaptureLineHandler extends LineHandler
 	}
 
 	@Override
-	protected void handleLine(String line) 
+	protected void handleLine(String line, boolean isCurrent) 
 	{
 		ArtifactData data = parseArtifactInfo(line);
 		System.out.println("TODO - handler for: " + data + " in " + this);

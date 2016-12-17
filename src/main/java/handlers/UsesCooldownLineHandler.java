@@ -65,7 +65,7 @@ public class UsesCooldownLineHandler extends LineHandler
 	}
 
 	@Override
-	protected void handleLine(String line) 
+	protected void handleLine(String line, boolean isCurrent) 
 	{
 		AbilityData data = parseCooldownLine(line);
 		//_main.abilityDetected(data);

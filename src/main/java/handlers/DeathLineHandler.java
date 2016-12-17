@@ -78,7 +78,7 @@ public class DeathLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line)
+    protected void handleLine(final String line, boolean isCurrent)
     {
         final PlayerData data = parseDeathLine(line);
 

@@ -96,7 +96,7 @@ public class InflictDamageLineHandler extends LineHandler
 	}
 	
 	@Override
-	protected void handleLine(String line) 
+	protected void handleLine(String line, boolean isCurrent) 
 	{
 		AbilityData data = parseAbilityData(line);
 		//_main.abilityDetected(data);

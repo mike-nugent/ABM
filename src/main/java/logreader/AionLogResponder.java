@@ -28,7 +28,7 @@ public class AionLogResponder extends AionTailerListenerAdapter
             {
                 if (handler.handlesLine(line))
                 {
-                    handler.handle(line);
+                    handler.handle(line, true);
                     return;
                 }
             }

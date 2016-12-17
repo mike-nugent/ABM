@@ -83,7 +83,7 @@ public class RecentHistoryParser
             {
                 if (handler.handlesLine(s))
                 {
-                    handler.handle(s);
+                    handler.handle(s, false);
                     break;
                 }
             }

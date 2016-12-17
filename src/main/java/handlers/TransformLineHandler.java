@@ -88,7 +88,7 @@ public class TransformLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line)
+    protected void handleLine(final String line, boolean isCurrent)
     {
         final PlayerData data = parseTransformLine(line);
 

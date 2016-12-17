@@ -66,12 +66,14 @@ public abstract class LineHandler
     /**
      * Handles the line that matches the regular expression. Calls the
      * appropriate method in the Main
+     *
+     * @param b
      */
-    public void handle(final String line)
+    public void handle(final String line, final boolean isCurrent)
     {
         try
         {
-            handleLine(line);
+            handleLine(line, isCurrent);
         }
         catch (final Exception e)
         {
@@ -82,8 +84,11 @@ public abstract class LineHandler
     /**
      * Must be overridden in sub-class and define implementation of handling the
      * line
+     * 
+     * @param isCurrent
+     *            TODO
      */
-    protected abstract void handleLine(String line);
+    protected abstract void handleLine(String line, boolean isCurrent);
 
     protected void showError(final Exception e, final String line)
     {

@@ -179,12 +179,18 @@ public class DisplayManager
 
     public static void showClockPopup()
     {
-        clockStage.show();
+        if (clockStage != null)
+        {
+            clockStage.show();
+        }
     }
 
     public static void hideClockPopup()
     {
-        clockStage.hide();
+        if (clockStage != null)
+        {
+            clockStage.hide();
+        }
     }
 
     public static boolean isClockShowing()

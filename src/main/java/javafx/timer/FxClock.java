@@ -13,14 +13,37 @@ public class FxClock extends Pane
 
     boolean _isPlaying = false;
 
-    protected long _startTime     = 0;
-    long           _countDownFrom = Times.TEN_MIUTES;
+    protected long _startTime  = 0;
+    long           _targetTime = Times.TEN_MIUTES;
 
     AnimationTimer    animationtimer;
     protected boolean countUpEnabled = true; // DODO - configure this
 
+    private static FxClock clockInstance;
+
+    public static void startClock(final String mode, final long target)
+    {
+        if (clockInstance == null)
+        {
+            return;
+        }
+
+        clockInstance.stopClock();
+        clockInstance.resetClock();
+
+        if (mode.equals("Count Down From"))
+        {
+            clockInstance.countDownFrom(target);
+        }
+        else if (mode.equals("Count Up To"))
+        {
+            clockInstance.countUpTo(target);
+        }
+    }
+
     public FxClock()
     {
+        clockInstance = this;
         this.setMouseTransparent(true);
         // this.setEffect(new DropShadow(10, Color.BLACK));
 
@@ -95,6 +118,20 @@ public class FxClock extends Pane
         animationtimer.start();
     }
 
+    private void countUpTo(final long target)
+    {
+        _targetTime = target;
+        countUpEnabled = true;
+        startClock();
+    }
+
+    private void countDownFrom(final long target)
+    {
+        _targetTime = target;
+        countUpEnabled = false;
+        startClock();
+    }
+
     private void countUp(final long now)
     {
         final long diff = System.currentTimeMillis() - _startTime;
@@ -112,13 +149,18 @@ public class FxClock extends Pane
 
         _minSecTxt.setText(time);
         _msTxt.setText(milliSec);
+
+        if (diff >= _targetTime)
+        {
+            stopClock();
+        }
     }
 
     private void countDown(final long now)
     {
         // Count down
         final long diff = System.currentTimeMillis() - _startTime;
-        long countdown = _countDownFrom - diff;
+        long countdown = _targetTime - diff;
 
         if (countdown <= 0)
         {
@@ -143,7 +185,7 @@ public class FxClock extends Pane
         _minSecTxt.setTextFill(c);
         _msTxt.setTextFill(c);
 
-        if (countdown == 0)
+        if (countdown <= 0)
         {
             stopClock();
         }
@@ -151,7 +193,7 @@ public class FxClock extends Pane
 
     protected Color getColorBasedOnTimeCountUp(final long diff)
     {
-        final double scaledTo = Times.FIVE_MINUTES;
+        final double scaledTo = _targetTime;
         final double percentLeft = scaledTo - diff;
 
         final double scale = (percentLeft / scaledTo);
@@ -183,7 +225,7 @@ public class FxClock extends Pane
     protected Color getColorBasedOnTimeCountDown(final long diff)
     {
 
-        final double scale = ((double) diff / (double) _countDownFrom);
+        final double scale = ((double) diff / (double) _targetTime);
         final double midLine = 150;
         final int edge = (int) (255 - midLine);
         final int gScale = (int) (midLine * scale);

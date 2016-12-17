@@ -1,5 +1,8 @@
 package fx.screens;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gameinfo.IconLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +30,8 @@ public class ScriptBarCreator extends Pane
     private final ComboBox<String> soundList        = new ComboBox<String>();
     private final CheckBox         soundCheck       = new CheckBox("Play Sound");
     private final ComboBox<String> timerList        = new ComboBox<String>();
-    private final ComboBox<String> timeChoice       = new ComboBox<String>();
+    private final ComboBox<String> minChoice        = new ComboBox<String>();
+    private final ComboBox<String> secChoice        = new ComboBox<String>();
     private final CheckBox         timerCheckbox    = new CheckBox("Start Timer");
     private final CheckBox         alertBox         = new CheckBox("Show Alert");
     private final TextField        customAlertField = new TextField();
@@ -62,7 +66,7 @@ public class ScriptBarCreator extends Pane
         rightBox.setPadding(new Insets(10, 10, 10, 10));
         rightBox.setAlignment(Pos.TOP_LEFT);
         rightBox.setStyle("-fx-background-color: #cccccc;");
-        rightBox.getChildren().addAll(rightLabel, wrap(timerCheckbox, timerList, timeChoice),
+        rightBox.getChildren().addAll(rightLabel, wrap(timerCheckbox, timerList, minChoice, secChoice),
                 wrap(soundCheck, soundList, soundTestBtn), wrap(alertBox, customAlertField));
 
         // Create the wrapper
@@ -94,7 +98,8 @@ public class ScriptBarCreator extends Pane
                 if (timerCheckbox.isSelected())
                 {
                     completedScript += "START [" + timerList.getSelectionModel().getSelectedItem() + ":"
-                            + timeChoice.getSelectionModel().getSelectedItem() + "], ";
+                            + minChoice.getSelectionModel().getSelectedItem().replaceAll(" min", "") + ":"
+                            + secChoice.getSelectionModel().getSelectedItem().replaceAll(" sec", "") + "], ";
                 }
                 if (alertBox.isSelected())
                 {
@@ -122,13 +127,15 @@ public class ScriptBarCreator extends Pane
                 if (timerCheckbox.isSelected())
                 {
                     timerList.setVisible(true);
-                    timeChoice.setVisible(true);
+                    minChoice.setVisible(true);
+                    secChoice.setVisible(true);
 
                 }
                 else
                 {
                     timerList.setVisible(false);
-                    timeChoice.setVisible(false);
+                    minChoice.setVisible(false);
+                    secChoice.setVisible(false);
 
                 }
             }
@@ -147,14 +154,39 @@ public class ScriptBarCreator extends Pane
             }
         });
 
-        final ObservableList<String> timeOptions = FXCollections.observableArrayList("00:05", "00:10", "00:15", "00:30",
-                "00:45", "00:55", "01:00", "01:30", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
-                "09:00", "10:00", "20:00", "30:00", "40:00", "50:00", "60:00");
-        timeChoice.setItems(timeOptions);
-        timeChoice.getSelectionModel().select("05:00");
-        timeChoice.setPrefWidth(75);
+        final ObservableList<String> minuteOptions = FXCollections.observableArrayList(getTimes("min"));
+        final ObservableList<String> secondOptions = FXCollections.observableArrayList(getTimes("sec"));
+
+        minChoice.setItems(minuteOptions);
+        secChoice.setItems(secondOptions);
+
+        minChoice.getSelectionModel().select("05 min");
+        secChoice.getSelectionModel().select("00 sec");
+
+        // minChoice.setPrefWidth(40);
+        // secChoice.setPrefWidth(40);
+        minChoice.setVisible(false);
+        secChoice.setVisible(false);
         timerList.setVisible(false);
-        timeChoice.setVisible(false);
+
+    }
+
+    private List<String> getTimes(final String s)
+    {
+        final List<String> ret = new ArrayList<String>();
+        for (int i = 0; i < 60; i++)
+        {
+            if (i <= 9)
+            {
+                ret.add("0" + i + " " + s);
+            }
+            else
+            {
+                ret.add(i + " " + s);
+            }
+        }
+
+        return ret;
     }
 
     private void setupAlertOptions()
