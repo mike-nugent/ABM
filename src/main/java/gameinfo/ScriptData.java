@@ -18,7 +18,7 @@ public class ScriptData
         parseData();
     }
 
-    public void updateScript(final String newLine)
+    public void updateCompactedScript(final String newLine)
     {
         script = newLine;
         line   = null;
@@ -28,7 +28,7 @@ public class ScriptData
         parseData();
     }
 
-    public String getScript()
+    public String getCompactedScript()
     {
         return script;
     }

@@ -112,4 +112,26 @@ public class ScriptsScreen extends HBox
         }
         return false;
     }
+
+    public static void editScript(final ScriptBar bar, final boolean isEdit)
+    {
+        int childIndex = 0;
+        for (int i = 0; i < instance.actualScripts.getChildren().size(); i++)
+        {
+            if (instance.actualScripts.getChildren().get(i).equals(bar))
+            {
+                childIndex = i;
+            }
+        }
+        instance.actualScripts.getChildren().add(childIndex, new ScriptBarCreator(isEdit, bar, childIndex));
+        instance.actualScripts.getChildren().remove(bar);
+
+        System.out.println("child: " + childIndex);
+    }
+
+    public static void cancelEdit(final ScriptBar editBarRef, final int editRefIndex, final ScriptBarCreator editor)
+    {
+        instance.actualScripts.getChildren().add(editRefIndex, editBarRef);
+        instance.actualScripts.getChildren().remove(editor);
+    }
 }

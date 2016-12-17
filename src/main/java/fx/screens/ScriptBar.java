@@ -10,7 +10,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import sounds.SoundManager;
 
 public class ScriptBar extends HBox
 {
@@ -23,11 +22,21 @@ public class ScriptBar extends HBox
 
     ScriptBar me;
 
+    public ScriptData getData()
+    {
+        return _data;
+    }
+
+    public void updateData(final ScriptData data)
+    {
+        textField.setText(_data.getCompactedScript());
+    }
+
     public ScriptBar(final ScriptData data)
     {
         me = this;
         _data = data;
-        textField.setText(_data.getScript());
+        textField.setText(_data.getCompactedScript());
         textField.setStyle("-fx-control-inner-background: #dddddd");
         textField.setPrefWidth(600);
         textField.setEditable(false);
@@ -88,13 +97,13 @@ public class ScriptBar extends HBox
                 me.getChildren().add(0, editButton);
 
                 final String newTxt = textField.getText();
-                final String oldTxt = _data.getScript();
+                final String oldTxt = _data.getCompactedScript();
 
                 if (!newTxt.equals(oldTxt))
                 {
-                    System.out.println("in old:" + _data.getScript());
-                    _data.updateScript(textField.getText());
-                    System.out.println("in new:" + _data.getScript());
+                    System.out.println("in old:" + _data.getCompactedScript());
+                    _data.updateCompactedScript(textField.getText());
+                    System.out.println("in new:" + _data.getCompactedScript());
                     ScriptsUpdater.updateScript(_data);
                 }
                 else
@@ -112,15 +121,16 @@ public class ScriptBar extends HBox
             @Override
             public void handle(final MouseEvent event)
             {
-                SoundManager.playBuzzerSound();
+                ScriptsUpdater.editScript(me, true);
                 // User wants to edit. let them do this
-                setEnabledColor(textField);
-                deleteButton.setVisible(false);
-                saveButton.setVisible(true);
-                editButton.setVisible(false);
-                me.getChildren().remove(editButton);
-                me.getChildren().add(0, saveButton);
+                /*
+                 * setEnabledColor(textField); deleteButton.setVisible(false);
+                 * saveButton.setVisible(true); editButton.setVisible(false);
+                 * me.getChildren().remove(editButton); me.getChildren().add(0,
+                 * saveButton);
+                 */
             }
         });
     }
+
 }

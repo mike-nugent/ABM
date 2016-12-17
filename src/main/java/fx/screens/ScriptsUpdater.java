@@ -38,18 +38,23 @@ public class ScriptsUpdater
         // initialize from database
         for (final ScriptData script : allScripts)
         {
-            System.out.println("Script: " + script.getID() + " " + script.getScript());
+            System.out.println("Script: " + script.getID() + " " + script.getCompactedScript());
             ScriptsScreen.createScript(script, null);
         }
     }
 
     public static void updateScript(final ScriptData data)
     {
-        System.out.println("before db: " + data.getScript());
+        System.out.println("before db: " + data.getCompactedScript());
         AionDB.updateScript(data);
-        System.out.println("after db: " + data.getScript());
+        System.out.println("after db: " + data.getCompactedScript());
 
         HandlerManager.updateLineHandler(data);
+    }
+
+    public static void editScript(final ScriptBar bar, final boolean isEdit)
+    {
+        ScriptsScreen.editScript(bar, isEdit);
     }
 
     public static void deleteScript(final ScriptBar bar, final ScriptData data)
@@ -60,6 +65,11 @@ public class ScriptsUpdater
             AionDB.deleteScript(data);
             allScripts.remove(data);
         }
+    }
+
+    public static void cancelEdit(final ScriptBar editBarRef, final int editRefIndex, final ScriptBarCreator editor)
+    {
+        ScriptsScreen.cancelEdit(editBarRef, editRefIndex, editor);
     }
 
 }

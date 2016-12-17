@@ -43,7 +43,7 @@ public class HandlerManager
             if (handler.getID() == data.getID())
             {
                 System.out.println("Found match ID = " + data.getID());
-                System.out.println("Just before: " + data.getScript());
+                System.out.println("Just before: " + data.getCompactedScript());
                 handler.updateLineHandler(data);
                 return;
             }

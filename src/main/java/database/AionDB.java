@@ -199,7 +199,7 @@ public class AionDB
         {
             final Statement stmt = _conn.createStatement();
             stmt.executeUpdate(
-                    "UPDATE SCRIPTS SET SCRIPT='" + scriptData.getScript() + "' WHERE ID=" + scriptData.getID() + ";");
+                    "UPDATE SCRIPTS SET SCRIPT='" + scriptData.getCompactedScript() + "' WHERE ID=" + scriptData.getID() + ";");
             stmt.close();
         }
         catch (final Exception e)

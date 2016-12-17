@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gameinfo.IconLoader;
+import gameinfo.ScriptData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,8 +41,23 @@ public class ScriptBarCreator extends Pane
     private final Button saveBtn      = new Button("Create", new ImageView(IconLoader.loadFxImage("save.png", 20)));
     private final Button soundTestBtn = new Button("", new ImageView(IconLoader.loadFxImage("play-icon.png", 20)));
 
+    private final ScriptBar editBarRef;
+    private final int       editRefIndex;
+    boolean                 isEdit;
+    ScriptBarCreator        me;
+
     public ScriptBarCreator()
     {
+        this(false, null, 0);
+    }
+
+    public ScriptBarCreator(final boolean isEdit, final ScriptBar bar, final int childIndex)
+    {
+        me = this;
+        this.isEdit = isEdit;
+        this.editBarRef = bar;
+        this.editRefIndex = childIndex;
+
         setupLogField();
         setupSoundOptions();
         setupAlertOptions();
@@ -84,7 +100,14 @@ public class ScriptBarCreator extends Pane
             @Override
             public void handle(final ActionEvent e)
             {
-                ScriptsUpdater.deleteScript(local);
+                if (!isEdit)
+                {
+                    ScriptsUpdater.deleteScript(local);
+                }
+                else
+                {
+                    ScriptsUpdater.cancelEdit(editBarRef, editRefIndex, me);
+                }
             }
         });
 
@@ -110,9 +133,26 @@ public class ScriptBarCreator extends Pane
                     completedScript += "PLAY [" + soundList.getSelectionModel().getSelectedItem() + "]";
                 }
 
-                ScriptsUpdater.createScript(completedScript, local);
+                if (isEdit)
+                {
+                    final ScriptData data = editBarRef.getData();
+                    data.updateCompactedScript(completedScript);
+                    ScriptsUpdater.updateScript(data);
+                    editBarRef.updateData(data);
+                    ScriptsUpdater.cancelEdit(editBarRef, editRefIndex, me);
+                }
+                else
+                {
+                    ScriptsUpdater.createScript(completedScript, local);
+                }
             }
         });
+
+        if (isEdit)
+        {
+            saveBtn.setText("Update");
+            closeBtn.setText("Cancel Edit");
+        }
 
     }
 
@@ -169,6 +209,30 @@ public class ScriptBarCreator extends Pane
         secChoice.setVisible(false);
         timerList.setVisible(false);
 
+        if (isEdit)
+        {
+            final ScriptData data = editBarRef.getData();
+            final String timeData = data.getTime();
+
+            if (timeData != null)
+            {
+                timerCheckbox.setSelected(true);
+                minChoice.setVisible(true);
+                secChoice.setVisible(true);
+                timerList.setVisible(true);
+
+                final String[] split = timeData.split(":");
+                final String mode = split[0];
+                final int minutes = Integer.parseInt(split[1]);
+                final int seconds = Integer.parseInt(split[2]);
+
+                timerList.getSelectionModel().select(mode);
+                minChoice.getSelectionModel().select(minutes);
+                secChoice.getSelectionModel().select(seconds);
+
+            }
+        }
+
     }
 
     private List<String> getTimes(final String s)
@@ -210,6 +274,19 @@ public class ScriptBarCreator extends Pane
         customAlertField.setPrefWidth(250);
         customAlertField.setText("<custom alert text here>");
         customAlertField.setVisible(false);
+
+        if (isEdit)
+        {
+            final ScriptData data = editBarRef.getData();
+            final String alert = data.getAlert();
+
+            if (alert != null)
+            {
+                alertBox.setSelected(true);
+                customAlertField.setVisible(true);
+                customAlertField.setText(alert);
+            }
+        }
     }
 
     private void setupSoundOptions()
@@ -270,11 +347,32 @@ public class ScriptBarCreator extends Pane
                 // undManager.playEmbeddedSound(soundList.getValue());
             }
         });
+
+        if (isEdit)
+        {
+            final ScriptData data = editBarRef.getData();
+            final String soundData = data.getSound();
+
+            if (soundData != null)
+            {
+                soundCheck.setSelected(true);
+                soundList.setVisible(true);
+                soundTestBtn.setVisible(true);
+
+                soundList.getSelectionModel().select(soundData);
+            }
+        }
+
     }
 
     private void setupLogField()
     {
         scriptField.setPrefWidth(300);
+        if (isEdit)
+        {
+            final ScriptData data = editBarRef.getData();
+            scriptField.setText(data.getLine());
+        }
     }
 
     public HBox wrap(final Node... children)
