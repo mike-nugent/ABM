@@ -125,8 +125,6 @@ public class ScriptsScreen extends HBox
         }
         instance.actualScripts.getChildren().add(childIndex, new ScriptBarCreator(isEdit, bar, childIndex));
         instance.actualScripts.getChildren().remove(bar);
-
-        System.out.println("child: " + childIndex);
     }
 
     public static void cancelEdit(final ScriptBar editBarRef, final int editRefIndex, final ScriptBarCreator editor)

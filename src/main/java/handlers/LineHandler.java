@@ -84,7 +84,7 @@ public abstract class LineHandler
     /**
      * Must be overridden in sub-class and define implementation of handling the
      * line
-     * 
+     *
      * @param isCurrent
      *            TODO
      */
@@ -151,8 +151,8 @@ public abstract class LineHandler
             // less frequent
             handlers = new ArrayList<LineHandler>();
             handlers.addAll(HandlerManager.getCustomHandlers());
-            // handlers.add(new InflictDamageLineHandler());
-            // handlers.add(new UsesCooldownLineHandler());
+            handlers.add(new InflictDamageLineHandler());
+            handlers.add(new UsesCooldownLineHandler());
             handlers.add(new DeathLineHandler());
             handlers.add(new TransformLineHandler());
             handlers.add(new ArtifactCaptureLineHandler());

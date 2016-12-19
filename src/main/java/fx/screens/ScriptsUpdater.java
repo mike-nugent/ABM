@@ -38,16 +38,13 @@ public class ScriptsUpdater
         // initialize from database
         for (final ScriptData script : allScripts)
         {
-            System.out.println("Script: " + script.getID() + " " + script.getCompactedScript());
             ScriptsScreen.createScript(script, null);
         }
     }
 
     public static void updateScript(final ScriptData data)
     {
-        System.out.println("before db: " + data.getCompactedScript());
         AionDB.updateScript(data);
-        System.out.println("after db: " + data.getCompactedScript());
 
         HandlerManager.updateLineHandler(data);
     }
@@ -64,6 +61,7 @@ public class ScriptsUpdater
         {
             AionDB.deleteScript(data);
             allScripts.remove(data);
+            HandlerManager.deleteScript(data);
         }
     }
 

@@ -9,8 +9,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import config.ConfigFile;
+import gameinfo.Archetype;
 import gameinfo.PlayerData;
+import gameinfo.Race;
+import gameinfo.Rank;
 import gameinfo.ScriptData;
+import gameinfo.Server;
 import gameinfo.SoundData;
 
 public class AionDB
@@ -147,14 +151,63 @@ public class AionDB
 
     }
 
-    public static void addOrUpdatePlayer(final PlayerData r)
+    public static void addOrUpdatePlayer(final String name, final Server server, final Race race, final Archetype clazz,
+            final Rank rank)
     {
+
+        String completeStatement = "INSERT INTO PLAYERS ";
+        String fields = "";
+        String values = "";
+
+        if (name != null)
+        {
+            fields += "NAME, ";
+            values += "'" + name + "', ";
+        }
+
+        if (server != null)
+        {
+            fields += "SERVER, ";
+            values += "'" + server.name() + "', ";
+        }
+
+        if (race != null)
+        {
+            fields += "RACE, ";
+            values += "'" + race.name() + "', ";
+        }
+
+        if (clazz != null)
+        {
+            fields += "CLASS, ";
+            values += "'" + clazz.name() + "', ";
+        }
+
+        if (rank != null)
+        {
+            fields += "RANK ";
+            fields += "'" + rank.getRankTitle() + "'";
+        }
+
+        fields = fields.trim();
+        if (fields.endsWith(","))
+        {
+            fields = fields.substring(0, fields.length() - 1);
+        }
+
+        values = values.trim();
+        if (values.endsWith(","))
+        {
+            values = values.substring(0, values.length() - 1);
+        }
+
+        completeStatement += "(" + fields + ") VALUES (" + values + ");";
 
         try
         {
+            System.out.println("Adding player: " + name + " to database");
             final Statement stmt = _conn.createStatement();
-            stmt.executeUpdate("INSERT INTO PLAYERS VALUES ( '" + r.name + "', '" + r.server + "', '" + r.race + "', '"
-                    + r.clazz + "', '" + r.rank + "' )");
+            stmt.executeUpdate(completeStatement);
 
             stmt.close();
 
@@ -198,8 +251,8 @@ public class AionDB
         try
         {
             final Statement stmt = _conn.createStatement();
-            stmt.executeUpdate(
-                    "UPDATE SCRIPTS SET SCRIPT='" + scriptData.getCompactedScript() + "' WHERE ID=" + scriptData.getID() + ";");
+            stmt.executeUpdate("UPDATE SCRIPTS SET SCRIPT='" + scriptData.getCompactedScript() + "' WHERE ID="
+                    + scriptData.getID() + ";");
             stmt.close();
         }
         catch (final Exception e)

@@ -47,7 +47,7 @@ public enum Archetype
 		{
 			return Archetype.valueOf(name);
 		}
-		catch (IllegalArgumentException e)
+		catch (Exception e)
 		{
 			return Archetype.Unknown;
 		}

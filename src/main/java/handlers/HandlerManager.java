@@ -49,4 +49,23 @@ public class HandlerManager
             }
         }
     }
+
+    public static void deleteScript(final ScriptData data)
+    {
+        CustomLineHandler flag = null;
+        for (final CustomLineHandler handler : handlers)
+        {
+            if (handler.getID() == data.getID())
+            {
+                flag = handler;
+                break;
+            }
+        }
+
+        if (flag != null)
+        {
+            System.out.println("Removing the handler: " + flag);
+            handlers.remove(flag);
+        }
+    }
 }
