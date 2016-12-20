@@ -186,7 +186,7 @@ public class AionDB
         if (rank != null)
         {
             fields += "RANK ";
-            fields += "'" + rank.getRankTitle() + "'";
+            values += "'" + rank.getRankTitle() + "'";
         }
 
         fields = fields.trim();
