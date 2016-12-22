@@ -2,6 +2,10 @@ package fx.screens;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
+
+import org.apache.commons.io.FileUtils;
 
 import config.ConfigFile;
 import config.SystemConfigFileEditor;
@@ -17,12 +21,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import main.MainFX;
+import skins.Skins;
 
 public class EnableChatLogScreen extends HBox
 {
@@ -33,7 +39,7 @@ public class EnableChatLogScreen extends HBox
     private final TextField aionLocation       = new TextField();
     private final Button    chatBtn            = new Button("Fix This");
     private final Button    ovrBtn             = new Button("Fix This");
-    final Button            saveAndFinalizeBtn = new Button("Save and Finalize");
+    final Button            saveAndFinalizeBtn = new Button("Save And Apply");
     ConfigPopupPage         _page;
 
     public EnableChatLogScreen(final ConfigPopupPage configPopupPage)
@@ -92,7 +98,7 @@ public class EnableChatLogScreen extends HBox
             }
         });
 
-        aionLocation.setPrefWidth(280);
+        aionLocation.setPrefWidth(260);
         aionButton.setPrefWidth(50);
         grid.add(aionLocation, 1, 1);
         grid.add(aionButton, 2, 1);
@@ -109,9 +115,31 @@ public class EnableChatLogScreen extends HBox
                 final File chatFileToMake = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_LOG_FILE_NAME);
                 try
                 {
-                    if (!chatFileToMake.exists())
+
+                    if (chatBtn.getText().contains("Clear"))
                     {
-                        chatFileToMake.createNewFile();
+                        try
+                        {
+                            FileUtils.write(chatFileToMake, "", StandardCharsets.ISO_8859_1);
+                        }
+                        catch (final Exception e1)
+                        {
+                            final Alert alert = new Alert(AlertType.ERROR);
+                            alert.setTitle("Did you run as Administrator?");
+                            alert.setHeaderText(
+                                    "Oops!\nIn order to clear the Chat.log file, ASDM needs to be run in Administrator Mode.");
+                            alert.setContentText(
+                                    "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
+                                            + "That will allow ASDM to clear the Chat.log file");
+                            alert.showAndWait();
+                        }
+                    }
+                    else
+                    {
+                        if (!chatFileToMake.exists())
+                        {
+                            chatFileToMake.createNewFile();
+                        }
                     }
                 }
                 catch (final IOException e1)
@@ -129,7 +157,22 @@ public class EnableChatLogScreen extends HBox
                 checkFiles();
             }
         });
-        grid.add(chatBtn, 2, 2);
+        final ImageView logHelp = new ImageView(IconLoader.loadFxImage("help-icon.png", 25));
+        logHelp.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                final CustomAlert alrt = new CustomAlert("The Chat.log file",
+                        "ASDM reads the Chat.log file to work."
+                                + "\nOver time the log file can get quite large and needs to be emptied.\n"
+                                + "Emptying the log file has no adverse effects on ASDM or your system.\n\n"
+                                + "Note: ASDM must be run in Administrator Mode to create or empty the Chat.log file");
+                alrt.show();
+            }
+        });
+        grid.add(new HBox(10, chatBtn, logHelp), 2, 2);
 
         ovrBtn.setPrefWidth(100);
         ovrBtn.setOnAction(new EventHandler<ActionEvent>()
@@ -139,33 +182,76 @@ public class EnableChatLogScreen extends HBox
             {
                 // Create the file if you can.
 
-                try
+                if (ovrBtn.getText().equals("Turn Off"))
                 {
-                    final File cfgFileToCreate = new File(
-                            aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
-                    SystemConfigFileEditor.enableChatLogFile(cfgFileToCreate.getAbsolutePath());
+                    try
+                    {
+                        final File cfgFileToCreate = new File(
+                                aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
+                        SystemConfigFileEditor.disableChatLogFile(cfgFileToCreate.getAbsolutePath());
+                    }
+                    catch (final Exception e1)
+                    {
+                        final Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Did you run as Administrator?");
+                        alert.setHeaderText(
+                                "Oops!\nIn order to disable the chat logging, ASDM needs to be run in Administrator Mode.");
+                        alert.setContentText(
+                                "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
+                                        + "That will allow ASDM to edit the system.cfg file");
+                        alert.showAndWait();
+                    }
                 }
-                catch (final Exception e1)
+                else
                 {
-                    final Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Did you run as Administrator?");
-                    alert.setHeaderText(
-                            "Oops!\nIn order to enable the chat logging, ASDM needs to be run in Administrator Mode.");
-                    alert.setContentText(
-                            "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
-                                    + "That will allow ASDM to edit the system.cfg file");
-                    alert.showAndWait();
+
+                    try
+                    {
+                        final File cfgFileToCreate = new File(
+                                aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
+                        SystemConfigFileEditor.enableChatLogFile(cfgFileToCreate.getAbsolutePath());
+                    }
+                    catch (final Exception e1)
+                    {
+                        final Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Did you run as Administrator?");
+                        alert.setHeaderText(
+                                "Oops!\nIn order to enable the chat logging, ASDM needs to be run in Administrator Mode.");
+                        alert.setContentText(
+                                "To do this, close ASDM, and restart it by right clicking, selecting Run As > Administrator.  "
+                                        + "That will allow ASDM to edit the system.cfg file");
+                        alert.showAndWait();
+                    }
                 }
 
                 checkFiles();
             }
         });
-        grid.add(ovrBtn, 2, 3);
+        final ImageView cfgHelp = new ImageView(IconLoader.loadFxImage("help-icon.png", 25));
+        cfgHelp.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
 
-        saveAndFinalizeBtn.setMinWidth(280);
-        saveAndFinalizeBtn.setMinHeight(40);
-        saveAndFinalizeBtn.setStyle("-fx-font-size: 25px;");
-        saveAndFinalizeBtn.setDisable(true);
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                final CustomAlert alrt = new CustomAlert("The system.cfg file",
+                        "To enable / disable the chat log in Aion, ASDM configures a value in the system.cfg file\n"
+                                + "When the Aion client starts, it reads the system.cfg file and maintains the values in memory. "
+                                + "When Aion closes, it writes the values back to the file.\n\n"
+                                + "For this reason, Aion must be closed when changing this property.\n\n"
+                                + "Note: ASDM must be run in Administrator Mode to modify the system.cfg file and Aion must be closed during this process\n\n"
+                                + "Note 2: If you are seeing performance issues during sieges or PVP events, disabling the logging may help.");
+                alrt.show();
+            }
+        });
+        grid.add(new HBox(10, ovrBtn, cfgHelp), 2, 3);
+
+        // saveAndFinalizeBtn.setMinWidth(280);
+        // saveAndFinalizeBtn.setMinHeight(40);
+        // saveAndFinalizeBtn.setStyle("-fx-font-size: 25px;");
+        saveAndFinalizeBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        saveAndFinalizeBtn.getStylesheets().add(Skins.get("GreenBtn.css"));
+
         saveAndFinalizeBtn.setOnAction(new EventHandler<ActionEvent>()
         {
 
@@ -181,7 +267,7 @@ public class EnableChatLogScreen extends HBox
                 _page.close();
             }
         });
-        grid.add(saveAndFinalizeBtn, 1, 4);
+        grid.add(saveAndFinalizeBtn, 2, 4);
 
         this.getChildren().add(grid);
     }
@@ -193,16 +279,24 @@ public class EnableChatLogScreen extends HBox
 
         if (chatFileCheck.exists() && chatFileCheck.isFile() && chatFileCheck.canRead())
         {
+            final double bytes = chatFileCheck.length();
+            final double kilobytes = (bytes / 1024);
+            final double megabytes = (kilobytes / 1024);
+            final double gigabytes = (megabytes / 1024);
+
+            final DecimalFormat df = new DecimalFormat("0.00");
+
             chatVer.setText("VERIFIED");
             chatVer.setTextFill(Color.DARKGREEN);
-            chatBtn.setVisible(false);
-
+            chatBtn.setVisible(true);
+            chatBtn.setText("Clear (" + df.format(gigabytes) + " GB)");
         }
         else
         {
-            chatVer.setText("MISSING                            -->");
+            chatVer.setText("MISSING              -->");
             chatVer.setTextFill(Color.RED);
             chatBtn.setVisible(true);
+            chatBtn.setText("Fix This");
         }
 
         if (cfgFileCheck.exists() && cfgFileCheck.isFile() && cfgFileCheck.canRead())
@@ -217,36 +311,34 @@ public class EnableChatLogScreen extends HBox
                 {
                     ovrVer.setText("VERIFIED");
                     ovrVer.setTextFill(Color.DARKGREEN);
-                    ovrBtn.setVisible(false);
+                    ovrBtn.setVisible(true);
+                    ovrBtn.setText("Turn Off");
 
                 }
                 else
                 {
-                    ovrVer.setText("NOT ENABLED                         -->");
+                    ovrVer.setText("NOT ENABLED                -->");
                     ovrVer.setTextFill(Color.LIGHTCORAL);
                     ovrBtn.setVisible(true);
+                    ovrBtn.setText("Turn On");
 
                 }
             }
             catch (final Exception e)
             {
                 System.out.println(e);
-                ovrVer.setText("ERROR IN READING                         -->");
+                ovrVer.setText("ERROR IN READING               -->");
                 ovrVer.setTextFill(Color.YELLOW);
                 ovrBtn.setVisible(true);
+                ovrBtn.setText("Fix This");
             }
         }
         else
         {
-            ovrVer.setText("MISSING                            -->");
+            ovrVer.setText("MISSING              -->");
             ovrVer.setTextFill(Color.RED);
             ovrBtn.setVisible(true);
-
-        }
-
-        if (chatVer.getText().contains("VERIFIED") && ovrVer.getText().contains("VERIFIED"))
-        {
-            saveAndFinalizeBtn.setDisable(false);
+            ovrBtn.setText("Fix this");
         }
     }
 

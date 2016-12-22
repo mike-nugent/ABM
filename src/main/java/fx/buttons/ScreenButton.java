@@ -13,13 +13,24 @@ import javafx.scene.paint.Color;
 public class ScreenButton extends StackPane
 {
     ScreenButton           me;
-    protected final Region region = new Region();
+    protected final Region region    = new Region();
+    final ImageView        imageView = new ImageView();
+
+    public void updateImageDimensions(final int size)
+    {
+        imageView.setFitWidth(size);
+        imageView.setFitHeight(size);
+        region.setMaxWidth(size + 10);
+        region.setMaxHeight(size + 10);
+        region.setPrefWidth(size + 10);
+        region.setPrefHeight(size + 10);
+    }
 
     public ScreenButton(final String iconName, final int height)
     {
         me = this;
         final Image image = IconLoader.loadFxImage(iconName, height);
-        final ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
 
         this.getChildren().add(imageView);
         me.setEffect(new DropShadow(10, Color.DARKGRAY));
@@ -30,7 +41,6 @@ public class ScreenButton extends StackPane
             public void handle(final MouseEvent event)
             {
                 mousePressed(event);
-                // me.setEffect(new DropShadow(10, Color.RED));
 
             }
 

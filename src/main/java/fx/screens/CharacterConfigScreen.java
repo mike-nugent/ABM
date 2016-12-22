@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import skins.Skins;
 
 public class CharacterConfigScreen extends HBox
 {
@@ -69,6 +70,8 @@ public class CharacterConfigScreen extends HBox
         initializePlayerFields(nameField, serverControl, raceControl);
 
         final Button btn = new Button("Save and Next");
+        btn.getStylesheets().add(Skins.get("GreenBtn.css"));
+
         final HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);

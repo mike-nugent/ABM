@@ -13,7 +13,7 @@ import gameinfo.Server;
 
 public class ConfigFile
 {
-    private static final String CONFIG_DIR_NAME  = "zhule-aion-program";
+    private static final String CONFIG_DIR_NAME  = "zhule-aion-program-v2";
     private static final String CONFIG_FILE_NAME = "config.properties";
 
     private static final String NAME_KEY     = "name";
@@ -34,6 +34,7 @@ public class ConfigFile
     public static final String IS_XFORM_SHOWING         = "isXformShowing";
     public static final String LOCK_WINDOW_POSITION     = "lockWindowPositions";
     public static final String XFORM_LOCATION_PROPERTY  = "xformLocation";
+    public static final String UI_SIZES                 = "uiSize";
 
     private static String _name;
     private static Race   _race;

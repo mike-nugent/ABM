@@ -18,6 +18,6 @@ public class ConfigWarningButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        DisplayManager.toggleConfigPopup();
+        DisplayManager.openLoggingSettings();
     }
 }

@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 
 import config.ConfigFile;
+import config.SystemConfigFileEditor;
 import database.AionDB;
 import database.PlayerBaseUpdater;
 import fx.buttons.ClockScreenButton;
@@ -23,6 +24,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -50,6 +52,7 @@ public class MainFX extends Application
     private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
     private final OptionsButton       _optionsButton       = new OptionsButton();
     private final MoveCursor          _moveCursor          = new MoveCursor();
+    final HBox                        _asdmIcons           = new HBox();
 
     // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
@@ -75,6 +78,20 @@ public class MainFX extends Application
         }
     }
 
+    public static void changeIconSizes(final int size)
+    {
+        for (final Node btn : _me._asdmIcons.getChildren())
+        {
+            if (btn instanceof ScreenButton)
+            {
+                final ScreenButton sb = (ScreenButton) btn;
+                sb.updateImageDimensions(size);
+            }
+        }
+
+        _me._asdmIcons.autosize();
+    }
+
     /**
      * Built in JavaFX mechanism for starting the program.
      *
@@ -87,6 +104,7 @@ public class MainFX extends Application
         {
             _me = this;
             _primaryStage = primaryStage;
+            _primaryStage.setResizable(true);
             setupDatabase();
 
             buildUI();
@@ -144,6 +162,15 @@ public class MainFX extends Application
             _primaryStage.setX(winx);
             _primaryStage.setY(winy);
         }
+
+        final String uiSize = ConfigFile.getProperty(ConfigFile.UI_SIZES);
+        if (uiSize != null)
+        {
+            if (uiSize.equals("small"))
+            {
+                changeIconSizes(30);
+            }
+        }
     }
 
     private HBox addOptionsList()
@@ -191,15 +218,23 @@ public class MainFX extends Application
             _configWarningButton.setVisible(false);
             // Do some quick validation on the log file.
             final File logFile = ConfigFile.getLogFile();
+            final File cfgFile = ConfigFile.getCfgFile();
             if (!logFile.exists())
             {
                 DisplayManager.toggleConfigPopup();
+                _configWarningButton.setVisible(true);
 
                 // If the log file doesn't exist, we need to create it.
                 final Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Error in Setup");
                 alert.setHeaderText("Check your logging settings");
                 alert.setContentText("There may be an issue with your setup, check your settings.");
+                return;
+            }
+
+            if (!SystemConfigFileEditor.isConfigFileEnabled(cfgFile.getAbsolutePath()))
+            {
+                _configWarningButton.setVisible(true);
                 return;
             }
 
@@ -309,10 +344,9 @@ public class MainFX extends Application
      */
     public HBox addScreenButtons()
     {
-        final HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(15);
-        hbox.setAlignment(Pos.CENTER);
+        _asdmIcons.setPadding(new Insets(15, 12, 15, 12));
+        _asdmIcons.setSpacing(15);
+        _asdmIcons.setAlignment(Pos.CENTER_LEFT);
         final XformScreenButton xform = new XformScreenButton();
         DisplayManager.setXformButton(xform);
         final ScreenButton players = new PlayerScreenButton();
@@ -320,9 +354,9 @@ public class MainFX extends Application
         final ScreenButton logs = new LogScreenButton();
         final ClockScreenButton clock = new ClockScreenButton();
 
-        hbox.getChildren().addAll(xform, players, scripts, logs, clock);
+        _asdmIcons.getChildren().addAll(xform, players, scripts, logs, clock);
 
-        return hbox;
+        return _asdmIcons;
     }
 
 }

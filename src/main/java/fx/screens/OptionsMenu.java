@@ -8,16 +8,23 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import main.ASDMStage;
 import main.DisplayManager;
+import main.MainFX;
 
 public class OptionsMenu
 {
     private static ContextMenu _optionsMenu;
+
+    final static RadioMenuItem smallIcons = new RadioMenuItem("Small Icons");
+    final static RadioMenuItem largeIcons = new RadioMenuItem("Large Icons");
 
     public static void openOptionsMenu()
     {
@@ -48,6 +55,54 @@ public class OptionsMenu
                     DisplayManager.toggleConfigPopup();
                 }
             });
+
+            // --------------------------------------------
+            final Menu uiSizes = new Menu("UI Size", new ImageView(IconLoader.loadFxImage("icon-sizes.png", 25)));
+
+            final String uiSize = ConfigFile.getProperty(ConfigFile.UI_SIZES);
+            if (uiSize != null)
+            {
+                if (uiSize.equals("small"))
+                {
+                    smallIcons.setSelected(true);
+                }
+                else
+                {
+                    largeIcons.setSelected(true);
+                }
+            }
+            else
+            {
+                largeIcons.setSelected(true);
+            }
+
+            final ToggleGroup toggleGroup = new ToggleGroup();
+            smallIcons.setToggleGroup(toggleGroup);
+            largeIcons.setToggleGroup(toggleGroup);
+
+            smallIcons.setOnAction(new EventHandler<ActionEvent>()
+            {
+
+                @Override
+                public void handle(final ActionEvent event)
+                {
+                    updateMenuSizeSelection(event);
+                }
+
+            });
+            largeIcons.setOnAction(new EventHandler<ActionEvent>()
+            {
+
+                @Override
+                public void handle(final ActionEvent event)
+                {
+                    updateMenuSizeSelection(event);
+
+                }
+            });
+
+            uiSizes.getItems().addAll(largeIcons, smallIcons);
+
             // ----------------------------------------------------------------
             final CheckMenuItem onTop = new CheckMenuItem("Always on top",
                     new ImageView(IconLoader.loadFxImage("on-top.png", 30)));
@@ -63,9 +118,9 @@ public class OptionsMenu
 
             final CheckMenuItem lockUI = new CheckMenuItem("Lock UI position",
                     new ImageView(IconLoader.loadFxImage("lock.png", 30)));
-            
-            String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
-            if(isSet != null && isSet.equals("true"))
+
+            final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
+            if (isSet != null && isSet.equals("true"))
             {
                 lockUI.setSelected(true);
             }
@@ -73,9 +128,7 @@ public class OptionsMenu
             {
                 lockUI.setSelected(false);
             }
-            
-            
-            
+
             lockUI.selectedProperty().addListener(new ChangeListener<Boolean>()
             {
                 @Override
@@ -83,7 +136,7 @@ public class OptionsMenu
                 {
                     // ASDMStage.getStage().setAlwaysOnTop(new_val);
                     ASDMStage.setWindowLock(new_val);
-                    ConfigFile.setProperty(ConfigFile.LOCK_WINDOW_POSITION, new_val+"");
+                    ConfigFile.setProperty(ConfigFile.LOCK_WINDOW_POSITION, new_val + "");
                 }
             });
 
@@ -103,8 +156,8 @@ public class OptionsMenu
             // closes the menu as default behavior
             final MenuItem close = new MenuItem("Collapse This Menu");
 
-            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), onTop,
-                    lockUI, minimize, close);
+            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), uiSizes,
+                    onTop, lockUI, minimize, close);
         }
 
         if (_optionsMenu.isShowing())
@@ -121,6 +174,21 @@ public class OptionsMenu
             _optionsMenu.setX(stage.getX() + stage.getWidth() - _optionsMenu.getWidth());
             _optionsMenu.setY(stage.getY() - _optionsMenu.getHeight() + 20);
 
+        }
+    }
+
+    private static void updateMenuSizeSelection(final ActionEvent event)
+    {
+        final RadioMenuItem item = (RadioMenuItem) event.getSource();
+        if (smallIcons.isSelected())
+        {
+            MainFX.changeIconSizes(30);
+            ConfigFile.setProperty(ConfigFile.UI_SIZES, "small");
+        }
+        else
+        {
+            MainFX.changeIconSizes(60);
+            ConfigFile.setProperty(ConfigFile.UI_SIZES, "large");
         }
     }
 }

@@ -6,16 +6,16 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{1049D6BC-75B3-4E95-BB22-62B607089AF3}
-AppName=Zhule's Program
+AppName=Aion Sovereign Daeva Meter
 AppVersion=1.0
 ;AppVerName=Zhule's Program 1.0
 AppPublisher=Blind Paradox
 AppPublisherURL=http://www.blindparadox.com/
 AppSupportURL=http://www.blindparadox.com/
 AppUpdatesURL=http://www.blindparadox.com/
-DefaultDirName={pf}\Zhule's Aion Program
+DefaultDirName={pf}\Zhule's Aion Program V2
 DisableProgramGroupPage=yes
-OutputBaseFilename=AionSovereignDaevaMeterInstaller
+OutputBaseFilename=ASDM_Installer
 Compression=lzma
 SolidCompression=yes
 
@@ -26,13 +26,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\workspace\Jwrapper\JWrapperBuild\TestZhuleProgram4-windows64-offline.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\git\ASDM\jarToExe\JWrapperBuild\ASDM.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{commonprograms}\Zhule's Program"; Filename: "{app}\TestZhuleProgram4-windows64-offline.exe"
-Name: "{commondesktop}\Zhule's Program"; Filename: "{app}\TestZhuleProgram4-windows64-offline.exe"; Tasks: desktopicon
+Name: "{commonprograms}\Zhule's Program"; Filename: "{app}\ASDM.exe"
+Name: "{commondesktop}\Zhule's Program"; Filename: "{app}\ASDM.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\TestZhuleProgram4-windows64-offline.exe"; Description: "{cm:LaunchProgram,Zhule's Program}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\ASDM.exe"; Description: "{cm:LaunchProgram,Zhule's Program}"; Flags: nowait postinstall skipifsilent
 

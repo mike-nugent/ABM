@@ -141,6 +141,15 @@ public class DisplayManager
         }
     }
 
+    public static void openLoggingSettings()
+    {
+        if (!configStage.isShowing())
+        {
+            configStage.show();
+            configStage.showLoggingSettings();
+        }
+    }
+
     public static void togglePlayersPopup()
     {
         if (playersStage.isShowing())

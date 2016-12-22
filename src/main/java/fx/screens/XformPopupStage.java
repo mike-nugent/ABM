@@ -6,6 +6,7 @@ import java.util.Map;
 
 import config.ConfigFile;
 import fx.buttons.MoveCursor;
+import gameinfo.IconLoader;
 import gameinfo.PlayerData;
 import gameinfo.Race;
 import javafx.animation.AnimationTimer;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -30,6 +32,7 @@ import javafx.stage.StageStyle;
 import main.ASDMStage;
 import main.DisplayManager;
 import skins.Skins;
+import sounds.SoundManager;
 
 public class XformPopupStage extends Stage
 {
@@ -93,6 +96,10 @@ public class XformPopupStage extends Stage
         counters.setSpacing(20);
 
         final HBox barNBtn = new HBox();
+        barNBtn.setSpacing(10);
+        // TODO - consider close btn
+        final ImageView vw = new ImageView(IconLoader.loadFxImage("close.png", 25));
+
         barNBtn.getChildren().addAll(_moveCursor);
         HBox.setHgrow(barNBtn, Priority.ALWAYS); // Give stack any extra
         barNBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -302,7 +309,7 @@ public class XformPopupStage extends Stage
 
     public void addNewXform(final PlayerData newXform)
     {
-
+        SoundManager.playTickSound();
         final TransformBarFX player = new TransformBarFX();
         player.setInfo(newXform);
         activeTransforms.put(newXform, player);

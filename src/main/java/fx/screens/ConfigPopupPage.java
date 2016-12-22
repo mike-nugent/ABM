@@ -37,4 +37,9 @@ public class ConfigPopupPage extends PopupStage
         _chatScreen.checkFiles();
     }
 
+    public void showLoggingSettings()
+    {
+        _tabPane.getSelectionModel().select(1);
+    }
+
 }
