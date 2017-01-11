@@ -90,6 +90,7 @@ public class MainFX extends Application
         }
 
         _me._asdmIcons.autosize();
+        _primaryStage.sizeToScene();
     }
 
     /**

@@ -1,5 +1,6 @@
 package fx.buttons;
 
+import fx.screens.AlertScreen;
 import javafx.scene.input.MouseEvent;
 import main.DisplayManager;
 
@@ -15,7 +16,8 @@ public class LogScreenButton extends ScreenButton
     protected void mousePressed(final MouseEvent event)
     {
         DisplayManager.toggleLogsPopup();
-
+        // AlertScreen.showAlert("Hi mom");
+        AlertScreen.showAlert("Mouse Clicked " + Math.random());
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();
         // TransformManager.transformDetected(random);

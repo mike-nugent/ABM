@@ -178,6 +178,7 @@ public class XformPopupStage extends Stage
     {
         asmoXforms.setText(getAsmoCount());
         elyXforms.setText(getElyCount());
+        this.sizeToScene();
     }
 
     private void updateLabel(final Label label, final Color c, final int size, final String font_weight)
