@@ -29,6 +29,7 @@ public class ScriptsPopupPage extends PopupStage
 
         scriptsPane.setContent(new ScriptsScreen());
         soundsPane.setContent(new SoundsScreen());
+        alertsPane.setContent(new AlertConfigScreen());
 
         stage.getChildren().add(pane);
     }

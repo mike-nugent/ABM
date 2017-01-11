@@ -35,6 +35,8 @@ public class ConfigFile
     public static final String LOCK_WINDOW_POSITION     = "lockWindowPositions";
     public static final String XFORM_LOCATION_PROPERTY  = "xformLocation";
     public static final String UI_SIZES                 = "uiSize";
+	public static final String SHOW_ALERTS 				= "showAlerts";
+	public static final String ALERT_TEXT_COLOR 		= "alertTextColor";
 
     private static String _name;
     private static Race   _race;

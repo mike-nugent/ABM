@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 
+import abilities.Ability;
 import config.ConfigFile;
 import config.SystemConfigFileEditor;
 import database.AionDB;
@@ -15,6 +16,7 @@ import fx.buttons.PlayerScreenButton;
 import fx.buttons.ScreenButton;
 import fx.buttons.ScriptsScreenButton;
 import fx.buttons.XformScreenButton;
+import fx.screens.AlertSettings;
 import fx.screens.ScriptsUpdater;
 import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
@@ -204,6 +206,7 @@ public class MainFX extends Application
         PlayerBaseUpdater.initialize();
         ScriptsUpdater.initialize();
         SoundManager.initialize();
+        AlertSettings.initialize();
     }
 
     /**

@@ -1,14 +1,18 @@
-package gameinfo;
+package abilities;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import gameinfo.Archetype;
+import xforms.XformLoader;
 
 public class Ability 
 {
@@ -51,45 +55,43 @@ public class Ability
 	private static List<String> loadAbilities(String name) 
 	{
 		List<String> returnList = new ArrayList<String>();
-		String abilityFile  = "src/main/resources/abilities/"+name + ".abilities";
-		File inFile = new File(abilityFile);
-		FileInputStream inputStream = null;
+		String abilityFile  = name + ".abilities";
 		Scanner sc = null;
+        InputStream in = null;
+
 		
 		try 
 		{
-			inputStream = new FileInputStream(inFile);
-			sc = new Scanner(inputStream, "UTF-8");
-			while (sc.hasNextLine()) 
-			{
-				String line = sc.nextLine();
-				if(line != null && line.trim().length() > 0)
+            in = Ability.class.getResourceAsStream(abilityFile);
+            sc = new Scanner(in, "UTF-8");
+            while (sc.hasNextLine())
+            {
+                final String line = sc.nextLine();
+                if(line != null && line.trim().length() > 0)
 				{
 					returnList.add(line);
-				}				
-			}
-		} catch (FileNotFoundException e) 
-		{			
-			e.printStackTrace();
-		}  
-		finally 
-		{	
-			if (inputStream != null) 
-			{
-				try 
-				{
-					inputStream.close();
-				}
-				catch (IOException e) 
-				{
-					e.printStackTrace();
-				}
-			}
-			if (sc != null) 
-			{
-				sc.close();
-			}
-		}		
+				}	
+            }	
+		} 
+        finally
+        {
+            if (in != null)
+            {
+                try
+                {
+                    in.close();
+                }
+                catch (final IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (sc != null)
+            {
+                sc.close();
+            }
+        }
+
 		
 		return returnList;
 	}

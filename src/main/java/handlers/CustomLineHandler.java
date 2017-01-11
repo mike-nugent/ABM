@@ -2,6 +2,7 @@ package handlers;
 
 import java.util.regex.Pattern;
 
+import fx.screens.AlertScreen;
 import gameinfo.ScriptData;
 import javafx.application.Platform;
 import sounds.SoundManager;
@@ -64,6 +65,13 @@ public class CustomLineHandler extends LineHandler
                 if (sound != null)
                 {
                     SoundManager.playSound(sound);
+                }
+                
+                // Do Alert stuff
+                final String alert = data.getAlert();
+                if(alert != null)
+                {
+                	AlertScreen.showAlert(alert);
                 }
             }
         });

@@ -12,9 +12,10 @@ public class FxClock extends Pane
     final Label _msTxt     = new Label("00");
 
     boolean _isPlaying = false;
+    boolean _isReset = true;
 
     protected long _startTime  = 0;
-    long           _targetTime = Times.TEN_MIUTES;
+    long           _targetTime = Long.MAX_VALUE;
 
     AnimationTimer    animationtimer;
     protected boolean countUpEnabled = true; // DODO - configure this
@@ -61,35 +62,47 @@ public class FxClock extends Pane
     public void resetClock()
     {
         _isPlaying = false;
+        _isReset = true;
+
         if (animationtimer != null)
         {
             animationtimer.stop();
             animationtimer = null;
-            _minSecTxt.setText("00:00");
-            _msTxt.setText("00");
-
-            _minSecTxt.setTextFill(Color.DIMGREY);
-            _msTxt.setTextFill(Color.DIMGREY);
         }
+        
+        _minSecTxt.setText("00:00");
+        _msTxt.setText("00");
+
+        _minSecTxt.setTextFill(Color.DIMGREY);
+        _msTxt.setTextFill(Color.DIMGREY);
     }
 
     public boolean isPlaying()
     {
         return _isPlaying;
     }
+    
+    public boolean isReset()
+    {
+    	return _isReset;
+    }
 
     public void stopClock()
     {
         _isPlaying = false;
+        _isReset = false;
         if (animationtimer != null)
         {
             animationtimer.stop();
+            animationtimer = null;
         }
     }
 
     public void startClock()
     {
         _isPlaying = true;
+        _isReset = false;
+
         if (animationtimer == null)
         {
             _startTime = System.currentTimeMillis();
@@ -109,9 +122,7 @@ public class FxClock extends Pane
                     {
                         countDown(now);
                     }
-
                 }
-
             };
         }
 

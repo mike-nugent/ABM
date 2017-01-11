@@ -17,7 +17,6 @@ public class LogScreenButton extends ScreenButton
     {
         DisplayManager.toggleLogsPopup();
         // AlertScreen.showAlert("Hi mom");
-        AlertScreen.showAlert("Mouse Clicked " + Math.random());
         // uncomment to test adding a transform
         // PlayerData random = PlayerData.generateRandom();
         // TransformManager.transformDetected(random);

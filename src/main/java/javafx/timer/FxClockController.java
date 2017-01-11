@@ -17,14 +17,12 @@ public class FxClockController extends Pane
     Image resetIcon = IconLoader.loadFxImage("reset-icon.png", 25);
 
     ImageView _startStopBtn = new ImageView(startIcon);
-    ImageView _resetBtn     = new ImageView(resetIcon);
     FxClock   _clock;
 
     public FxClockController(final FxClock clock)
     {
         _clock = clock;
         _startStopBtn.setVisible(true);
-        _resetBtn.setVisible(false);
         _startStopBtn.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
 
@@ -33,40 +31,30 @@ public class FxClockController extends Pane
             {
                 SoundManager.playTickSound();
 
-                if (!_clock.isPlaying())
+                if (!_clock.isPlaying() && _clock.isReset())
                 {
                     clock.startClock();
                     _startStopBtn.setImage(stopIcon);
                 }
-                else if (_clock.isPlaying())
+                else if (_clock.isPlaying() && !_clock.isReset())
                 {
                     clock.stopClock();
-                    _startStopBtn.setImage(startIcon);
-                    _startStopBtn.setVisible(false);
-                    _resetBtn.setVisible(true);
+                    _startStopBtn.setImage(resetIcon);
                 }
+                else if (!_clock.isPlaying() && !_clock.isReset())
+                {
+                    clock.resetClock();
+                    _startStopBtn.setImage(startIcon);
+                }
+                
             }
 
         });
 
-        _resetBtn.setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(final MouseEvent e)
-            {
-                SoundManager.playTickSound();
-
-                clock.resetClock();
-                _startStopBtn.setImage(startIcon);
-                _startStopBtn.setVisible(true);
-                _resetBtn.setVisible(false);
-            }
-
-        });
 
         final StackPane btnGrp = new StackPane();
         btnGrp.setPadding(new Insets(10));
-        btnGrp.getChildren().addAll(_startStopBtn, _resetBtn);
+        btnGrp.getChildren().addAll(_startStopBtn);
         this.getChildren().add(btnGrp);
     }
 }
