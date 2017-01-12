@@ -1,5 +1,7 @@
 package fx.screens;
 
+import com.sun.org.apache.bcel.internal.generic.IfInstruction;
+
 import config.ConfigFile;
 import gameinfo.IconLoader;
 import javafx.beans.value.ChangeListener;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import main.ASDMStage;
 import main.DisplayManager;
 import main.MainFX;
+import versioning.VersionManager;
 
 public class OptionsMenu
 {
@@ -57,6 +60,25 @@ public class OptionsMenu
             });
 
             // --------------------------------------------
+            final MenuItem checkUpdates = new MenuItem("Check For Updates",
+                    new ImageView(IconLoader.loadFxImage("update-icon.png", 25)));
+;
+            checkUpdates.setOnAction(new EventHandler<ActionEvent>() 
+            {
+				@Override
+				public void handle(ActionEvent event) 
+				{
+					if(!VersionManager.checkForNewerVersions())
+					{
+						 UpdateAvailableAlert alert = new UpdateAvailableAlert("No Updates Available", 
+				    				"Your version of ASDM is up to date!",
+				    				VersionManager.CURRENT_VERSION, VersionManager.AVAILABLE_VERSION);
+						 alert.disableDownloadLink();
+						 alert.show();
+					}
+				}
+			});
+
             final Menu uiSizes = new Menu("UI Size", new ImageView(IconLoader.loadFxImage("icon-sizes.png", 25)));
 
             final String uiSize = ConfigFile.getProperty(ConfigFile.UI_SIZES);
@@ -104,7 +126,7 @@ public class OptionsMenu
             uiSizes.getItems().addAll(largeIcons, smallIcons);
 
             // ----------------------------------------------------------------
-            final CheckMenuItem onTop = new CheckMenuItem("Always on top",
+            final CheckMenuItem onTop = new CheckMenuItem("Always On Top",
                     new ImageView(IconLoader.loadFxImage("on-top.png", 30)));
             onTop.setSelected(true);
             onTop.selectedProperty().addListener(new ChangeListener<Boolean>()
@@ -116,7 +138,7 @@ public class OptionsMenu
                 }
             });
 
-            final CheckMenuItem lockUI = new CheckMenuItem("Lock UI position",
+            final CheckMenuItem lockUI = new CheckMenuItem("Lock UI Position",
                     new ImageView(IconLoader.loadFxImage("lock.png", 30)));
 
             final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
@@ -140,7 +162,7 @@ public class OptionsMenu
                 }
             });
 
-            final MenuItem minimize = new MenuItem("Minimize to tray",
+            final MenuItem minimize = new MenuItem("Minimize To Tray",
                     new ImageView(IconLoader.loadFxImage("minimize.png", 25)));
             minimize.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -156,7 +178,7 @@ public class OptionsMenu
             // closes the menu as default behavior
             final MenuItem close = new MenuItem("Collapse This Menu");
 
-            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), uiSizes,
+            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), checkUpdates, uiSizes,
                     onTop, lockUI, minimize, close);
         }
 

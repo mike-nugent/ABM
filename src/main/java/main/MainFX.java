@@ -1,6 +1,10 @@
 package main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import abilities.Ability;
 import config.ConfigFile;
@@ -18,6 +22,7 @@ import fx.buttons.ScriptsScreenButton;
 import fx.buttons.XformScreenButton;
 import fx.screens.AlertSettings;
 import fx.screens.ScriptsUpdater;
+import fx.screens.UpdateAvailableAlert;
 import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
@@ -42,10 +47,14 @@ import javafx.stage.StageStyle;
 import logreader.AionLogReader;
 import sounds.SoundManager;
 import triage.ExceptionHandler;
+import versioning.VersionManager;
 
 // Java 8 code
 public class MainFX extends Application
 {
+	//The current version of this program.
+	public static final String CURRENT_VERSION = "1.0.0";
+
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -54,7 +63,10 @@ public class MainFX extends Application
     private final ConfigWarningButton _configWarningButton = new ConfigWarningButton();
     private final OptionsButton       _optionsButton       = new OptionsButton();
     private final MoveCursor          _moveCursor          = new MoveCursor();
+	private final UpdateIcon		  _updateIcon 		   = new UpdateIcon();
+
     final HBox                        _asdmIcons           = new HBox();
+
 
     // References back to this class instance for use by static methods.
     private static Stage  _primaryStage;
@@ -113,6 +125,7 @@ public class MainFX extends Application
             buildUI();
             startLoggers();
             loadConfigOptions();
+            checkForNewerVersions();
         }
         catch (final Exception e)
         {
@@ -120,7 +133,14 @@ public class MainFX extends Application
         }
     }
 
-    private void loadConfigOptions()
+   
+
+	private void checkForNewerVersions() 
+	{
+		_updateIcon.setVisible(VersionManager.checkForNewerVersions());
+	}
+
+	private void loadConfigOptions()
     {
         final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
         if (isSet != null && isSet.equals("true"))
@@ -194,7 +214,7 @@ public class MainFX extends Application
         rightBox.setPadding(new Insets(5, 0, 0, 5));
 
         leftBox.getChildren().addAll(_moveCursor, _configWarningButton);
-        rightBox.getChildren().addAll(_optionsButton, _progressIcon);
+        rightBox.getChildren().addAll(_optionsButton, _updateIcon,_progressIcon);
         oWrapper.getChildren().addAll(leftBox, rightBox);
         oWrapper.setAlignment(Pos.TOP_RIGHT);
         return oWrapper;

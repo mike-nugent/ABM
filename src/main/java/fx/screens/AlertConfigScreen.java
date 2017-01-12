@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 
 public class AlertConfigScreen extends HBox
 {
+	ColorPicker colorPicker = new ColorPicker();
+
     public AlertConfigScreen()
     {
     	
@@ -67,7 +69,7 @@ public class AlertConfigScreen extends HBox
     	
     	//Set color of alert
     	Label colorLabel = new Label("Alert Text Color");
-    	ColorPicker colorPicker = new ColorPicker(AlertSettings.getAlertColor());
+    	colorPicker.setValue(AlertSettings.getAlertColor());
     	colorPicker.setOnAction(new EventHandler<ActionEvent>() 
     	{
 			@Override
