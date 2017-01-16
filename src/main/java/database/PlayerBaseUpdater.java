@@ -2,7 +2,9 @@ package database;
 
 import java.util.List;
 
+import abilities.Ability;
 import gameinfo.AbilityData;
+import gameinfo.Archetype;
 import gameinfo.PlayerData;
 
 public class PlayerBaseUpdater
@@ -38,20 +40,28 @@ public class PlayerBaseUpdater
 
     public static void addOrUpdatePlayer(final AbilityData data)
     {
-        final boolean casterExists = checkName(data.caster);
-        final boolean targetExists = checkName(data.target);
+        final PlayerData caster = checkName(data.caster);
+        final PlayerData target = checkName(data.target);
 
-        if (!casterExists)
+        if (caster == null || Archetype.Unknown.equals(caster.clazz))
         {
             // No player was found matching this data. Add it.
             if (data.caster != null && !data.caster.contains(" "))
             {
-                AionDB.addOrUpdatePlayer(data.caster, data.casterServer, null, null, null);
-                allPlayers.add(new PlayerData(null, data.caster, data.casterServer, null, null, null, null));
+                final Archetype clazz = Ability.locateArchetype(data.ability);
+                AionDB.addOrUpdatePlayer(data.caster, data.casterServer, null, clazz, null);
+                if (caster == null)
+                {
+                    allPlayers.add(new PlayerData(null, data.caster, data.casterServer, null, null, clazz, null));
+                }
+                else
+                {
+                    caster.setClazz(clazz);
+                }
             }
         }
 
-        if (!targetExists && !data.target.equals(data.caster))
+        if (target == null && !data.target.equals(data.caster))
         {
             // Enemy names commonly have spaces, ignore those.
             if (data.target != null && !data.target.contains(" "))
@@ -62,16 +72,16 @@ public class PlayerBaseUpdater
         }
     }
 
-    private static boolean checkName(final String name)
+    private static PlayerData checkName(final String name)
     {
         for (final PlayerData storedPlayer : allPlayers)
         {
             if (storedPlayer.getName().equals(name))
             {
-                return true;
+                return storedPlayer;
             }
         }
 
-        return false;
+        return null;
     }
 }
