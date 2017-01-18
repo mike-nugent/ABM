@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import config.ConfigFile;
+import fx.screens.AlertScreen;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
@@ -16,6 +17,7 @@ import gameinfo.Rank;
 import gameinfo.ScriptData;
 import gameinfo.Server;
 import gameinfo.SoundData;
+import javafx.application.Platform;
 
 public class AionDB
 {
@@ -151,7 +153,7 @@ public class AionDB
 
     }
 
-    public static void addOrUpdatePlayer(final String name, final Server server, final Race race, final Archetype clazz,
+    public static void addNewPlayer(final String name, final Server server, final Race race, final Archetype clazz,
             final Rank rank)
     {
 
@@ -206,6 +208,78 @@ public class AionDB
         try
         {
             System.out.println("Adding player: " + name + " to database");
+            Platform.runLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    AlertScreen.showAlert("Adding player: " + name + " to database");
+                }
+            });
+            final Statement stmt = _conn.createStatement();
+            stmt.executeUpdate(completeStatement);
+
+            stmt.close();
+
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+    }
+
+    public static void updateExistingPlayer(final String name, final Server server, final Race race,
+            final Archetype clazz, final Rank rank)
+    {
+
+        String completeStatement = "UPDATE PLAYERS SET ";
+        String fields = "";
+
+        if (name != null)
+        {
+            fields += "NAME='" + name + "',";
+        }
+
+        if (server != null)
+        {
+            fields += "SERVER='" + server.name() + "',";
+        }
+
+        if (race != null)
+        {
+            fields += "RACE='" + race.name() + "',";
+        }
+
+        if (clazz != null)
+        {
+            fields += "CLASS='" + clazz.name() + "',";
+        }
+
+        if (rank != null)
+        {
+            fields += "RANK='" + rank.getRankTitle() + "',";
+        }
+
+        fields = fields.trim();
+        if (fields.endsWith(","))
+        {
+            fields = fields.substring(0, fields.length() - 1);
+        }
+
+        completeStatement += fields + " WHERE NAME='" + name + "' AND SERVER='" + server + "';";
+
+        try
+        {
+            System.out.println("Updating existing palyer: " + name + " in database");
+            Platform.runLater(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    AlertScreen.showAlert("Updating existing palyer: " + name + " in database");
+                }
+            });
             final Statement stmt = _conn.createStatement();
             stmt.executeUpdate(completeStatement);
 
@@ -361,6 +435,21 @@ public class AionDB
         {
             final Statement stmt = _conn.createStatement();
             stmt.executeUpdate("DELETE FROM SOUNDS WHERE ID=" + data.id + ";");
+            stmt.close();
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            System.out.println("Caught db error: " + e);
+        }
+    }
+
+    public static void clearPlayerData()
+    {
+        try
+        {
+            final Statement stmt = _conn.createStatement();
+            stmt.executeUpdate("DELETE FROM PLAYERS;");
             stmt.close();
         }
         catch (final Exception e)

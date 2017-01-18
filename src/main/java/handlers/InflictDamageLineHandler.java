@@ -30,6 +30,7 @@ public class InflictDamageLineHandler extends LineHandler
     public InflictDamageLineHandler()
     {
         super(auto_attack, ability_attack);
+        ignoreAtStartup = true;
     }
 
     public AbilityData parseAbilityData(final String line)

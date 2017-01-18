@@ -21,7 +21,8 @@ public class RecentHistoryParser
 
     public RecentHistoryParser()
     {
-        handlers = LineHandler.getOrCreateHandlers();
+        handlers = LineHandler.getLineHandlersForQuickHistory();
+
         _currentDate = new Date();
     }
 
@@ -48,6 +49,7 @@ public class RecentHistoryParser
 
                 for (final LineHandler handler : handlers)
                 {
+
                     if (handler.handlesLine(line))
                     {
                         System.out.println("Found a line to save:" + line);

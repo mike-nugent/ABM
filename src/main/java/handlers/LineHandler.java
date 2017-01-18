@@ -3,6 +3,7 @@ package handlers;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +56,8 @@ public abstract class LineHandler
     protected static Pattern lose_arti    = Pattern.compile(X + "Artifact has been lost to Balaur" + X);
 
     protected Pattern[] _patterns;
+
+    protected boolean ignoreAtStartup = false;
 
     static List<LineHandler> handlers = null;
 
@@ -159,6 +162,26 @@ public abstract class LineHandler
         }
 
         return handlers;
+    }
+
+    public static List<LineHandler> getLineHandlersForQuickHistory()
+    {
+        final List<LineHandler> tmp = getOrCreateHandlers();
+        final List<LineHandler> ret = new LinkedList<LineHandler>();
+        for (final LineHandler h : tmp)
+        {
+            if (!h.shouldBeIgnoredAtStartup())
+            {
+                ret.add(h);
+            }
+        }
+
+        return ret;
+    }
+
+    private boolean shouldBeIgnoredAtStartup()
+    {
+        return ignoreAtStartup;
     }
 
     public static void addNewCustomHandler(final LineHandler handler)

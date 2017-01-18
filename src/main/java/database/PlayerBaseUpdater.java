@@ -6,6 +6,7 @@ import abilities.Ability;
 import gameinfo.AbilityData;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
+import gameinfo.Server;
 
 public class PlayerBaseUpdater
 {
@@ -19,64 +20,60 @@ public class PlayerBaseUpdater
     public static void addOrUpdatePlayer(final PlayerData data)
     {
         final String name = data.name;
+        final Server server = data.server;
+        final boolean nameIsValid = name != null && !name.trim().equals("") && !name.trim().contains(" ");
+        final boolean serverIsValid = server != null && !server.equals(Server.Unknown);
 
-        if (name != null)
+        if (nameIsValid && serverIsValid)
         {
-            for (final PlayerData storedPlayer : allPlayers)
+            final PlayerData player = findPlayerByNameAndServer(name, server);
+            if (player != null)
             {
-                if (storedPlayer.getName().equals(name))
-                {
-                    // Player found. Check to see if needs update;
-                    // Do a compare on fields, update the DB if new
-                    return;
-                }
+                // No player was found matching this data. Add it.
+                AionDB.addNewPlayer(name, server, data.race, data.clazz, data.rank);
+                allPlayers.add(data);
             }
-
-            // No player was found matching this data. Add it.
-            AionDB.addOrUpdatePlayer(data.name, data.server, data.race, data.clazz, data.rank);
-            allPlayers.add(data);
         }
     }
 
     public static void addOrUpdatePlayer(final AbilityData data)
     {
-        final PlayerData caster = checkName(data.caster);
-        final PlayerData target = checkName(data.target);
+        final String name = data.caster;
+        final Server server = data.casterServer;
 
-        if (caster == null || Archetype.Unknown.equals(caster.clazz))
+        final boolean nameIsValid = name != null && !name.trim().equals("") && !name.trim().contains(" ");
+
+        if (nameIsValid)
         {
-            // No player was found matching this data. Add it.
-            if (data.caster != null && !data.caster.contains(" "))
+            final PlayerData existingCaster = findPlayerByNameAndServer(name, server);
+            // final PlayerData existingTarget =
+            // findPlayerByNameAndServer(data.target, data.targetServer);
+            final Archetype clazz = Ability.locateArchetype(data.ability);
+
+            if (existingCaster != null)
             {
-                final Archetype clazz = Ability.locateArchetype(data.ability);
-                AionDB.addOrUpdatePlayer(data.caster, data.casterServer, null, clazz, null);
-                if (caster == null)
+                if (clazz != null && !clazz.equals(Archetype.Unknown))
                 {
-                    allPlayers.add(new PlayerData(null, data.caster, data.casterServer, null, null, clazz, null));
-                }
-                else
-                {
-                    caster.setClazz(clazz);
+                    if (!existingCaster.clazz.equals(clazz))
+                    {
+                        AionDB.updateExistingPlayer(name, server, existingCaster.race, clazz, existingCaster.rank);
+                        existingCaster.setClazz(clazz);
+                    }
                 }
             }
-        }
-
-        if (target == null && !data.target.equals(data.caster))
-        {
-            // Enemy names commonly have spaces, ignore those.
-            if (data.target != null && !data.target.contains(" "))
+            else
             {
-                AionDB.addOrUpdatePlayer(data.target, data.targetServer, null, null, null);
-                allPlayers.add(new PlayerData(null, data.target, data.targetServer, null, null, null, null));
+                AionDB.addNewPlayer(name, server, null, clazz, null);
+                allPlayers.add(new PlayerData(null, name, server, null, null, clazz, null));
             }
         }
     }
 
-    private static PlayerData checkName(final String name)
+    private static PlayerData findPlayerByNameAndServer(final String name, final Server server)
     {
         for (final PlayerData storedPlayer : allPlayers)
         {
-            if (storedPlayer.getName().equals(name))
+            if (storedPlayer.getName().equals(name) && storedPlayer.server.equals(server))
             {
                 return storedPlayer;
             }

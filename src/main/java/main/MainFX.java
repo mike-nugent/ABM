@@ -47,7 +47,7 @@ import versioning.VersionManager;
 public class MainFX extends Application
 {
     // The current version of this program.
-    public static final String CURRENT_VERSION = "1.0.2";
+    public static final String CURRENT_VERSION = "1.0.3";
 
     private double xOffset = 0;
     private double yOffset = 0;

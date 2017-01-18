@@ -1,6 +1,7 @@
 package fx.screens;
 
 import java.util.List;
+import java.util.Optional;
 
 import database.AionDB;
 import gameinfo.Archetype;
@@ -18,7 +19,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -114,12 +118,28 @@ public class SearchPlayersScreen extends VBox
 
                 final List<PlayerData> playerList = AionDB.getAllPlayers();
                 final ObservableList<PlayerData> personData = FXCollections.observableArrayList(playerList);
-
                 table.setItems(personData);
             }
         });
 
-        bottomBox.getChildren().addAll(serverControl, classControl, raceControl, rankControl, resetButton);
+        final Button eraseButton = new Button("", new ImageView(IconLoader.loadFxImage("close-icon.png", 20)));
+        eraseButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(final ActionEvent e)
+            {
+                final Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Confirm Delete Player Database");
+                alert.setHeaderText("Are you sure you want to delete all the players you have discovered?");
+
+                final Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK)
+                {
+                    AionDB.clearPlayerData();
+                }
+            }
+        });
+        bottomBox.getChildren().addAll(serverControl, classControl, raceControl, rankControl, resetButton, eraseButton);
 
         final VBox searchVBox = new VBox();
         searchVBox.setSpacing(15);
