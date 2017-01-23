@@ -208,14 +208,6 @@ public class AionDB
         try
         {
             System.out.println("Adding player: " + name + " to database");
-            Platform.runLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    AlertScreen.showAlert("Adding player: " + name + " to database");
-                }
-            });
             final Statement stmt = _conn.createStatement();
             stmt.executeUpdate(completeStatement);
 
@@ -272,14 +264,6 @@ public class AionDB
         try
         {
             System.out.println("Updating existing palyer: " + name + " in database");
-            Platform.runLater(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    AlertScreen.showAlert("Updating existing palyer: " + name + " in database");
-                }
-            });
             final Statement stmt = _conn.createStatement();
             stmt.executeUpdate(completeStatement);
 

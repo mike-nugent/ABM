@@ -8,6 +8,7 @@ import fx.screens.ClockPopupPage;
 import fx.screens.ConfigPopupPage;
 import fx.screens.LogPopupPage;
 import fx.screens.PlayersPopupPage;
+import fx.screens.PvPPopupPage;
 import fx.screens.ScriptsPopupPage;
 import fx.screens.XformPopupStage;
 import gameinfo.PlayerData;
@@ -24,7 +25,8 @@ public class DisplayManager
     static PlayersPopupPage playersStage = new PlayersPopupPage();
     static ScriptsPopupPage scriptsStage = new ScriptsPopupPage();
     static ClockPopupPage   clockStage   = new ClockPopupPage();
-
+    static PvPPopupPage     pvpStage     = new PvPPopupPage(); 
+    
     static XformScreenButton xformButton;
 
     public static synchronized void transformDetected(final PlayerData data)
@@ -216,5 +218,26 @@ public class DisplayManager
     {
         DisplayManager.xformButton = xformButton;
     }
+
+	public static boolean isPvPShowing() 
+	{
+		return pvpStage.isShowing();
+	}
+
+	public static void showPvPPopup() 
+	{
+        if (pvpStage != null)
+        {
+        	pvpStage.show();
+        }
+	}
+
+	public static void hidePvPPopup() 
+	{
+        if (pvpStage != null)
+        {
+        	pvpStage.hide();
+        }
+	}
 
 }

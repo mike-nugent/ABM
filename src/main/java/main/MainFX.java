@@ -362,13 +362,15 @@ public class MainFX extends Application
         _asdmIcons.setSpacing(15);
         _asdmIcons.setAlignment(Pos.CENTER_LEFT);
         final XformScreenButton xform = new XformScreenButton();
+        final PvPScreenButton pvp = new PvPScreenButton();
+
         DisplayManager.setXformButton(xform);
         final ScreenButton players = new PlayerScreenButton();
         final ScreenButton scripts = new ScriptsScreenButton();
         final ScreenButton logs = new LogScreenButton();
         final ClockScreenButton clock = new ClockScreenButton();
 
-        _asdmIcons.getChildren().addAll(xform, players, scripts, logs, clock);
+        _asdmIcons.getChildren().addAll(xform,pvp, players, scripts, logs, clock);
 
         return _asdmIcons;
     }

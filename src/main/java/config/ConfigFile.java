@@ -37,6 +37,7 @@ public class ConfigFile
     public static final String UI_SIZES                 = "uiSize";
 	public static final String SHOW_ALERTS 				= "showAlerts";
 	public static final String ALERT_TEXT_COLOR 		= "alertTextColor";
+	public static final String PVP_LOCATION_PROPERTY = "pvpLocaion";
 
     private static String _name;
     private static Race   _race;
