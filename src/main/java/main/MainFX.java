@@ -47,7 +47,7 @@ import versioning.VersionManager;
 public class MainFX extends Application
 {
     // The current version of this program.
-    public static final String CURRENT_VERSION = "1.0.3";
+    public static final String CURRENT_VERSION = "1.0.4";
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -370,7 +370,7 @@ public class MainFX extends Application
         final ScreenButton logs = new LogScreenButton();
         final ClockScreenButton clock = new ClockScreenButton();
 
-        _asdmIcons.getChildren().addAll(xform,pvp, players, scripts, logs, clock);
+        _asdmIcons.getChildren().addAll(xform, pvp, players, scripts, logs, clock);
 
         return _asdmIcons;
     }
