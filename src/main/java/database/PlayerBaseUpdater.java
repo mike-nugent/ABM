@@ -6,6 +6,7 @@ import abilities.Ability;
 import gameinfo.AbilityData;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
+import gameinfo.Rank;
 import gameinfo.Server;
 
 public class PlayerBaseUpdater
@@ -27,11 +28,24 @@ public class PlayerBaseUpdater
         if (nameIsValid && serverIsValid)
         {
             final PlayerData player = findPlayerByNameAndServer(name, server);
-            if (player != null)
+            if (player == null)
             {
                 // No player was found matching this data. Add it.
                 AionDB.addNewPlayer(name, server, data.race, data.clazz, data.rank);
                 allPlayers.add(data);
+            }
+            else
+            {
+            	//only update if the new information is better than old.
+            	Rank rank = player.rank;
+            	if(rank != null && !rank.equals(Rank.Unknown))
+            	{
+            		if(!rank.equals(data.rank))
+            		{
+                        AionDB.updateExistingPlayer(name, server, player.race, player.clazz, data.rank);
+                        player.setRank(data.rank);
+            		}
+            	}
             }
         }
     }

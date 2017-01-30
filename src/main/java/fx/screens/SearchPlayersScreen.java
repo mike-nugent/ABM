@@ -1,5 +1,6 @@
 package fx.screens;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,10 @@ public class SearchPlayersScreen extends VBox
             new ImageView(IconLoader.loadFxImage("search_icon.png", 30)));
     final TextField             searchFiled = new TextField();
     final TableView<PlayerData> table       = new TableView<PlayerData>();
+	private ComboBox<String> serverControl;
+	private ComboBox<String> classControl;
+	private ComboBox<String> raceControl;
+	private ComboBox<String> rankControl;
 
     public SearchPlayersScreen()
     {
@@ -86,25 +91,25 @@ public class SearchPlayersScreen extends VBox
         // Server
         final ObservableList<String> serverOptions = FXCollections.observableArrayList("All Servers", "Kahrun",
                 "Israphel", "Siel", "Tiamat", "Beritra");
-        final ComboBox<String> serverControl = new ComboBox<String>(serverOptions);
+        serverControl = new ComboBox<String>(serverOptions);
         serverControl.getSelectionModel().select("All Servers");
 
         // Class
         final ObservableList<String> classOptions = FXCollections.observableArrayList("All Classes", "Assassin",
                 "Chanter", "Cleric", "Gladiator", "Gunslinger", "Ranger", "Songweaver", "Sorcerer", "Spiritmaster",
                 "Templar");
-        final ComboBox<String> classControl = new ComboBox<String>(classOptions);
+        classControl = new ComboBox<String>(classOptions);
         classControl.getSelectionModel().select("All Classes");
 
         // Race
         final ObservableList<String> raceOptions = FXCollections.observableArrayList("All Races", "Asmodian", "Elyos");
-        final ComboBox<String> raceControl = new ComboBox<String>(raceOptions);
+        raceControl = new ComboBox<String>(raceOptions);
         raceControl.getSelectionModel().select("All Races");
 
         // Rank
         final ObservableList<String> rankOptions = FXCollections.observableArrayList("All Ranks", "Non Xform",
                 "5-Star Officer", "General", "Great General", "Commander", "Governor");
-        final ComboBox<String> rankControl = new ComboBox<String>(rankOptions);
+        rankControl = new ComboBox<String>(rankOptions);
         rankControl.getSelectionModel().select("All Ranks");
 
         // Reset
@@ -114,11 +119,7 @@ public class SearchPlayersScreen extends VBox
             @Override
             public void handle(final ActionEvent e)
             {
-                // AionDB.addOrUpdatePlayer(PlayerData.generateRandom());
-
-                final List<PlayerData> playerList = AionDB.getAllPlayers();
-                final ObservableList<PlayerData> personData = FXCollections.observableArrayList(playerList);
-                table.setItems(personData);
+            	updateSearch();
             }
         });
 
@@ -162,7 +163,7 @@ public class SearchPlayersScreen extends VBox
         final TableColumn<PlayerData, HackList> hackCol = new TableColumn<PlayerData, HackList>("Hacks");
         hackCol.setCellValueFactory(new PropertyValueFactory<PlayerData, HackList>("hacks"));
 
-        table.getColumns().addAll(nameCol, serverCol, raceCol, classCol, rankCol, hackCol);
+        table.getColumns().addAll(nameCol, classCol, serverCol, raceCol, rankCol);
 
         final List<PlayerData> playerList = AionDB.getAllPlayers();
         final ObservableList<PlayerData> personData = FXCollections.observableArrayList(playerList);
@@ -176,8 +177,110 @@ public class SearchPlayersScreen extends VBox
 
     public void updateSearch()
     {
-        final List<PlayerData> results = AionDB.getPlayerByName(searchFiled.getText());
+        List<PlayerData> results = AionDB.getPlayerByName(searchFiled.getText());
+        
+        //perform a filter on results
+        results = filterServer(results);
+        results = filterClass(results);
+        results = filterRace(results);
+        results = filterRank(results);
+        
         final ObservableList<PlayerData> personData = FXCollections.observableArrayList(results);
         table.setItems(personData);
     }
+
+	private List<PlayerData> filterServer(List<PlayerData> results)
+	{
+		if(!serverSelected())
+		{
+			return results;
+		}
+		
+		
+		List<PlayerData> newList = new LinkedList<PlayerData>();
+		for (PlayerData player : results)
+		{
+			if(player.getServer().equals(serverControl.getValue()))
+			{
+				newList.add(player);
+			}
+		}
+		return newList;
+	}
+
+	private List<PlayerData> filterClass(List<PlayerData> results)
+	{
+		if(!classSelected())
+		{
+			return results;
+		}
+		
+		
+		List<PlayerData> newList = new LinkedList<PlayerData>();
+		for (PlayerData player : results)
+		{
+			if(player.getClazz().equals(classControl.getValue()))
+			{
+				newList.add(player);
+			}
+		}
+		return newList;
+	}
+	
+	
+	private List<PlayerData> filterRace(List<PlayerData> results)
+	{
+		if(!raceSelected())
+		{
+			return results;
+		}
+		
+		
+		List<PlayerData> newList = new LinkedList<PlayerData>();
+		for (PlayerData player : results)
+		{
+			if(player.getRace().equals(raceControl.getValue()))
+			{
+				newList.add(player);
+			}
+		}
+		return newList;
+	}
+	
+	private List<PlayerData> filterRank(List<PlayerData> results)
+	{
+		if(!rankSelected())
+		{
+			return results;
+		}
+		
+		
+		List<PlayerData> newList = new LinkedList<PlayerData>();
+		for (PlayerData player : results)
+		{
+			if(player.getRank().equals(rankControl.getValue()))
+			{
+				newList.add(player);
+			}
+		}
+		return newList;
+	}
+	
+	
+	private boolean serverSelected() 
+	{
+		return !serverControl.getValue().equals("All Servers");
+	}
+	private boolean classSelected() 
+	{
+		return !classControl.getValue().equals("All Classes");
+	}
+	private boolean raceSelected() 
+	{
+		return !raceControl.getValue().equals("All Races");
+	}
+	private boolean rankSelected() 
+	{
+		return !rankControl.getValue().equals("All Ranks");
+	}
 }
