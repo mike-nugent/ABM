@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fx.buttons.XformScreenButton;
+import fx.screens.ArtifactPopupPage;
 import fx.screens.ClockPopupPage;
 import fx.screens.ConfigPopupPage;
 import fx.screens.LogPopupPage;
@@ -13,6 +14,7 @@ import fx.screens.ScriptsPopupPage;
 import fx.screens.XformPopupStage;
 import gameinfo.PlayerData;
 import gameinfo.Race;
+import javafx.stage.Stage;
 
 public class DisplayManager
 {
@@ -26,12 +28,13 @@ public class DisplayManager
     static ScriptsPopupPage scriptsStage = new ScriptsPopupPage();
     static ClockPopupPage   clockStage   = new ClockPopupPage();
     static PvPPopupPage     pvpStage     = new PvPPopupPage(); 
-    
+	static ArtifactPopupPage artiStage = new ArtifactPopupPage();
+
     static XformScreenButton xformButton;
 
     public static synchronized void transformDetected(final PlayerData data)
     {
-        if (!activeTransforms.contains(data))
+        if (!activeTransforms.contains(data) && noMatchingName(activeTransforms, data))
         {
             activeTransforms.add(data);
             updateUIWithTransform();
@@ -39,7 +42,25 @@ public class DisplayManager
         }
     }
 
-    public static void transitionFromActiveToCooldown(final PlayerData data)
+    /**
+     * Avoid spawning xform link multiple times, in case multiple clients are open.
+     */
+    private static boolean noMatchingName(List<PlayerData> list, PlayerData data) 
+    {
+    	for(PlayerData d : list)
+    	{
+    		if(data.getName().equals(d.getName()) && 
+    				data.getRace().equals(d.getRace()) &&
+    				data.getServer().equals(d.getServer()))
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+	}
+
+	public static void transitionFromActiveToCooldown(final PlayerData data)
     {
         if (activeTransforms.contains(data))
         {
@@ -175,6 +196,18 @@ public class DisplayManager
         {
             hideAllPopups();
             scriptsStage.show();
+        }
+    }
+    
+    public static void toggleArtifactPopup()
+    {
+        if (artiStage.isShowing())
+        {
+        	artiStage.close();
+        }
+        else
+        {
+            artiStage.show();
         }
     }
 

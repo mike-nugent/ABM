@@ -1,7 +1,7 @@
-package main;
+package fx.buttons;
 
-import config.ConfigFile;
-import fx.buttons.ScreenButton;
+import fx.screens.AdditionalToolMenu;
+import fx.screens.OptionsMenu;
 import javafx.scene.input.MouseEvent;
 
 public class PvPScreenButton extends ScreenButton
@@ -14,16 +14,7 @@ public class PvPScreenButton extends ScreenButton
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-        if (!DisplayManager.isPvPShowing())
-        {
-            DisplayManager.showPvPPopup();
-            region.setVisible(false);
-        }
-        else
-        {
-            DisplayManager.hidePvPPopup();
-            region.setVisible(true);
-        }
+		AdditionalToolMenu.openToolMenu();
     }
 
     @Override

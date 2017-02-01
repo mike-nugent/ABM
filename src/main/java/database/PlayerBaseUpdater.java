@@ -6,6 +6,7 @@ import abilities.Ability;
 import gameinfo.AbilityData;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
+import gameinfo.Race;
 import gameinfo.Rank;
 import gameinfo.Server;
 
@@ -44,6 +45,16 @@ public class PlayerBaseUpdater
             		{
                         AionDB.updateExistingPlayer(name, server, player.race, player.clazz, data.rank);
                         player.setRank(data.rank);
+            		}
+            	}
+            	
+            	Race race = player.race;
+            	if(race != null && !race.equals(Race.Unknown))
+            	{
+            		if(!race.equals(data.race))
+            		{
+                        AionDB.updateExistingPlayer(name, server, data.race, player.clazz, player.rank);
+                        player.setRace(data.race);
             		}
             	}
             }

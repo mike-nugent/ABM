@@ -35,9 +35,10 @@ public class ConfigFile
     public static final String LOCK_WINDOW_POSITION     = "lockWindowPositions";
     public static final String XFORM_LOCATION_PROPERTY  = "xformLocation";
     public static final String UI_SIZES                 = "uiSize";
-	public static final String SHOW_ALERTS 				= "showAlerts";
+	public static final String SHOW_ALERTS 				= "showAlerts"; 
 	public static final String ALERT_TEXT_COLOR 		= "alertTextColor";
-	public static final String PVP_LOCATION_PROPERTY = "pvpLocaion";
+	public static final String PVP_LOCATION_PROPERTY    = "pvpLocaion";
+	public static final String ARTI_LOCATION_PROPERTY = "artiLocation";
 
     private static String _name;
     private static Race   _race;
@@ -52,7 +53,7 @@ public class ConfigFile
         }
 
         final File file = new File(path + "/" + DEFAULT_LOG_FILE_NAME);
-        // final File file = new File(DEBUG_LOG_FILE_NAME);
+         //final File file = new File(DEBUG_LOG_FILE_NAME);
 
         return file;
     }

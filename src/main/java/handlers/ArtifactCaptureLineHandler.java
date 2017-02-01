@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 import artifact.AbyssArtifact;
 import artifact.ArtifactData;
 import artifact.ArtifactOwner;
+import database.PlayerBaseUpdater;
+import fx.screens.ArtifactPopupPage;
+import javafx.application.Platform;
+import main.DisplayManager;
 import main.MainSwing;
 
 public class ArtifactCaptureLineHandler extends LineHandler 
@@ -92,9 +96,15 @@ public class ArtifactCaptureLineHandler extends LineHandler
 	protected void handleLine(String line, boolean isCurrent) 
 	{
 		ArtifactData data = parseArtifactInfo(line);
-		System.out.println("TODO - handler for: " + data + " in " + this);
-
-		//_main.artifactWasCaptured(data);
+		
+		 Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+        		ArtifactPopupPage.artifactWasCaptured(data);
+            }
+        });
 	}
 
 }
