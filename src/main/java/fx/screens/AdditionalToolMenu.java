@@ -7,7 +7,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.Stage;
-import main.ASDMStage;
+import main.ABMStage;
 import main.DisplayManager;
 
 public class AdditionalToolMenu
@@ -61,7 +61,7 @@ public class AdditionalToolMenu
         {
             // Show stage first, then reposition it after, otherwise the
             // .getWidth() and .getHeight() are set to 0.0
-            final Stage stage = ASDMStage.getStage();
+            final Stage stage = ABMStage.getStage();
             _toolMenu.show(stage);
 
             _toolMenu.setX(stage.getX());

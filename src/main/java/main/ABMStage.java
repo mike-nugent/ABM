@@ -2,7 +2,7 @@ package main;
 
 import javafx.stage.Stage;
 
-public class ASDMStage
+public class ABMStage
 {
     private static Stage   _stage;
     private static boolean _windowLock = false;

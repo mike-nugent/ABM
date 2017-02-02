@@ -10,7 +10,7 @@ public class ConfigPopupPage extends PopupStage
 
     public ConfigPopupPage()
     {
-        super("Configure ASDM");
+        super("Configure Aion Battle Meter");
 
         final Tab characterTab = new Tab("Character Settings");
         characterTab.setStyle("-fx-font-size: 18px;");

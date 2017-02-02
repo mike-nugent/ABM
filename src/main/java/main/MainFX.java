@@ -48,7 +48,7 @@ import versioning.VersionManager;
 public class MainFX extends Application
 {
     // The current version of this program.
-    public static final String CURRENT_VERSION = "1.0.6";
+    public static final String CURRENT_VERSION = "1.0.7";
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -136,7 +136,7 @@ public class MainFX extends Application
         final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
         if (isSet != null && isSet.equals("true"))
         {
-            ASDMStage.setWindowLock(true);
+            ABMStage.setWindowLock(true);
         }
     }
 
@@ -287,8 +287,8 @@ public class MainFX extends Application
 
             final Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Welcome Daeva!");
-            alert.setHeaderText("Welcome Daeva!\nLet's set up your Aion Sovereign Daeva Meter");
-            alert.setContentText("We will need some iformation about your character and setup.\n\n"
+            alert.setHeaderText("Welcome Archdaeva!\nLet's set up your Aion Battle Meter");
+            alert.setContentText("We will need some information about your character and setup.\n\n"
                     + "Please enter information on the following screens to get started.");
             alert.setGraphic(new ImageView(IconLoader.loadFxImage("faction2.png", 60)));
             alert.showAndWait();
@@ -300,7 +300,7 @@ public class MainFX extends Application
      */
     private void setupStage(final Stage primaryStage)
     {
-        ASDMStage.setStage(primaryStage);
+        ABMStage.setStage(primaryStage);
 
         primaryStage.setAlwaysOnTop(true);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -311,7 +311,7 @@ public class MainFX extends Application
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -325,7 +325,7 @@ public class MainFX extends Application
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -338,7 +338,7 @@ public class MainFX extends Application
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }

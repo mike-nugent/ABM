@@ -13,7 +13,7 @@ import gameinfo.Server;
 
 public class ConfigFile
 {
-    private static final String CONFIG_DIR_NAME  = "zhule-aion-program-v2";
+    private static final String CONFIG_DIR_NAME  = "aion-battle-meter";
     private static final String CONFIG_FILE_NAME = "config.properties";
 
     private static final String NAME_KEY     = "name";
@@ -35,10 +35,10 @@ public class ConfigFile
     public static final String LOCK_WINDOW_POSITION     = "lockWindowPositions";
     public static final String XFORM_LOCATION_PROPERTY  = "xformLocation";
     public static final String UI_SIZES                 = "uiSize";
-	public static final String SHOW_ALERTS 				= "showAlerts"; 
-	public static final String ALERT_TEXT_COLOR 		= "alertTextColor";
-	public static final String PVP_LOCATION_PROPERTY    = "pvpLocaion";
-	public static final String ARTI_LOCATION_PROPERTY = "artiLocation";
+    public static final String SHOW_ALERTS              = "showAlerts";
+    public static final String ALERT_TEXT_COLOR         = "alertTextColor";
+    public static final String PVP_LOCATION_PROPERTY    = "pvpLocaion";
+    public static final String ARTI_LOCATION_PROPERTY   = "artiLocation";
 
     private static String _name;
     private static Race   _race;
@@ -53,7 +53,7 @@ public class ConfigFile
         }
 
         final File file = new File(path + "/" + DEFAULT_LOG_FILE_NAME);
-         //final File file = new File(DEBUG_LOG_FILE_NAME);
+        // final File file = new File(DEBUG_LOG_FILE_NAME);
 
         return file;
     }

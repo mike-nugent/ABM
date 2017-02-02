@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.timer.FxClock;
 import javafx.timer.FxClockController;
-import main.ASDMStage;
+import main.ABMStage;
 
 public class ClockPopupPage extends PopupStage
 {
@@ -66,7 +66,7 @@ public class ClockPopupPage extends PopupStage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -80,7 +80,7 @@ public class ClockPopupPage extends PopupStage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -93,7 +93,7 @@ public class ClockPopupPage extends PopupStage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }

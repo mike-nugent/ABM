@@ -9,7 +9,7 @@ public class ScriptsPopupPage extends PopupStage
 
     public ScriptsPopupPage()
     {
-        super("Custom ASDM Scripts");
+        super("Custom ABM Scripts");
 
         final Tab scriptsPane = new Tab("Scripts");
         final Tab soundsPane = new Tab("Sounds");

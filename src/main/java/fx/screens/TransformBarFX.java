@@ -58,7 +58,7 @@ public class TransformBarFX extends HBox
         _server = newXform.server;
         _race = newXform.race;
 
-        nameLabel = new Label(_name + "-" + _server.getServerString());
+        nameLabel = new Label(_name + "-" + _server.getServerString() + "  " + _rank.getRankAcronym());
         serverLabel = new Label(_server.getServerString());
         rankLabel = new Label(_rank.name());
 

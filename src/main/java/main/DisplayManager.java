@@ -3,6 +3,7 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
+import database.PlayerBaseUpdater;
 import fx.buttons.XformScreenButton;
 import fx.screens.ArtifactPopupPage;
 import fx.screens.ClockPopupPage;
@@ -12,23 +13,23 @@ import fx.screens.PlayersPopupPage;
 import fx.screens.PvPPopupPage;
 import fx.screens.ScriptsPopupPage;
 import fx.screens.XformPopupStage;
+import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
-import javafx.stage.Stage;
 
 public class DisplayManager
 {
     static List<PlayerData> activeTransforms   = new LinkedList<PlayerData>();
     static List<PlayerData> cooldownTransforms = new LinkedList<PlayerData>();
 
-    static XformPopupStage  xformStage   = new XformPopupStage();
-    static LogPopupPage     logsStage    = new LogPopupPage();
-    static ConfigPopupPage  configStage  = new ConfigPopupPage();
-    static PlayersPopupPage playersStage = new PlayersPopupPage();
-    static ScriptsPopupPage scriptsStage = new ScriptsPopupPage();
-    static ClockPopupPage   clockStage   = new ClockPopupPage();
-    static PvPPopupPage     pvpStage     = new PvPPopupPage(); 
-	static ArtifactPopupPage artiStage = new ArtifactPopupPage();
+    static XformPopupStage   xformStage   = new XformPopupStage();
+    static LogPopupPage      logsStage    = new LogPopupPage();
+    static ConfigPopupPage   configStage  = new ConfigPopupPage();
+    static PlayersPopupPage  playersStage = new PlayersPopupPage();
+    static ScriptsPopupPage  scriptsStage = new ScriptsPopupPage();
+    static ClockPopupPage    clockStage   = new ClockPopupPage();
+    static PvPPopupPage      pvpStage     = new PvPPopupPage();
+    static ArtifactPopupPage artiStage    = new ArtifactPopupPage();
 
     static XformScreenButton xformButton;
 
@@ -36,6 +37,11 @@ public class DisplayManager
     {
         if (!activeTransforms.contains(data) && noMatchingName(activeTransforms, data))
         {
+            final PlayerData registered = PlayerBaseUpdater.findPlayerByNameAndServer(data.name, data.server);
+            if (registered != null && registered.clazz != Archetype.Unknown)
+            {
+                data.clazz = registered.clazz;
+            }
             activeTransforms.add(data);
             updateUIWithTransform();
             xformStage.addNewXform(data);
@@ -43,24 +49,24 @@ public class DisplayManager
     }
 
     /**
-     * Avoid spawning xform link multiple times, in case multiple clients are open.
+     * Avoid spawning xform link multiple times, in case multiple clients are
+     * open.
      */
-    private static boolean noMatchingName(List<PlayerData> list, PlayerData data) 
+    private static boolean noMatchingName(final List<PlayerData> list, final PlayerData data)
     {
-    	for(PlayerData d : list)
-    	{
-    		if(data.getName().equals(d.getName()) && 
-    				data.getRace().equals(d.getRace()) &&
-    				data.getServer().equals(d.getServer()))
-    		{
-    			return false;
-    		}
-    	}
-    	
-    	return true;
-	}
+        for (final PlayerData d : list)
+        {
+            if (data.getName().equals(d.getName()) && data.getRace().equals(d.getRace())
+                    && data.getServer().equals(d.getServer()))
+            {
+                return false;
+            }
+        }
 
-	public static void transitionFromActiveToCooldown(final PlayerData data)
+        return true;
+    }
+
+    public static void transitionFromActiveToCooldown(final PlayerData data)
     {
         if (activeTransforms.contains(data))
         {
@@ -198,12 +204,12 @@ public class DisplayManager
             scriptsStage.show();
         }
     }
-    
+
     public static void toggleArtifactPopup()
     {
         if (artiStage.isShowing())
         {
-        	artiStage.close();
+            artiStage.close();
         }
         else
         {
@@ -252,25 +258,25 @@ public class DisplayManager
         DisplayManager.xformButton = xformButton;
     }
 
-	public static boolean isPvPShowing() 
-	{
-		return pvpStage.isShowing();
-	}
+    public static boolean isPvPShowing()
+    {
+        return pvpStage.isShowing();
+    }
 
-	public static void showPvPPopup() 
-	{
+    public static void showPvPPopup()
+    {
         if (pvpStage != null)
         {
-        	pvpStage.show();
+            pvpStage.show();
         }
-	}
+    }
 
-	public static void hidePvPPopup() 
-	{
+    public static void hidePvPPopup()
+    {
         if (pvpStage != null)
         {
-        	pvpStage.hide();
+            pvpStage.hide();
         }
-	}
+    }
 
 }

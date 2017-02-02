@@ -29,7 +29,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.ASDMStage;
+import main.ABMStage;
 import main.DisplayManager;
 import skins.Skins;
 import sounds.SoundManager;
@@ -211,7 +211,7 @@ public class XformPopupStage extends Stage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -225,7 +225,7 @@ public class XformPopupStage extends Stage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }
@@ -238,7 +238,7 @@ public class XformPopupStage extends Stage
             @Override
             public void handle(final MouseEvent event)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }

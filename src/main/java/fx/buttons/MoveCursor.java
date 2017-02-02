@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import main.ASDMStage;
+import main.ABMStage;
 
 public class MoveCursor extends Pane
 {
@@ -24,7 +24,7 @@ public class MoveCursor extends Pane
             @Override
             public void handle(final MouseEvent me)
             {
-                if (ASDMStage.getWindowLock())
+                if (ABMStage.getWindowLock())
                 {
                     return;
                 }

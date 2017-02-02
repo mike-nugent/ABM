@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.ASDMStage;
+import main.ABMStage;
 import main.DisplayManager;
 
 public class ArtifactPopupPage extends Stage 
@@ -133,7 +133,7 @@ public class ArtifactPopupPage extends Stage
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(final MouseEvent event) {
-				if (ASDMStage.getWindowLock()) {
+				if (ABMStage.getWindowLock()) {
 					return;
 				}
 
@@ -144,7 +144,7 @@ public class ArtifactPopupPage extends Stage
 		pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(final MouseEvent event) {
-				if (ASDMStage.getWindowLock()) {
+				if (ABMStage.getWindowLock()) {
 					return;
 				}
 				me.setX(event.getScreenX() - xOffset);
@@ -154,7 +154,7 @@ public class ArtifactPopupPage extends Stage
 		pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(final MouseEvent event) {
-				if (ASDMStage.getWindowLock()) {
+				if (ABMStage.getWindowLock()) {
 					return;
 				}
 

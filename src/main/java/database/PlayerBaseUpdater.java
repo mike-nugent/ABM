@@ -37,26 +37,26 @@ public class PlayerBaseUpdater
             }
             else
             {
-            	//only update if the new information is better than old.
-            	Rank rank = player.rank;
-            	if(rank != null && !rank.equals(Rank.Unknown))
-            	{
-            		if(!rank.equals(data.rank))
-            		{
+                // only update if the new information is better than old.
+                final Rank rank = player.rank;
+                if (rank != null && !rank.equals(Rank.Unknown))
+                {
+                    if (!rank.equals(data.rank))
+                    {
                         AionDB.updateExistingPlayer(name, server, player.race, player.clazz, data.rank);
                         player.setRank(data.rank);
-            		}
-            	}
-            	
-            	Race race = player.race;
-            	if(race != null && !race.equals(Race.Unknown))
-            	{
-            		if(!race.equals(data.race))
-            		{
+                    }
+                }
+
+                final Race race = player.race;
+                if (race != null && !race.equals(Race.Unknown))
+                {
+                    if (!race.equals(data.race))
+                    {
                         AionDB.updateExistingPlayer(name, server, data.race, player.clazz, player.rank);
                         player.setRace(data.race);
-            		}
-            	}
+                    }
+                }
             }
         }
     }
@@ -94,7 +94,7 @@ public class PlayerBaseUpdater
         }
     }
 
-    private static PlayerData findPlayerByNameAndServer(final String name, final Server server)
+    public static PlayerData findPlayerByNameAndServer(final String name, final Server server)
     {
         for (final PlayerData storedPlayer : allPlayers)
         {
@@ -106,4 +106,5 @@ public class PlayerBaseUpdater
 
         return null;
     }
+
 }

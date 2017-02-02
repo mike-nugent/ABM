@@ -106,7 +106,7 @@ public class VersionManager
                 }
 
                 alert = new UpdateAvailableAlert("New Version Available",
-                        "There is newer version of ASDM available for download.", CURRENT_VERSION, AVAILABLE_VERSION);
+                        "There is newer version of ABM available for download.", CURRENT_VERSION, AVAILABLE_VERSION);
 
                 alert.show();
                 return true;

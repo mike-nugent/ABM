@@ -1,7 +1,5 @@
 package fx.screens;
 
-import com.sun.org.apache.bcel.internal.generic.IfInstruction;
-
 import config.ConfigFile;
 import gameinfo.IconLoader;
 import javafx.beans.value.ChangeListener;
@@ -17,7 +15,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import main.ASDMStage;
+import main.ABMStage;
 import main.DisplayManager;
 import main.MainFX;
 import versioning.VersionManager;
@@ -35,7 +33,7 @@ public class OptionsMenu
         {
             _optionsMenu = new ContextMenu();
             // menu.setAutoHide(false);
-            final MenuItem exit = new MenuItem("Exit ASDM", new ImageView(IconLoader.loadFxImage("close.png", 25)));
+            final MenuItem exit = new MenuItem("Exit ABM", new ImageView(IconLoader.loadFxImage("close.png", 25)));
             exit.setStyle("-fx-font-weight:bold;");
             exit.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -62,22 +60,22 @@ public class OptionsMenu
             // --------------------------------------------
             final MenuItem checkUpdates = new MenuItem("Check For Updates",
                     new ImageView(IconLoader.loadFxImage("update-icon.png", 25)));
-;
-            checkUpdates.setOnAction(new EventHandler<ActionEvent>() 
+            ;
+            checkUpdates.setOnAction(new EventHandler<ActionEvent>()
             {
-				@Override
-				public void handle(ActionEvent event) 
-				{
-					if(!VersionManager.checkForNewerVersions())
-					{
-						 UpdateAvailableAlert alert = new UpdateAvailableAlert("No Updates Available", 
-				    				"Your version of ASDM is up to date!",
-				    				VersionManager.CURRENT_VERSION, VersionManager.AVAILABLE_VERSION);
-						 alert.disableDownloadLink();
-						 alert.show();
-					}
-				}
-			});
+                @Override
+                public void handle(final ActionEvent event)
+                {
+                    if (!VersionManager.checkForNewerVersions())
+                    {
+                        final UpdateAvailableAlert alert = new UpdateAvailableAlert("No Updates Available",
+                                "Your version of ABM is up to date!", VersionManager.CURRENT_VERSION,
+                                VersionManager.AVAILABLE_VERSION);
+                        alert.disableDownloadLink();
+                        alert.show();
+                    }
+                }
+            });
 
             final Menu uiSizes = new Menu("UI Size", new ImageView(IconLoader.loadFxImage("icon-sizes.png", 25)));
 
@@ -134,7 +132,7 @@ public class OptionsMenu
                 @Override
                 public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
                 {
-                    ASDMStage.getStage().setAlwaysOnTop(new_val);
+                    ABMStage.getStage().setAlwaysOnTop(new_val);
                 }
             });
 
@@ -156,8 +154,8 @@ public class OptionsMenu
                 @Override
                 public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
                 {
-                    // ASDMStage.getStage().setAlwaysOnTop(new_val);
-                    ASDMStage.setWindowLock(new_val);
+                    // ABMStage.getStage().setAlwaysOnTop(new_val);
+                    ABMStage.setWindowLock(new_val);
                     ConfigFile.setProperty(ConfigFile.LOCK_WINDOW_POSITION, new_val + "");
                 }
             });
@@ -170,7 +168,7 @@ public class OptionsMenu
                 public void handle(final ActionEvent t)
                 {
                     System.out.println("TODO - implement minimize this in new framework");
-                    ASDMStage.getStage().setIconified(true);
+                    ABMStage.getStage().setIconified(true);
                 }
             });
 
@@ -178,8 +176,8 @@ public class OptionsMenu
             // closes the menu as default behavior
             final MenuItem close = new MenuItem("Collapse This Menu");
 
-            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), checkUpdates, uiSizes,
-                    onTop, lockUI, minimize, close);
+            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(),
+                    checkUpdates, uiSizes, onTop, lockUI, minimize, close);
         }
 
         if (_optionsMenu.isShowing())
@@ -190,7 +188,7 @@ public class OptionsMenu
         {
             // Show stage first, then reposition it after, otherwise the
             // .getWidth() and .getHeight() are set to 0.0
-            final Stage stage = ASDMStage.getStage();
+            final Stage stage = ABMStage.getStage();
             _optionsMenu.show(stage);
 
             _optionsMenu.setX(stage.getX() + stage.getWidth() - _optionsMenu.getWidth());
