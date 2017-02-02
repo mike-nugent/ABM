@@ -1,0 +1,60 @@
+Aion Sovereign Daeva Meter by AionMeter.com, also defined by “ASDM”.
+
+End User License Agreement
+
+PLEASE READ THIS LICENSE CAREFULLY BEFORE USING THE SOFTWARE.
+By using or installing the software or any related files, you are agreeing to the terms of this license.
+BY USING THE SOFTWARE, YOU ACCEPT THESE TERMS. IF YOU DO NOT ACCEPT THEM, DO NOT USE THE SOFTWARE.
+
+These terms apply to the software you are downloading from AionMeter.com, which includes the media on which you received it, if any.
+The terms also apply to any AionMeter.com
+
+* updates,
+* supplements,
+* Internet-based services, and
+* support services
+
+1. By downloading and using Aion Sovereign Daeva Meter, you hereby acknowledge and agree to the following:
+
+* You are not allowed to use this tool while running cheating/hacking applications like AS and similar.
+
+2. COPYRIGHT
+
+This software is copyright (c) 2016, AionMeter.com.
+AionMeter.com retains title and ownership rights in the Software. The Software is protected by the copyright laws and treaties.
+3. GRANT OF LICENSE
+
+This EULA grants you the following rights: installation and personal, non-commercial use only. You may install and use an unlimited number of copies of the SOFTWARE PRODUCT.
+
+ASDM is freeware, however the license is subject to change, in which case it would be notified in the application’s website following an update.
+
+This agreement only gives you some rights to use the software. AionMeter.com reserves all other rights. Unless applicable law gives you more rights despite this limitation, you may use the software only as expressly permitted in this agreement. In doing so, you must comply with any technical limitations in the software that only allow you to use it in certain ways.
+4. RESTRICTIONS
+
+You may not:
+
+* work around any technical limitations in the binary versions of the software;
+* reverse engineer, decompile or disassemble the binary versions of the software, except and only to the extent that
+applicable law expressly permits, despite this limitation;
+* make more copies of the software than specified in this agreement or allowed by applicable law, despite this limitation;
+* publish the software for others to copy;
+* rent, lease or lend the software;
+* transfer the software or this agreement to any third party; or
+* use the software for commercial software hosting services.
+5. DISCLAIMER
+
+NO WARRANTIES.
+AUTHOR AND ANY LICENSOR EXPRESSLY DISCLAIM TO THE FULLEST EXTENT PERMITTED BY LAW ANY WARRANTY FOR THE SOFTWARE PRODUCT. THE SOFTWARE PRODUCT AND ANY RELATED DOCUMENTATION IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OR MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT. AUTHOR AND LICENSOR DISCLAIM ANY WARRANTIES REGARDING THE SECURITY, RELIABILITY, TIMELINESS AND PERFORMANCE OF THE SOFTWARE PRODUCT. THE ENTIRE RISK ARISING OUT OF USE OR PERFORMANCE OF THE SOFTWARE PRODUCT REMAINS WITH YOU.
+
+NO LIABILITY FOR DAMAGES.
+IN NO EVENT SHALL AUTHOR OR LICENSOR BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THIS PRODUCT, EVEN IF AUTHOR OR LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. UNDER NO CIRCUMSTANCES SHALL AUTHOR OR LICENSOR BE LIABLE TO ANY USER ON ACCOUNT OF THAT USER’S USE OR MISUSE OF THE SOFTWARE PRODUCT. SUCH LIMITATION OF LIABILITY SHALL APPLY TO PREVENT RECOVERY OF DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, EXEMPLARY, AND PUNITIVE DAMAGES WHETHER SUCH CLAIM IS BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR OTHERWISE (EVEN IF AUTHOR OR LICENSOR HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES). SUCH LIMITATION OF LIABILITY SHALL APPLY WHETHER THE DAMAGES ARISE FROM USE OR MISUSE OF AND RELIANCE ON THE SOFTWARE PRODUCT, FROM INABILITY TO USE THE SOFTWARE PRODUCT, OR FROM THE INTERRUPTION, SUSPENSION OR TERMINATION OF THE SOFTWARE PRODUCT (INCLUDING SUCH DAMAGES INCURRED BY THIRD PARTIES). SUCH LIMITATION SHALL APPLY NOTWITHSTANDING A FAILURE OF ESSENTIAL PURPOSE OF ANY LIMITED REMEDY AND TO THE FULLEST EXTENT PERMITTED BY LAW.
+
+Because this software is “as is,” we may not provide support services for it.
+6. DISTRIBUTION
+
+You may NOT distribute this application
+7. TERMINATION
+
+Without prejudice to any other rights, AUTHOR may terminate this EULA if you fail to comply with the terms and conditions of this EULA. In such event, you must destroy all copies of the SOFTWARE PRODUCT and all of its component parts.
+
+If you have any questions about this license or if you want to contact AionMeter.com for any reason please visit http://www.AionMeter.com and use the contact form.
