@@ -58,7 +58,7 @@ public abstract class LineHandler
     protected static Pattern rolled_dice    = Pattern.compile(X + "rolled the dice and got" + X);
     protected static Pattern rolled_highest = Pattern.compile(X + "rolled the highest" + X);
     protected static Pattern everyone_pass  = Pattern.compile(X + "Everyone passed on rolling the dice." + X);
-    protected static Pattern has_acquired   = Pattern.compile(X + "acquired *[item:" + X + "]" + X);
+    protected static Pattern has_acquired   = Pattern.compile(X + "acquired "+ X +"[item:" + X + "]" + X);
 
     protected Pattern[] _patterns;
 
@@ -172,6 +172,7 @@ public abstract class LineHandler
             handlers.add(new InflictDamageLineHandler());
             handlers.add(new UsesCooldownLineHandler());
             handlers.add(new DeathLineHandler());
+            handlers.add(new DiceLineHandler());
             handlers.add(new TransformLineHandler());
             handlers.add(new ArtifactCaptureLineHandler());
         }

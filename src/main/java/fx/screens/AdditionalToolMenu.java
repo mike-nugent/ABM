@@ -47,10 +47,33 @@ public class AdditionalToolMenu
                 	DisplayManager.toggleArtifactPopup();
                 }
             });
+            
+            final CheckMenuItem dice = new CheckMenuItem("Loot Info");
+            
+            dice.selectedProperty().addListener(new ChangeListener<Boolean>()
+            {
+                @Override
+                public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
+                {
+                	DisplayManager.toggleDicePopup();
+                }
+			});
 
          
             final MenuItem close = new MenuItem("Collapse This Menu");
-            _toolMenu.getItems().addAll(idl, kbf, ow, iww, dredg,new SeparatorMenuItem(), upperAbyss, lowerAbyss,new SeparatorMenuItem(), close);
+            _toolMenu.getItems().addAll(
+            		idl, 
+            		kbf,
+            		ow, 
+            		iww, 
+            		dredg,
+            		new SeparatorMenuItem(), 
+            		upperAbyss, 
+            		lowerAbyss,
+            		new SeparatorMenuItem(),
+            		dice, 
+            		new SeparatorMenuItem(), 
+            		close);
         }
 
         if (_toolMenu.isShowing())

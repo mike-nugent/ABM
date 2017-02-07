@@ -16,6 +16,8 @@ import fx.screens.XformPopupStage;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
+import javafx.stage.Window;
+import loot.DicePopupPage;
 
 public class DisplayManager
 {
@@ -30,6 +32,7 @@ public class DisplayManager
     static ClockPopupPage    clockStage   = new ClockPopupPage();
     static PvPPopupPage      pvpStage     = new PvPPopupPage();
     static ArtifactPopupPage artiStage    = new ArtifactPopupPage();
+    static DicePopupPage     diceStage    = new DicePopupPage();
 
     static XformScreenButton xformButton;
 
@@ -216,6 +219,18 @@ public class DisplayManager
             artiStage.show();
         }
     }
+    
+	public static void toggleDicePopup()
+	{
+        if (diceStage.isShowing())
+        {
+        	diceStage.close();
+        }
+        else
+        {
+        	diceStage.show();
+        }
+	}
 
     public static void showTransformPopup()
     {
@@ -278,5 +293,7 @@ public class DisplayManager
             pvpStage.hide();
         }
     }
+
+
 
 }
