@@ -3,6 +3,7 @@ package logreader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import handlers.LineHandler;
 
@@ -26,9 +27,10 @@ public class AionLogResponder extends AionTailerListenerAdapter
             addNewLine(line);
             for (final LineHandler handler : handlers)
             {
-                if (handler.handlesLine(line))
+                final Pattern p = handler.handlesLineGetPattern(line);
+                if (p != null)
                 {
-                    handler.handle(line, true);
+                    handler.handle(p, line, true);
                     return;
                 }
             }

@@ -37,7 +37,7 @@ public class CustomLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line, final boolean isCurrent)
+    protected void handleLine(final Pattern pattern, final String line, final boolean isCurrent)
     {
 
         // Custom parsers ignore the recent history, and only go off the new
@@ -66,12 +66,12 @@ public class CustomLineHandler extends LineHandler
                 {
                     SoundManager.playSound(sound);
                 }
-                
+
                 // Do Alert stuff
                 final String alert = data.getAlert();
-                if(alert != null)
+                if (alert != null)
                 {
-                	AlertScreen.showAlert(alert);
+                    AlertScreen.showAlert(alert);
                 }
             }
         });

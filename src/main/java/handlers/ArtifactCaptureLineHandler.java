@@ -1,6 +1,7 @@
 package handlers;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import artifact.AbyssArtifact;
 import artifact.ArtifactData;
@@ -49,11 +50,24 @@ public class ArtifactCaptureLineHandler extends LineHandler
             final String time = parsed[1];
             String legion, artifact, owner;
 
-            if (line.contains("has been lost to Balaur"))
+            if (line.contains("has been lost"))
             {
-                legion = "Balaur";
+                if (line.contains("Balaur"))
+                {
+                    legion = "Balaur";
+                    owner = ArtifactOwner.Balaur.name();
+                }
+                else if (line.contains("Elyos"))
+                {
+                    legion = " -- ";
+                    owner = ArtifactOwner.Elyos.name();
+                }
+                else
+                {
+                    legion = " -- ";
+                    owner = ArtifactOwner.Asmodian.name();
+                }
                 artifact = line.substring(line.indexOf("The ") + 4, line.indexOf(" Artifact has"));
-                owner = ArtifactOwner.Balaur.name();
             }
             else
             {
@@ -91,7 +105,7 @@ public class ArtifactCaptureLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line, final boolean isCurrent)
+    protected void handleLine(final Pattern pattern, final String line, final boolean isCurrent)
     {
         final ArtifactData data = parseArtifactInfo(line);
 

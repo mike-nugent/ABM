@@ -20,8 +20,7 @@ public abstract class LineHandler
     // Damage dealt:
     protected static Pattern auto_attack    = Pattern.compile(X + "inflicted" + X + "damage on" + X);
     protected static Pattern ability_attack = Pattern.compile(X + "inflicted" + X + "damage on" + X + "by using" + X);
-    protected static Pattern dot_attack     = Pattern
-            .compile(X + "used" + X + "to inflict the continuous damage effect on" + X);
+    protected static Pattern dot_attack     = Pattern.compile(X + "used" + X + "to inflict the continuous damage effect on" + X);
 
     // Damage received:
     protected static Pattern received_damage  = Pattern.compile(X + "received" + X + "because" + X + "used" + X);
@@ -44,8 +43,7 @@ public abstract class LineHandler
     protected static Pattern stop_ability = Pattern.compile(X + "stopped using " + X);
 
     // Transform:
-    protected static Pattern transform = Pattern
-            .compile(X + "of" + X + "uses Transformation: Guardian General" + X + "in" + X);
+    protected static Pattern transform = Pattern.compile(X + "of" + X + "uses Transformation: Guardian General" + X + "in" + X);
 
     // Death:
     protected static Pattern ranked_death = Pattern.compile(X + "has died in" + X);
@@ -53,7 +51,14 @@ public abstract class LineHandler
 
     // Artifacts:
     protected static Pattern capture_arti = Pattern.compile(X + "of" + X + "has captured the" + X + "Artifact" + X);
-    protected static Pattern lose_arti    = Pattern.compile(X + "Artifact has been lost to Balaur" + X);
+    protected static Pattern lose_arti    = Pattern.compile(X + "Artifact has been lost to" + X);
+
+    // Dice
+    protected static Pattern gave_up        = Pattern.compile(X + "gave up rolling the dice" + X);
+    protected static Pattern rolled_dice    = Pattern.compile(X + "rolled the dice and got" + X);
+    protected static Pattern rolled_highest = Pattern.compile(X + "rolled the highest" + X);
+    protected static Pattern everyone_pass  = Pattern.compile(X + "Everyone passed on rolling the dice." + X);
+    protected static Pattern has_acquired   = Pattern.compile(X + "acquired *[item:" + X + "]" + X);
 
     protected Pattern[] _patterns;
 
@@ -67,16 +72,17 @@ public abstract class LineHandler
     }
 
     /**
-     * Handles the line that matches the regular expression. Calls the
-     * appropriate method in the Main
+     * Handles the line that matches the regular expression. Calls the appropriate method in the Main
+     *
+     * @param p
      *
      * @param b
      */
-    public void handle(final String line, final boolean isCurrent)
+    public void handle(final Pattern pattern, final String line, final boolean isCurrent)
     {
         try
         {
-            handleLine(line, isCurrent);
+            handleLine(pattern, line, isCurrent);
         }
         catch (final Exception e)
         {
@@ -85,13 +91,14 @@ public abstract class LineHandler
     }
 
     /**
-     * Must be overridden in sub-class and define implementation of handling the
-     * line
+     * Must be overridden in sub-class and define implementation of handling the line
+     *
+     * @param pattern
      *
      * @param isCurrent
      *            TODO
      */
-    protected abstract void handleLine(String line, boolean isCurrent);
+    protected abstract void handleLine(Pattern pattern, String line, boolean isCurrent);
 
     protected void showError(final Exception e, final String line)
     {
@@ -104,16 +111,26 @@ public abstract class LineHandler
      */
     public boolean handlesLine(final String line)
     {
+        if (handlesLineGetPattern(line) != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Pattern handlesLineGetPattern(final String line)
+    {
         for (final Pattern pattern : _patterns)
         {
             final Matcher matcher = pattern.matcher(line);
             if (matcher.matches())
             {
-                return true;
+                return pattern;
             }
         }
 
-        return false;
+        return null;
     }
 
     public static Date getDateTime(final String line)
@@ -142,9 +159,7 @@ public abstract class LineHandler
     }
 
     /**
-     * Add new line handlers here for them to be picked up / used by the
-     * program. Each handler is responsible for communicating with the Main
-     * class when it finds a line that matches its regular expression criteria.
+     * Add new line handlers here for them to be picked up / used by the program. Each handler is responsible for communicating with the Main class when it finds a line that matches its regular expression criteria.
      */
     public static List<LineHandler> getOrCreateHandlers()
     {

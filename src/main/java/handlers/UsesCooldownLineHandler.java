@@ -1,6 +1,7 @@
 package handlers;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import config.ConfigFile;
 import database.PlayerBaseUpdater;
@@ -14,7 +15,7 @@ public class UsesCooldownLineHandler extends LineHandler
      *
      * <pre>
       (X + "is in the" + X + "because" + X + "used" + X)
-
+    
        2015.12.04 00:44:56 : NoiseCntrl is in the boost Stumble Resist,Silence Resistance,Knock Back Resist state because NoiseCntrl used Mvt. 3: Autumn.
        2015.12.04 00:44:59 : NoiseCntrl is in the boost PvP Defense state because NoiseCntrl used Protective Ode.
        2015.12.04 00:54:53 : Judasiscariote is in the boost PvP Defense state because Judasiscariote used Stone Skin.
@@ -76,7 +77,7 @@ public class UsesCooldownLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line, final boolean isCurrent)
+    protected void handleLine(final Pattern pattern, final String line, final boolean isCurrent)
     {
         final AbilityData data = parseCooldownLine(line);
         if (data != null)

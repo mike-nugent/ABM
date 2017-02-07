@@ -1,6 +1,7 @@
 package handlers;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import config.ConfigFile;
 import database.PlayerBaseUpdater;
@@ -78,7 +79,7 @@ public class DeathLineHandler extends LineHandler
     }
 
     @Override
-    protected void handleLine(final String line, boolean isCurrent)
+    protected void handleLine(final Pattern pattern, final String line, final boolean isCurrent)
     {
         final PlayerData data = parseDeathLine(line);
 

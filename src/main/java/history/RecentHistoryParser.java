@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import config.ConfigFile;
 import handlers.LineHandler;
@@ -83,9 +84,10 @@ public class RecentHistoryParser
         {
             for (final LineHandler handler : handlers)
             {
-                if (handler.handlesLine(s))
+                final Pattern p = handler.handlesLineGetPattern(s);
+                if (p != null)
                 {
-                    handler.handle(s, false);
+                    handler.handle(p, s, false);
                     break;
                 }
             }

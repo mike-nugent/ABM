@@ -1,5 +1,6 @@
 package database;
 
+import java.util.Date;
 import java.util.List;
 
 import abilities.Ability;
@@ -38,23 +39,23 @@ public class PlayerBaseUpdater
             else
             {
                 // only update if the new information is better than old.
-                final Rank rank = player.rank;
+                final Rank rank = data.rank;
                 if (rank != null && !rank.equals(Rank.Unknown))
                 {
-                    if (!rank.equals(data.rank))
+                    if (!rank.equals(player.rank))
                     {
-                        AionDB.updateExistingPlayer(name, server, player.race, player.clazz, data.rank);
-                        player.setRank(data.rank);
+                        AionDB.updateExistingPlayer(name, server, player.race, player.clazz, rank);
+                        player.setRank(rank);
                     }
                 }
 
-                final Race race = player.race;
+                final Race race = data.race;
                 if (race != null && !race.equals(Race.Unknown))
                 {
-                    if (!race.equals(data.race))
+                    if (!race.equals(player.race))
                     {
-                        AionDB.updateExistingPlayer(name, server, data.race, player.clazz, player.rank);
-                        player.setRace(data.race);
+                        AionDB.updateExistingPlayer(name, server, race, player.clazz, player.rank);
+                        player.setRace(race);
                     }
                 }
             }
@@ -88,8 +89,8 @@ public class PlayerBaseUpdater
             }
             else
             {
-                AionDB.addNewPlayer(name, server, null, clazz, null);
-                allPlayers.add(new PlayerData(null, name, server, null, null, clazz, null));
+                AionDB.addNewPlayer(name, server, Race.Unknown, clazz, Rank.Unknown);
+                allPlayers.add(new PlayerData(new Date(), name, server, Race.Unknown, Rank.Unknown, clazz, "madrid"));
             }
         }
     }
