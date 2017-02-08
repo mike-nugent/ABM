@@ -39,8 +39,8 @@ public class ConfigFile
     public static final String ALERT_TEXT_COLOR         = "alertTextColor";
     public static final String PVP_LOCATION_PROPERTY    = "pvpLocaion";
     public static final String ARTI_LOCATION_PROPERTY   = "artiLocation";
-	public static final String DICE_LOCATION_PROPERTY   = "diceLocation";
- 
+    public static final String DICE_LOCATION_PROPERTY   = "diceLocation";
+
     private static String _name;
     private static Race   _race;
     private static Server _server;
@@ -53,8 +53,8 @@ public class ConfigFile
             path = DEFAULT_AION_LOCATION;
         }
 
-        //final File file = new File(path + "/" + DEFAULT_LOG_FILE_NAME);
-        final File file = new File(DEBUG_LOG_FILE_NAME);
+        final File file = new File(path + "/" + DEFAULT_LOG_FILE_NAME);
+        // final File file = new File(DEBUG_LOG_FILE_NAME);
 
         return file;
     }

@@ -23,6 +23,12 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.192</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+		</dependency>
 	</dependencies>
 
 

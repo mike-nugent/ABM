@@ -16,8 +16,8 @@ import fx.screens.XformPopupStage;
 import gameinfo.Archetype;
 import gameinfo.PlayerData;
 import gameinfo.Race;
-import javafx.stage.Window;
 import loot.DicePopupPage;
+import loot.LootPopupPage;
 
 public class DisplayManager
 {
@@ -33,6 +33,7 @@ public class DisplayManager
     static PvPPopupPage      pvpStage     = new PvPPopupPage();
     static ArtifactPopupPage artiStage    = new ArtifactPopupPage();
     static DicePopupPage     diceStage    = new DicePopupPage();
+    static LootPopupPage     lootStage    = new LootPopupPage();
 
     static XformScreenButton xformButton;
 
@@ -52,15 +53,13 @@ public class DisplayManager
     }
 
     /**
-     * Avoid spawning xform link multiple times, in case multiple clients are
-     * open.
+     * Avoid spawning xform link multiple times, in case multiple clients are open.
      */
     private static boolean noMatchingName(final List<PlayerData> list, final PlayerData data)
     {
         for (final PlayerData d : list)
         {
-            if (data.getName().equals(d.getName()) && data.getRace().equals(d.getRace())
-                    && data.getServer().equals(d.getServer()))
+            if (data.getName().equals(d.getName()) && data.getRace().equals(d.getRace()) && data.getServer().equals(d.getServer()))
             {
                 return false;
             }
@@ -90,8 +89,7 @@ public class DisplayManager
         PlayerData flagRemoval = null;
         for (final PlayerData d : activeTransforms)
         {
-            if (d.getName().equals(data.getName()) && d.getRace().equals(data.getRace())
-                    && d.getServer().equals(data.getServer()))
+            if (d.getName().equals(data.getName()) && d.getRace().equals(data.getRace()) && d.getServer().equals(data.getServer()))
             {
                 // The transform was killed, we need to remove it from the
                 // active list and shift it to the inactive list asap
@@ -219,18 +217,30 @@ public class DisplayManager
             artiStage.show();
         }
     }
-    
-	public static void toggleDicePopup()
-	{
+
+    public static void toggleDicePopup()
+    {
         if (diceStage.isShowing())
         {
-        	diceStage.close();
+            diceStage.close();
         }
         else
         {
-        	diceStage.show();
+            diceStage.show();
         }
-	}
+    }
+
+    public static void toggleLootPopup()
+    {
+        if (lootStage.isShowing())
+        {
+            lootStage.close();
+        }
+        else
+        {
+            lootStage.show();
+        }
+    }
 
     public static void showTransformPopup()
     {
@@ -293,7 +303,5 @@ public class DisplayManager
             pvpStage.hide();
         }
     }
-
-
 
 }

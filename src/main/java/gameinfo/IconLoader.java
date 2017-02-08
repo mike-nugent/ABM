@@ -1,11 +1,18 @@
 package gameinfo;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 
 public class IconLoader
 {
@@ -60,12 +67,33 @@ public class IconLoader
         return loadFxImage(icon, ICON_SIZE);
     }
 
+    public static ImageView getItemIcon(final String itemID)
+    {
+
+        try
+        {
+            final URL url = new URL("http://api.notaion.com/?icon&id=" + itemID);
+            final URLConnection conn = url.openConnection();
+
+            // The not aion API server refuses requests that aren't made by browser. So trick it into thinking we are a browser.
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+            final BufferedImage buffImg = ImageIO.read(conn.getInputStream());
+            final WritableImage img = SwingFXUtils.toFXImage(buffImg, null);
+            final ImageView view = new ImageView(img);
+            return view;
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static javafx.scene.image.Image loadFxImage(final String icon, final int scaleHeight)
     {
         try
         {
             final InputStream in = IconLoader.class.getResourceAsStream("/" + icon);
-
             return new javafx.scene.image.Image(in, -1, scaleHeight, true, true);
 
         }
