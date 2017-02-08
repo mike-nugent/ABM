@@ -35,6 +35,7 @@ public class ClockPopupPage extends PopupStage
         clock.setLayoutY(20);
         cursor.setLayoutX(260);
         cursor.setLayoutY(20);
+        cursor.fadeOutWhenExit(box, cursor);
 
         root.getChildren().addAll(box);
         positionListener(cursor);

@@ -1,15 +1,14 @@
 package fx.buttons;
 
-import fx.screens.AlertScreen;
 import javafx.scene.input.MouseEvent;
 import main.DisplayManager;
 
 public class LogScreenButton extends ScreenButton
 {
 
-    public LogScreenButton()
+    public LogScreenButton(final int size)
     {
-        super("log.png", 60);
+        super("log.png", size);
     }
 
     @Override

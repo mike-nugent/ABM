@@ -4,7 +4,6 @@ import config.ConfigFile;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -19,9 +18,9 @@ public class XformScreenButton extends ScreenButton
     private final StackPane _asmoPane;
     private final StackPane _elyPane;
 
-    public XformScreenButton()
+    public XformScreenButton(final int size)
     {
-        super("transform_icon.jpg", 60);
+        super("transform_icon2.png", size, true);
         final Pane p = new Pane();
 
         _asmoTxt = new Label();
@@ -30,11 +29,11 @@ public class XformScreenButton extends ScreenButton
         _elyPane = makeCountBox("#B2FE76", _elyTxt);
         _asmoPane = makeCountBox("#88F7FA", _asmoTxt);
 
-        _elyPane.setLayoutX(30);
+        _elyPane.setLayoutX(size / 3);
         _elyPane.setLayoutY(0);
 
-        _asmoPane.setLayoutX(30);
-        _asmoPane.setLayoutY(50);
+        _asmoPane.setLayoutX(size / 3);
+        _asmoPane.setLayoutY(size - 10);
 
         _elyPane.setVisible(false);
         _asmoPane.setVisible(false);
@@ -44,21 +43,34 @@ public class XformScreenButton extends ScreenButton
 
         p.getChildren().addAll(_elyPane, _asmoPane);
 
-        setupRegion(region, 80, 80);
         final String isShowing = ConfigFile.getProperty(ConfigFile.IS_XFORM_SHOWING);
 
         if (isShowing != null && isShowing.equals("true"))
         {
             DisplayManager.showTransformPopup();
-            region.setVisible(true);
+            this.setIsOpen(true);
         }
         else
         {
             DisplayManager.hideTransformPopup();
-            region.setVisible(false);
+            this.setIsOpen(false);
         }
 
         this.getChildren().add(p);
+    }
+
+    @Override
+    protected void closeTriggered()
+    {
+        DisplayManager.hideTransformPopup();
+        ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "false");
+    }
+
+    @Override
+    protected void openTriggered()
+    {
+        DisplayManager.showTransformPopup();
+        ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "true");
     }
 
     public StackPane makeCountBox(final String color, final Label txt)
@@ -68,45 +80,10 @@ public class XformScreenButton extends ScreenButton
         R.setFill(Color.BLACK);
         R.setEffect(new DropShadow(10, Color.BLACK));
 
-        txt.setStyle("-fx-font-size: 18px;" + "-fx-font-weight: bold;" + "-fx-text-fill: " + color + ";"
-                + "-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        txt.setStyle("-fx-font-size: 18px;" + "-fx-font-weight: bold;" + "-fx-text-fill: " + color + ";" + "-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
 
         group.getChildren().addAll(R, txt);
         return group;
-    }
-
-    @Override
-    protected void mousePressed(final MouseEvent event)
-    {
-        if (DisplayManager.isTransformShowing())
-        {
-            DisplayManager.hideTransformPopup();
-            region.setVisible(false);
-            ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "false");
-        }
-        else
-        {
-            DisplayManager.showTransformPopup();
-            region.setVisible(true);
-            ConfigFile.setProperty(ConfigFile.IS_XFORM_SHOWING, "true");
-        }
-        // uncomment to test adding a transform
-        // PlayerData random = PlayerData.generateRandom();
-        // TransformManager.transformDetected(random);
-    }
-
-    @Override
-    protected void mouseEntered(final MouseEvent event)
-    {
-        /// TransformManager.toggleTransformPopup();
-
-    }
-
-    @Override
-    protected void mouseExited(final MouseEvent event)
-    {
-        /// TransformManager.toggleTransformPopup();
-
     }
 
     public void updateXformNumbers(final int numActiveElyXforms, final int numActiveAsmoXforms)

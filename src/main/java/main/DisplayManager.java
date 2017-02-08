@@ -227,6 +227,8 @@ public class DisplayManager
         else
         {
             diceStage.show();
+            DicePopupPage.updateLastToRoll("<last to roll>");
+            DicePopupPage.updateWinsRoll("<won roll>", 99);
         }
     }
 

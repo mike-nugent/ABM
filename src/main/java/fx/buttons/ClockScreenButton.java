@@ -6,41 +6,36 @@ import main.DisplayManager;
 
 public class ClockScreenButton extends ScreenButton
 {
-    public ClockScreenButton()
+    public ClockScreenButton(final int size)
     {
-        super("clock_icon.png", 60);
-
-        setupRegion(region, 50, 70);
+        super("clock_icon.png", size, true);
 
         final String isShowing = ConfigFile.getProperty(ConfigFile.IS_CLOCK_SHOWING);
 
         if (isShowing != null && isShowing.equals("true"))
         {
             DisplayManager.showClockPopup();
-            region.setVisible(true);
+            this.setIsOpen(true);
         }
         else
         {
             DisplayManager.hideClockPopup();
-            region.setVisible(false);
+            this.setIsOpen(false);
         }
     }
 
     @Override
-    protected void mousePressed(final MouseEvent event)
+    protected void closeTriggered()
     {
-        if (DisplayManager.isClockShowing())
-        {
-            DisplayManager.hideClockPopup();
-            region.setVisible(false);
-            ConfigFile.setProperty(ConfigFile.IS_CLOCK_SHOWING, "false");
-        }
-        else
-        {
-            DisplayManager.showClockPopup();
-            region.setVisible(true);
-            ConfigFile.setProperty(ConfigFile.IS_CLOCK_SHOWING, "true");
-        }
+        DisplayManager.hideClockPopup();
+        ConfigFile.setProperty(ConfigFile.IS_CLOCK_SHOWING, "false");
+    }
+
+    @Override
+    protected void openTriggered()
+    {
+        DisplayManager.showClockPopup();
+        ConfigFile.setProperty(ConfigFile.IS_CLOCK_SHOWING, "true");
     }
 
     @Override

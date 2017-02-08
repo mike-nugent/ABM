@@ -13,13 +13,14 @@ public class LootManager
     {
         System.out.println(person + " gave up rolling");
         rollMap.put(person, 0);
+        DicePopupPage.updateLastToRoll(person);
     }
 
     public static void playerRolledDice(final String person, final int roll, final int limit)
     {
         System.out.println(person + " rolled " + roll + " out of " + limit);
         rollMap.put(person, roll);
-        DicePopupPage.updateLastToRoll(person, roll);
+        DicePopupPage.updateLastToRoll(person);
     }
 
     public static void playerRolledHighest(final String person)

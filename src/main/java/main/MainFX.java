@@ -22,6 +22,7 @@ import gameinfo.IconLoader;
 import history.QuickHistoryLineScanner;
 import history.RecentHistoryParser;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,10 +36,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import logreader.AionLogReader;
 import sounds.SoundManager;
 import triage.ExceptionHandler;
@@ -48,7 +51,7 @@ import versioning.VersionManager;
 public class MainFX extends Application
 {
     // The current version of this program.
-    public static final String CURRENT_VERSION = "1.0.7";
+    public static final String CURRENT_VERSION = "1.0.8";
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -160,6 +163,7 @@ public class MainFX extends Application
 
         // Add all children to the stage
         root.getChildren().addAll(buttonsListBox, optionsListBox);
+        fadeOutWhenExit(root, optionsListBox);
 
         final Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);
@@ -185,6 +189,36 @@ public class MainFX extends Application
                 changeIconSizes(30);
             }
         }
+    }
+
+    public void fadeOutWhenExit(final Pane pane, final Pane optns)
+    {
+        final FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), optns);
+        final FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), optns);
+
+        optns.setOpacity(0);
+        pane.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                fadeOut.stop();
+                fadeIn.setFromValue(optns.getOpacity());
+                fadeIn.setToValue(1);
+                fadeIn.play();
+            }
+        });
+        pane.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                fadeIn.stop();
+                fadeOut.setFromValue(optns.getOpacity());
+                fadeOut.setToValue(0);
+                fadeOut.play();
+            }
+        });
     }
 
     private HBox addOptionsList()
@@ -288,8 +322,7 @@ public class MainFX extends Application
             final Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Welcome Daeva!");
             alert.setHeaderText("Welcome Archdaeva!\nLet's set up your Aion Battle Meter");
-            alert.setContentText("We will need some information about your character and setup.\n\n"
-                    + "Please enter information on the following screens to get started.");
+            alert.setContentText("We will need some information about your character and setup.\n\n" + "Please enter information on the following screens to get started.");
             alert.setGraphic(new ImageView(IconLoader.loadFxImage("faction2.png", 60)));
             alert.showAndWait();
         }
@@ -347,8 +380,7 @@ public class MainFX extends Application
                 // save the screen location to the file.
                 // So when we open the program again, it remembers where we
                 // positioned it.
-                ConfigFile.setProperty(ConfigFile.STAGE_LOCATION_PROPERTY,
-                        primaryStage.getX() + "," + primaryStage.getY());
+                ConfigFile.setProperty(ConfigFile.STAGE_LOCATION_PROPERTY, primaryStage.getX() + "," + primaryStage.getY());
             }
         });
     }
@@ -359,17 +391,17 @@ public class MainFX extends Application
      */
     public HBox addScreenButtons()
     {
-        _asdmIcons.setPadding(new Insets(15, 12, 15, 12));
-        _asdmIcons.setSpacing(15);
+        _asdmIcons.setPadding(new Insets(15, 0, 15, 0));
+        _asdmIcons.setSpacing(5);
         _asdmIcons.setAlignment(Pos.CENTER_LEFT);
-        final XformScreenButton xform = new XformScreenButton();
-        final PvPScreenButton pvp = new PvPScreenButton();
+        final XformScreenButton xform = new XformScreenButton(50);
+        final PvPScreenButton pvp = new PvPScreenButton(50);
 
         DisplayManager.setXformButton(xform);
-        final ScreenButton players = new PlayerScreenButton();
-        final ScreenButton scripts = new ScriptsScreenButton();
-        final ScreenButton logs = new LogScreenButton();
-        final ClockScreenButton clock = new ClockScreenButton();
+        final ScreenButton players = new PlayerScreenButton(50);
+        final ScreenButton scripts = new ScriptsScreenButton(50);
+        final ScreenButton logs = new LogScreenButton(50);
+        final ClockScreenButton clock = new ClockScreenButton(50);
 
         _asdmIcons.getChildren().addAll(xform, pvp, players, scripts, logs, clock);
 

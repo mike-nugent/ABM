@@ -45,8 +45,7 @@ public class OptionsMenu
                 }
             });
             // ------------------------------------------------------
-            final MenuItem settings = new MenuItem("Main Settings",
-                    new ImageView(IconLoader.loadFxImage("config.png", 25)));
+            final MenuItem settings = new MenuItem("Main Settings", new ImageView(IconLoader.loadFxImage("config.png", 25)));
             settings.setStyle("-fx-font-weight:bold;");
             settings.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -58,8 +57,7 @@ public class OptionsMenu
             });
 
             // --------------------------------------------
-            final MenuItem checkUpdates = new MenuItem("Check For Updates",
-                    new ImageView(IconLoader.loadFxImage("update-icon.png", 25)));
+            final MenuItem checkUpdates = new MenuItem("Check For Updates", new ImageView(IconLoader.loadFxImage("update-icon.png", 25)));
             ;
             checkUpdates.setOnAction(new EventHandler<ActionEvent>()
             {
@@ -68,9 +66,7 @@ public class OptionsMenu
                 {
                     if (!VersionManager.checkForNewerVersions())
                     {
-                        final UpdateAvailableAlert alert = new UpdateAvailableAlert("No Updates Available",
-                                "Your version of ABM is up to date!", VersionManager.CURRENT_VERSION,
-                                VersionManager.AVAILABLE_VERSION);
+                        final UpdateAvailableAlert alert = new UpdateAvailableAlert("No Updates Available", "Your version of ABM is up to date!", VersionManager.CURRENT_VERSION, VersionManager.AVAILABLE_VERSION);
                         alert.disableDownloadLink();
                         alert.show();
                     }
@@ -124,8 +120,7 @@ public class OptionsMenu
             uiSizes.getItems().addAll(largeIcons, smallIcons);
 
             // ----------------------------------------------------------------
-            final CheckMenuItem onTop = new CheckMenuItem("Always On Top",
-                    new ImageView(IconLoader.loadFxImage("on-top.png", 30)));
+            final CheckMenuItem onTop = new CheckMenuItem("Always On Top", new ImageView(IconLoader.loadFxImage("on-top.png", 30)));
             onTop.setSelected(true);
             onTop.selectedProperty().addListener(new ChangeListener<Boolean>()
             {
@@ -136,8 +131,7 @@ public class OptionsMenu
                 }
             });
 
-            final CheckMenuItem lockUI = new CheckMenuItem("Lock UI Position",
-                    new ImageView(IconLoader.loadFxImage("lock.png", 30)));
+            final CheckMenuItem lockUI = new CheckMenuItem("Lock UI Position", new ImageView(IconLoader.loadFxImage("lock.png", 30)));
 
             final String isSet = ConfigFile.getProperty(ConfigFile.LOCK_WINDOW_POSITION);
             if (isSet != null && isSet.equals("true"))
@@ -160,8 +154,7 @@ public class OptionsMenu
                 }
             });
 
-            final MenuItem minimize = new MenuItem("Minimize To Tray",
-                    new ImageView(IconLoader.loadFxImage("minimize.png", 25)));
+            final MenuItem minimize = new MenuItem("Minimize To Tray", new ImageView(IconLoader.loadFxImage("minimize.png", 25)));
             minimize.setOnAction(new EventHandler<ActionEvent>()
             {
                 @Override
@@ -176,8 +169,7 @@ public class OptionsMenu
             // closes the menu as default behavior
             final MenuItem close = new MenuItem("Collapse This Menu");
 
-            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(),
-                    checkUpdates, uiSizes, onTop, lockUI, minimize, close);
+            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), checkUpdates, uiSizes, onTop, lockUI, minimize, close);
         }
 
         if (_optionsMenu.isShowing())
@@ -207,7 +199,7 @@ public class OptionsMenu
         }
         else
         {
-            MainFX.changeIconSizes(60);
+            MainFX.changeIconSizes(50);
             ConfigFile.setProperty(ConfigFile.UI_SIZES, "large");
         }
     }

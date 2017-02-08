@@ -2,6 +2,8 @@ package fx.screens;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -20,7 +22,6 @@ public class AdditionalToolMenu
         {
             _toolMenu = new ContextMenu();
 
-
             // ----------------------------------------------------------------
             final CheckMenuItem idl = new CheckMenuItem("Idgel Dome Landmark PvP Overlay");
             final CheckMenuItem kbf = new CheckMenuItem("Kamar Battlefield PvP Overlay");
@@ -33,47 +34,44 @@ public class AdditionalToolMenu
             ow.setDisable(true);
             iww.setDisable(true);
             dredg.setDisable(true);
-            
-            final CheckMenuItem upperAbyss = new CheckMenuItem("Upper Abyss Artifact Timer");
-            final CheckMenuItem lowerAbyss = new CheckMenuItem("Lower Abyss Artifact Timer");
+
+            final MenuItem upperAbyss = new MenuItem("Upper Abyss Artifact Timer");
+            final MenuItem lowerAbyss = new MenuItem("Lower Abyss Artifact Timer");
 
             lowerAbyss.setDisable(true);
-
-            upperAbyss.selectedProperty().addListener(new ChangeListener<Boolean>()
+            upperAbyss.setOnAction(new EventHandler<ActionEvent>()
             {
                 @Override
-                public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
+                public void handle(final ActionEvent event)
                 {
-                	DisplayManager.toggleArtifactPopup();
+                    DisplayManager.toggleArtifactPopup();
                 }
             });
-            
-            final CheckMenuItem dice = new CheckMenuItem("Loot Info");
-            
+
+            final MenuItem loot = new MenuItem("Loot History");
+            loot.setOnAction(new EventHandler<ActionEvent>()
+            {
+                @Override
+                public void handle(final ActionEvent event)
+                {
+                    DisplayManager.toggleLootPopup();
+                }
+            });
+
+            final CheckMenuItem dice = new CheckMenuItem("Dice Tool");
             dice.selectedProperty().addListener(new ChangeListener<Boolean>()
             {
                 @Override
                 public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
                 {
-                	DisplayManager.toggleDicePopup();
+                    DisplayManager.toggleDicePopup();
                 }
-			});
+            });
 
-         
             final MenuItem close = new MenuItem("Collapse This Menu");
-            _toolMenu.getItems().addAll(
-            		idl, 
-            		kbf,
-            		ow, 
-            		iww, 
-            		dredg,
-            		new SeparatorMenuItem(), 
-            		upperAbyss, 
-            		lowerAbyss,
-            		new SeparatorMenuItem(),
-            		dice, 
-            		new SeparatorMenuItem(), 
-            		close);
+            close.setStyle("-fx-font-weight:bold;");
+
+            _toolMenu.getItems().addAll(idl, kbf, ow, iww, dredg, new SeparatorMenuItem(), upperAbyss, lowerAbyss, new SeparatorMenuItem(), loot, dice, new SeparatorMenuItem(), close);
         }
 
         if (_toolMenu.isShowing())

@@ -5,9 +5,9 @@ import main.DisplayManager;
 
 public class ScriptsScreenButton extends ScreenButton
 {
-    public ScriptsScreenButton()
+    public ScriptsScreenButton(final int size)
     {
-        super("aion_craft.png", 60);
+        super("aion_craft.png", size);
     }
 
     @Override

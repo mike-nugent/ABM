@@ -6,34 +6,45 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class ScreenButton extends StackPane
 {
-    ScreenButton           me;
-    protected final Region region    = new Region();
-    final ImageView        imageView = new ImageView();
+    ScreenButton              me;
+    final ImageView           imageView = new ImageView();
+    protected final StackPane background;
+    private final boolean     isToggle;
+    private boolean           isOpen;
 
     public void updateImageDimensions(final int size)
     {
         imageView.setFitWidth(size);
         imageView.setFitHeight(size);
-        region.setMaxWidth(size + 10);
-        region.setMaxHeight(size + 10);
-        region.setPrefWidth(size + 10);
-        region.setPrefHeight(size + 10);
+        background.setPrefHeight(size);
+        background.setPrefWidth(size);
     }
 
-    public ScreenButton(final String iconName, final int height)
+    public ScreenButton(final String iconName, final int size)
+    {
+        this(iconName, size, false);
+    }
+
+    public ScreenButton(final String iconName, final int size, final boolean isToggle)
     {
         me = this;
-        final Image image = IconLoader.loadFxImage(iconName, height);
+        this.isToggle = isToggle;
+
+        final Image image = IconLoader.loadFxImage(iconName, size);
         imageView.setImage(image);
 
-        this.getChildren().add(imageView);
-        me.setEffect(new DropShadow(10, Color.DARKGRAY));
+        background = new StackPane(imageView);
+        background.setStyle("-fx-background-color: rgba(0,0,0,0.01)");
+        background.setPrefHeight(size);
+        background.setPrefWidth(size);
+
+        this.getChildren().add(background);
+        background.setEffect(new DropShadow(5, Color.DARKGRAY));
 
         this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
@@ -41,6 +52,20 @@ public class ScreenButton extends StackPane
             public void handle(final MouseEvent event)
             {
                 mousePressed(event);
+
+                if (isToggle)
+                {
+                    if (isOpen())
+                    {
+                        setIsOpen(false);
+                        closeTriggered();
+                    }
+                    else
+                    {
+                        setIsOpen(true);
+                        openTriggered();
+                    }
+                }
 
             }
 
@@ -51,7 +76,7 @@ public class ScreenButton extends StackPane
             @Override
             public void handle(final MouseEvent evt)
             {
-                me.setEffect(new DropShadow(15, Color.web("#ffffb3")));
+                background.setEffect(new DropShadow(5, Color.web("#ffffb3")));
                 mouseEntered(evt);
             }
 
@@ -62,22 +87,41 @@ public class ScreenButton extends StackPane
             @Override
             public void handle(final MouseEvent evt)
             {
-                me.setEffect(new DropShadow(10, Color.DARKGRAY));
+                background.setEffect(new DropShadow(5, Color.DARKGRAY));
                 mouseExited(evt);
             }
 
         });
     }
 
-    protected void setupRegion(final Region region, final int width, final int height)
+    protected void closeTriggered()
     {
-        // region.setMinWidth(60);
-        // region.setMinHeight(60);
-        region.setPrefWidth(width);
-        region.setPrefHeight(height);
-        region.setStyle("-fx-background-radius:15; -fx-background-color: rgba(255, 255, 153, 0.5);");
-        // region.setEffect(new DropShadow(10, Color.BLACK));
-        this.getChildren().add(0, region);
+        // TODO Auto-generated method stub
+
+    }
+
+    protected void openTriggered()
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    protected void setIsOpen(final boolean value)
+    {
+        this.isOpen = value;
+        if (!isOpen)
+        {
+            background.setStyle("-fx-background-color: rgba(0,0,0,0.01)");
+        }
+        else
+        {
+            background.setStyle("-fx-background-color: rgba(255,0,0,0.4)");
+        }
+    }
+
+    protected boolean isOpen()
+    {
+        return isOpen;
     }
 
     protected void mousePressed(final MouseEvent event)

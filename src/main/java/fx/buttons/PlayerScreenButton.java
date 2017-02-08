@@ -6,9 +6,9 @@ import main.DisplayManager;
 public class PlayerScreenButton extends ScreenButton
 {
 
-    public PlayerScreenButton()
+    public PlayerScreenButton(final int size)
     {
-        super("aion_lore.png", 60);
+        super("search_icon.png", size);
         // TODO Auto-generated constructor stub
     }
 

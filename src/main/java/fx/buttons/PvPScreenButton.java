@@ -1,20 +1,19 @@
 package fx.buttons;
 
 import fx.screens.AdditionalToolMenu;
-import fx.screens.OptionsMenu;
 import javafx.scene.input.MouseEvent;
 
 public class PvPScreenButton extends ScreenButton
 {
-	public PvPScreenButton() 
-	{
-		super("swords-icon.gif", 60);
-	}
-	
+    public PvPScreenButton(final int size)
+    {
+        super("swords-icon.gif", size);
+    }
+
     @Override
     protected void mousePressed(final MouseEvent event)
     {
-		AdditionalToolMenu.openToolMenu();
+        AdditionalToolMenu.openToolMenu();
     }
 
     @Override

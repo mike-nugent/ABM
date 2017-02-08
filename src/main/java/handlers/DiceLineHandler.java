@@ -143,6 +143,7 @@ public class DiceLineHandler extends LineHandler
         try
         {
             roll = roll.replace(",", "");
+            roll = roll.replace("a ", "");
             return Integer.parseInt(roll);
         }
         catch (final Exception e)

@@ -1,6 +1,7 @@
 package fx.buttons;
 
 import gameinfo.IconLoader;
+import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.effect.DropShadow;
@@ -8,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import main.ABMStage;
 
 public class MoveCursor extends Pane
@@ -43,4 +45,31 @@ public class MoveCursor extends Pane
             }
         });
     }
+
+    public void fadeOutWhenExit(final Pane pane, final MoveCursor cursor)
+    {
+        final FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), cursor);
+
+        cursor.setOpacity(0);
+        pane.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                fadeOut.stop();
+                cursor.setOpacity(1);
+            }
+        });
+        pane.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent event)
+            {
+                fadeOut.setFromValue(cursor.getOpacity());
+                fadeOut.setToValue(0);
+                fadeOut.play();
+            }
+        });
+    }
+
 }
