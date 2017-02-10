@@ -252,6 +252,7 @@ public class MainFX extends Application
         ScriptsUpdater.initialize();
         SoundManager.initialize();
         AlertSettings.initialize();
+        DisplayManager.initialize();
     }
 
     /**

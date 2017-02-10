@@ -58,15 +58,20 @@ public class ItemData
     {
         return itemName;
     }
-    
+
     public String getItemType()
     {
         return type;
     }
-    
+
     public String getItemQuality()
     {
         return quality;
+    }
+
+    public String getJson()
+    {
+        return json;
     }
 
     private JSONObject parseJson(final String json)

@@ -3,6 +3,7 @@ package main;
 import java.util.LinkedList;
 import java.util.List;
 
+import config.ConfigFile;
 import database.PlayerBaseUpdater;
 import fx.buttons.XformScreenButton;
 import fx.screens.ArtifactPopupPage;
@@ -36,6 +37,32 @@ public class DisplayManager
     static LootPopupPage     lootStage    = new LootPopupPage();
 
     static XformScreenButton xformButton;
+
+    public static void initialize()
+    {
+        // Check for any windows that should be open, and open them if needed.
+        final String isDiceShowing = ConfigFile.getProperty(ConfigFile.IS_DICE_SHOWING);
+        if (isDiceShowing != null && isDiceShowing.equals("true"))
+        {
+            DisplayManager.showDicePopup();
+        }
+        else
+        {
+            DisplayManager.hideDicePopup();
+        }
+
+        // Same for loot
+        final String isLootShowing = ConfigFile.getProperty(ConfigFile.IS_LOOT_SHOWING);
+        if (isLootShowing != null && isLootShowing.equals("true"))
+        {
+            DisplayManager.showLootPopup();
+        }
+        else
+        {
+            DisplayManager.hideLootPopup();
+        }
+
+    }
 
     public static synchronized void transformDetected(final PlayerData data)
     {
@@ -223,13 +250,37 @@ public class DisplayManager
         if (diceStage.isShowing())
         {
             diceStage.close();
+            ConfigFile.setProperty(ConfigFile.IS_DICE_SHOWING, "false");
+
         }
         else
         {
             diceStage.show();
+            diceStage.showCursorForASecond();
+
+            DicePopupPage.showPlayerRoll("<current roll>", 23);
+            DicePopupPage.updateWinsRoll("<wins roll>", 99);
             DicePopupPage.updateLastToRoll("<last to roll>");
-            DicePopupPage.updateWinsRoll("<won roll>", 99);
+            ConfigFile.setProperty(ConfigFile.IS_DICE_SHOWING, "true");
         }
+    }
+
+    private static void hideDicePopup()
+    {
+        if (diceStage.isShowing())
+        {
+            diceStage.close();
+        }
+    }
+
+    private static void showDicePopup()
+    {
+        diceStage.show();
+        diceStage.showCursorForASecond();
+
+        DicePopupPage.showPlayerRoll("<current roll>", 23);
+        DicePopupPage.updateWinsRoll("<wins roll>", 99);
+        DicePopupPage.updateLastToRoll("<last to roll>");
     }
 
     public static void toggleLootPopup()
@@ -237,11 +288,29 @@ public class DisplayManager
         if (lootStage.isShowing())
         {
             lootStage.close();
+            ConfigFile.setProperty(ConfigFile.IS_LOOT_SHOWING, "false");
+
         }
         else
         {
             lootStage.show();
+            lootStage.showCursorForASecond();
+            ConfigFile.setProperty(ConfigFile.IS_LOOT_SHOWING, "true");
         }
+    }
+
+    private static void hideLootPopup()
+    {
+        if (lootStage.isShowing())
+        {
+            lootStage.close();
+        }
+    }
+
+    private static void showLootPopup()
+    {
+        lootStage.show();
+        lootStage.showCursorForASecond();
     }
 
     public static void showTransformPopup()

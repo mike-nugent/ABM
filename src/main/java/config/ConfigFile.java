@@ -40,6 +40,9 @@ public class ConfigFile
     public static final String PVP_LOCATION_PROPERTY    = "pvpLocaion";
     public static final String ARTI_LOCATION_PROPERTY   = "artiLocation";
     public static final String DICE_LOCATION_PROPERTY   = "diceLocation";
+    public static final String LOOT_LOCATION_PROPERTY   = "lootLocation";
+    public static final String IS_DICE_SHOWING          = "isDiceShowing";
+    public static final String IS_LOOT_SHOWING          = "isLootShowing";
 
     private static String _name;
     private static Race   _race;

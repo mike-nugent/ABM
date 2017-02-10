@@ -1,7 +1,5 @@
 package fx.screens;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.CheckMenuItem;
@@ -58,11 +56,11 @@ public class AdditionalToolMenu
                 }
             });
 
-            final CheckMenuItem dice = new CheckMenuItem("Dice Tool");
-            dice.selectedProperty().addListener(new ChangeListener<Boolean>()
+            final MenuItem dice = new MenuItem("Dice Tool");
+            dice.setOnAction(new EventHandler<ActionEvent>()
             {
                 @Override
-                public void changed(final ObservableValue ov, final Boolean old_val, final Boolean new_val)
+                public void handle(final ActionEvent event)
                 {
                     DisplayManager.toggleDicePopup();
                 }
