@@ -8,13 +8,12 @@ import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 
+import fx.screens.EnableChatLogScreen;
+
 public class SystemConfigFileEditor
 {
     /*
-     * FOR TESTING: public static void main(final String[] args) { try {
-     * enableChatLogFile(); } catch (final Exception e) {
-     * System.out.println("Could not modify the file, something went wrong: " +
-     * e); e.printStackTrace(); } }
+     * FOR TESTING: public static void main(final String[] args) { try { enableChatLogFile(); } catch (final Exception e) { System.out.println("Could not modify the file, something went wrong: " + e); e.printStackTrace(); } }
      */
 
     /**
@@ -90,8 +89,7 @@ public class SystemConfigFileEditor
     /**
      * This method will attempt to disable the chat.log file.
      *
-     * It does this by decoding the system.cfg file in the Aion install
-     * directory, decodes it, and ensures the value g_chatlog = "0" exists
+     * It does this by decoding the system.cfg file in the Aion install directory, decodes it, and ensures the value g_chatlog = "0" exists
      *
      * If anything goes wrong, and exception is thrown.
      *
@@ -123,8 +121,7 @@ public class SystemConfigFileEditor
                 System.out.println("...changing value to \"0\"");
                 final String replaced = cfgFile.replaceAll(enableLine, disableLine);
                 FileUtils.write(systemCFG, replaced, StandardCharsets.ISO_8859_1);
-                System.out.println(
-                        "Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be enabled now");
+                System.out.println("Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be disabled now");
             }
             else
             {
@@ -143,8 +140,7 @@ public class SystemConfigFileEditor
     /**
      * This method will attempt to enable the chat.log file.
      *
-     * It does this by decoding the system.cfg file in the Aion install
-     * directory, decodes it, and ensures the value g_chatlog = "1" exists
+     * It does this by decoding the system.cfg file in the Aion install directory, decodes it, and ensures the value g_chatlog = "1" exists
      *
      * If anything goes wrong, and exception is thrown.
      */
@@ -174,8 +170,7 @@ public class SystemConfigFileEditor
                 System.out.println("...changing value to \"1\"");
                 final String replaced = cfgFile.replaceAll(disableLine, enableLine);
                 FileUtils.write(systemCFG, replaced, StandardCharsets.ISO_8859_1);
-                System.out.println(
-                        "Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be enabled now");
+                System.out.println("Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be enabled now");
             }
             else if (cfgFile.contains(enableLine))
             {
@@ -186,8 +181,7 @@ public class SystemConfigFileEditor
                 System.out.println("There was no g_chatlog line found, so adding one at the end.");
                 final String addNewLine = cfgFile + enableLine;
                 FileUtils.write(systemCFG, addNewLine, StandardCharsets.ISO_8859_1);
-                System.out.println(
-                        "Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be enabled now");
+                System.out.println("Replaced chat file: " + systemCFG.getAbsolutePath() + " chat logging should be enabled now");
             }
         }
         catch (final IOException e)
@@ -197,5 +191,7 @@ public class SystemConfigFileEditor
         }
         System.out.println("To enable:  g_chatlog = \"1\"");
         System.out.println("To disable: g_chatlog = \"0\"");
+
+        EnableChatLogScreen.updateFileCheck();
     }
 }

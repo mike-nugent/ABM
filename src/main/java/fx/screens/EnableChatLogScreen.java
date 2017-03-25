@@ -33,17 +33,19 @@ import skins.Skins;
 public class EnableChatLogScreen extends HBox
 {
 
-    private final double    CONTROL_SIZE       = 280;
-    private final Label     ovrVer             = new Label("UNCHECKED");
-    private final Label     chatVer            = new Label("UNCHECKED");
-    private final TextField aionLocation       = new TextField();
-    private final Button    chatBtn            = new Button("Fix This");
-    private final Button    ovrBtn             = new Button("Fix This");
-    final Button            saveAndFinalizeBtn = new Button("Save And Apply");
-    ConfigPopupPage         _page;
+    private final double       CONTROL_SIZE       = 280;
+    private final Label        ovrVer             = new Label("UNCHECKED");
+    private final Label        chatVer            = new Label("UNCHECKED");
+    private final TextField    aionLocation       = new TextField();
+    private final Button       chatBtn            = new Button("Fix This");
+    private final Button       ovrBtn             = new Button("Fix This");
+    final Button               saveAndFinalizeBtn = new Button("Save And Apply");
+    ConfigPopupPage            _page;
+    static EnableChatLogScreen _me;
 
     public EnableChatLogScreen(final ConfigPopupPage configPopupPage)
     {
+        _me = this;
         _page = configPopupPage;
         this.setAlignment(Pos.CENTER);
         final GridPane grid = new GridPane();
@@ -126,11 +128,8 @@ public class EnableChatLogScreen extends HBox
                         {
                             final Alert alert = new Alert(AlertType.ERROR);
                             alert.setTitle("Did you run as Administrator?");
-                            alert.setHeaderText(
-                                    "Oops!\nIn order to clear the Chat.log file, ABM needs to be run in Administrator Mode.");
-                            alert.setContentText(
-                                    "To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  "
-                                            + "That will allow ABM to clear the Chat.log file");
+                            alert.setHeaderText("Oops!\nIn order to clear the Chat.log file, ABM needs to be run in Administrator Mode.");
+                            alert.setContentText("To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  " + "That will allow ABM to clear the Chat.log file");
                             alert.showAndWait();
                         }
                     }
@@ -146,11 +145,8 @@ public class EnableChatLogScreen extends HBox
                 {
                     final Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Did you run as Administrator?");
-                    alert.setHeaderText(
-                            "Oops!\nIn order to create the Chat.log file, ABM needs to be run in Administrator Mode.");
-                    alert.setContentText(
-                            "To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  "
-                                    + "That will allow ABM to create the Chat.log file");
+                    alert.setHeaderText("Oops!\nIn order to create the Chat.log file, ABM needs to be run in Administrator Mode.");
+                    alert.setContentText("To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  " + "That will allow ABM to create the Chat.log file");
                     alert.showAndWait();
                 }
 
@@ -164,11 +160,8 @@ public class EnableChatLogScreen extends HBox
             @Override
             public void handle(final MouseEvent event)
             {
-                final CustomAlert alrt = new CustomAlert("The Chat.log file",
-                        "ABM reads the Chat.log file to work."
-                                + "\nOver time the log file can get quite large and needs to be emptied.\n"
-                                + "Emptying the log file has no adverse effects on ABM or your system.\n\n"
-                                + "Note: ABM must be run in Administrator Mode to create or empty the Chat.log file");
+                final CustomAlert alrt = new CustomAlert("The Chat.log file", "ABM reads the Chat.log file to work." + "\nOver time the log file can get quite large and needs to be emptied.\n"
+                        + "Emptying the log file has no adverse effects on ABM or your system.\n\n" + "Note: ABM must be run in Administrator Mode to create or empty the Chat.log file");
                 alrt.show();
             }
         });
@@ -186,19 +179,15 @@ public class EnableChatLogScreen extends HBox
                 {
                     try
                     {
-                        final File cfgFileToCreate = new File(
-                                aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
+                        final File cfgFileToCreate = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
                         SystemConfigFileEditor.disableChatLogFile(cfgFileToCreate.getAbsolutePath());
                     }
                     catch (final Exception e1)
                     {
                         final Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Did you run as Administrator?");
-                        alert.setHeaderText(
-                                "Oops!\nIn order to disable the chat logging, ABM needs to be run in Administrator Mode.");
-                        alert.setContentText(
-                                "To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  "
-                                        + "That will allow ABM to edit the system.cfg file");
+                        alert.setHeaderText("Oops!\nIn order to disable the chat logging, ABM needs to be run in Administrator Mode.");
+                        alert.setContentText("To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  " + "That will allow ABM to edit the system.cfg file");
                         alert.showAndWait();
                     }
                 }
@@ -207,19 +196,15 @@ public class EnableChatLogScreen extends HBox
 
                     try
                     {
-                        final File cfgFileToCreate = new File(
-                                aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
+                        final File cfgFileToCreate = new File(aionLocation.getText() + "/" + ConfigFile.DEFAULT_CFG_FILE_NAME);
                         SystemConfigFileEditor.enableChatLogFile(cfgFileToCreate.getAbsolutePath());
                     }
                     catch (final Exception e1)
                     {
                         final Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Did you run as Administrator?");
-                        alert.setHeaderText(
-                                "Oops!\nIn order to enable the chat logging, ABM needs to be run in Administrator Mode.");
-                        alert.setContentText(
-                                "To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  "
-                                        + "That will allow ABM to edit the system.cfg file");
+                        alert.setHeaderText("Oops!\nIn order to enable the chat logging, ABM needs to be run in Administrator Mode.");
+                        alert.setContentText("To do this, close ABM, and restart it by right clicking, selecting Run As > Administrator.  " + "That will allow ABM to edit the system.cfg file");
                         alert.showAndWait();
                     }
                 }
@@ -235,10 +220,8 @@ public class EnableChatLogScreen extends HBox
             public void handle(final MouseEvent event)
             {
                 final CustomAlert alrt = new CustomAlert("The system.cfg file",
-                        "To enable / disable the chat log in Aion, ABM configures a value in the system.cfg file\n"
-                                + "When the Aion client starts, it reads the system.cfg file and maintains the values in memory. "
-                                + "When Aion closes, it writes the values back to the file.\n\n"
-                                + "For this reason, Aion must be closed when changing this property.\n\n"
+                        "To enable / disable the chat log in Aion, ABM configures a value in the system.cfg file\n" + "When the Aion client starts, it reads the system.cfg file and maintains the values in memory. "
+                                + "When Aion closes, it writes the values back to the file.\n\n" + "For this reason, Aion must be closed when changing this property.\n\n"
                                 + "Note: ABM must be run in Administrator Mode to modify the system.cfg file and Aion must be closed during this process\n\n"
                                 + "Note 2: If you are seeing performance issues during sieges or PVP events, disabling the logging may help.");
                 alrt.show();
@@ -270,6 +253,14 @@ public class EnableChatLogScreen extends HBox
         grid.add(saveAndFinalizeBtn, 2, 4);
 
         this.getChildren().add(grid);
+    }
+
+    public static void updateFileCheck()
+    {
+        if (_me != null)
+        {
+            _me.checkFiles();
+        }
     }
 
     public void checkFiles()

@@ -51,7 +51,7 @@ import versioning.VersionManager;
 public class MainFX extends Application
 {
     // The current version of this program.
-    public static final String CURRENT_VERSION = "1.0.8";
+    public static final String CURRENT_VERSION = "1.1.0";
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -256,10 +256,9 @@ public class MainFX extends Application
     }
 
     /**
-     * Creates and starts the asynchronous scanners on the Chat.log file
-     * since 5.3 the client disables the chatlog every time it closes. For this reason,
-     * ABM needs to be run prior to starting the client. ABM should always enable the chat log as soon as it is run.
-     * 
+     * Creates and starts the asynchronous scanners on the Chat.log file since 5.3 the client disables the chatlog every time it closes. For this reason, ABM needs to be run prior to starting the client. ABM should always enable the chat
+     * log as soon as it is run.
+     *
      * need to check if Chat.log file gets created automatically or not.
      *
      * @param primaryStage
@@ -267,71 +266,7 @@ public class MainFX extends Application
     public void startLoggers()
     {
         // Quick verification the setup is correct:
-    	System.out.println("A");
-        if (ConfigFile.isSetup())
-        {
-        	System.out.println("B");
-            _configWarningButton.setVisible(false);
-
-            final File logFile = ConfigFile.getLogFile();
-            final File cfgFile = ConfigFile.getCfgFile();
-        	//First thing is enable the config settings. Might have to be run as administrator if Chat.log needs to exist.
-            try
-            {
-            	SystemConfigFileEditor.enableChatLogFile(cfgFile.getAbsolutePath());            	
-            }
-            catch(Exception e)
-            {
-                _configWarningButton.setVisible(true);
-            	System.out.println("Could not enable the system config file.  Caught exception: " + e);
-            	e.printStackTrace();
-            }
-        	
-            // Do some quick validation on the log file.
-            // This may not matter, I need to test launching Aion without the chat log to see if it creates one.
-            // Worst case, we need to just periodically pole the Chat.log file location, and start parsing it once it gets created.
-            if (!logFile.exists())
-            {
-                DisplayManager.toggleConfigPopup();
-                _configWarningButton.setVisible(true);
-
-                // If the log file doesn't exist, we need to create it.
-                final Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Error in Setup");
-                alert.setHeaderText("Check your logging settings");
-                alert.setContentText("There may be an issue with your setup, check your settings.");
-                alert.show();
-                return;
-            }
-
-
-            
-            final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
-            final RecentHistoryParser parser = new RecentHistoryParser();
-
-            final tasks.Task task = scanner.scanFile(parser);
-            _progressIcon.setVisible(true);
-
-            new AnimationTimer()
-            {
-                @Override
-                public void handle(final long now)
-                {
-                    if (task.isTerminal())
-                    {
-                        _progressIcon.setVisible(false);
-                        System.out.println("Stopping thread");
-                        this.stop();
-                    }
-                }
-            }.start();
-
-            if (!AionLogReader.isRunning())
-            {
-                AionLogReader.readLog();
-            }
-        }
-        else
+        if (!ConfigFile.isSetup())
         {
             // Is no set up. Spawn window and yell at user
             _configWarningButton.setVisible(true);
@@ -344,6 +279,54 @@ public class MainFX extends Application
             alert.setContentText("We will need some information about your character and setup.\n\n" + "Please enter information on the following screens to get started.");
             alert.setGraphic(new ImageView(IconLoader.loadFxImage("faction2.png", 60)));
             alert.showAndWait();
+            return;
+        }
+
+        _configWarningButton.setVisible(false);
+
+        final File logFile = ConfigFile.getLogFile();
+        final File cfgFile = ConfigFile.getCfgFile();
+        // First thing is enable the config settings. Might have to be run as administrator if Chat.log needs to exist.
+        try
+        {
+            SystemConfigFileEditor.enableChatLogFile(cfgFile.getAbsolutePath());
+        }
+        catch (final Exception e)
+        {
+            _configWarningButton.setVisible(true);
+            System.out.println("Could not enable the system config file.  Caught exception: " + e);
+            e.printStackTrace();
+        }
+
+        if (SystemConfigFileEditor.isConfigFileEnabled(cfgFile.getAbsolutePath()))
+        {
+            final ChatLogWaiter waiter = new ChatLogWaiter(logFile);
+            final tasks.Task waiterTask = waiter.waitForChatFile();
+            _progressIcon.setVisible(true);
+
+            new AnimationTimer()
+            {
+                @Override
+                public void handle(final long now)
+                {
+                    if (waiterTask.isTerminal())
+                    {
+                        _progressIcon.setVisible(false);
+                        System.out.println("Stopping thread");
+
+                        final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
+                        final RecentHistoryParser parser = new RecentHistoryParser();
+                        final tasks.Task task = scanner.scanFile(parser);
+
+                        if (!AionLogReader.isRunning())
+                        {
+                            AionLogReader.readLog();
+                        }
+
+                        this.stop();
+                    }
+                }
+            }.start();
         }
     }
 
