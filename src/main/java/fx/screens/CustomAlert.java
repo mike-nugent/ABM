@@ -31,11 +31,11 @@ public class CustomAlert extends Stage
         this.setTitle(title);
 
         stage = new StackPane();
-        stage.setStyle("-fx-background-color: rgba(20, 20, 20, 0.8); -fx-background-radius: 10;");
+        stage.setStyle("-fx-background-color: rgba(20, 20, 20, 0.9); -fx-background-radius: 10;");
 
         final Label customTitle = new Label(title);
-        customTitle.setFont(Font.font(null, FontWeight.BOLD, 16));
-        customTitle.setTextFill(Color.ALICEBLUE);
+        customTitle.setFont(Font.font(null, FontWeight.BOLD, 20));
+        customTitle.setTextFill(Color.CHARTREUSE);
         final Label txt = new Label();
         txt.setMaxWidth(500);
         txt.setFont(Font.font(null, FontWeight.BOLD, 14));

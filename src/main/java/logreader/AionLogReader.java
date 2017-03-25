@@ -15,6 +15,7 @@ public class AionLogReader
 		File configFile = ConfigFile.getLogFile();
 		if(!configFile.exists())
 		{
+			//TODO - periodically pole here on the file. Change to an asynchronous thread daemon running in the background.
 			System.out.println(AionLogReader.class + " Error, could not read the log file: " + configFile + " does it exist?");
 			return false;
 		}

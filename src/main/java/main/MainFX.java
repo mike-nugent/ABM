@@ -247,7 +247,7 @@ public class MainFX extends Application
 
     private void setupDatabase()
     {
-        AionDB.instantiate();
+        AionDB.initialize();
         PlayerBaseUpdater.initialize();
         ScriptsUpdater.initialize();
         SoundManager.initialize();
@@ -257,18 +257,39 @@ public class MainFX extends Application
 
     /**
      * Creates and starts the asynchronous scanners on the Chat.log file
+     * since 5.3 the client disables the chatlog every time it closes. For this reason,
+     * ABM needs to be run prior to starting the client. ABM should always enable the chat log as soon as it is run.
+     * 
+     * need to check if Chat.log file gets created automatically or not.
      *
      * @param primaryStage
      */
     public void startLoggers()
     {
         // Quick verification the setup is correct:
+    	System.out.println("A");
         if (ConfigFile.isSetup())
         {
+        	System.out.println("B");
             _configWarningButton.setVisible(false);
-            // Do some quick validation on the log file.
+
             final File logFile = ConfigFile.getLogFile();
             final File cfgFile = ConfigFile.getCfgFile();
+        	//First thing is enable the config settings. Might have to be run as administrator if Chat.log needs to exist.
+            try
+            {
+            	SystemConfigFileEditor.enableChatLogFile(cfgFile.getAbsolutePath());            	
+            }
+            catch(Exception e)
+            {
+                _configWarningButton.setVisible(true);
+            	System.out.println("Could not enable the system config file.  Caught exception: " + e);
+            	e.printStackTrace();
+            }
+        	
+            // Do some quick validation on the log file.
+            // This may not matter, I need to test launching Aion without the chat log to see if it creates one.
+            // Worst case, we need to just periodically pole the Chat.log file location, and start parsing it once it gets created.
             if (!logFile.exists())
             {
                 DisplayManager.toggleConfigPopup();
@@ -279,15 +300,12 @@ public class MainFX extends Application
                 alert.setTitle("Error in Setup");
                 alert.setHeaderText("Check your logging settings");
                 alert.setContentText("There may be an issue with your setup, check your settings.");
+                alert.show();
                 return;
             }
 
-            if (!SystemConfigFileEditor.isConfigFileEnabled(cfgFile.getAbsolutePath()))
-            {
-                _configWarningButton.setVisible(true);
-                return;
-            }
 
+            
             final QuickHistoryLineScanner scanner = new QuickHistoryLineScanner();
             final RecentHistoryParser parser = new RecentHistoryParser();
 

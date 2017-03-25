@@ -164,12 +164,27 @@ public class OptionsMenu
                     ABMStage.getStage().setIconified(true);
                 }
             });
+            
+            final MenuItem aboutABM = new MenuItem("About ABM");
+            aboutABM.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) 
+				{
+					CustomAlert alert = new CustomAlert("About Aion Battle Meter", "Version: " + MainFX.CURRENT_VERSION + "\n\n"
+							+ "Developed by: Zhule (KR-A Cleric)\n"
+							+ "Designed for North American servers\n\n"
+							+ "visit https://aionbattlemeter.com for more info.");
+					alert.show();
+				}
+            	
+			});
 
             // don't have to add any listener for this case, clicking the object
             // closes the menu as default behavior
             final MenuItem close = new MenuItem("Collapse This Menu");
 
-            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), checkUpdates, uiSizes, onTop, lockUI, minimize, close);
+            _optionsMenu.getItems().addAll(exit, new SeparatorMenuItem(), settings, new SeparatorMenuItem(), checkUpdates, uiSizes, onTop, lockUI, minimize, aboutABM, close);
         }
 
         if (_optionsMenu.isShowing())

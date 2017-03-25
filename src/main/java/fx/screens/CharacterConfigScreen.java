@@ -16,10 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import skins.Skins;
 
-public class CharacterConfigScreen extends HBox
+public class CharacterConfigScreen extends VBox
 {
     private final double CONTROL_SIZE = 280;
     ConfigPopupPage      _page;
@@ -95,7 +96,9 @@ public class CharacterConfigScreen extends HBox
                 _page.saveCharacterCompleted();
             }
         });
-        this.getChildren().add(grid);
+        
+
+        this.getChildren().addAll(grid);
     }
 
     private void initializePlayerFields(final TextField nameField, final ComboBox<Server> serverControl,

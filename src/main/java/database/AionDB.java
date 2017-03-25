@@ -23,7 +23,7 @@ public class AionDB
 {
     private static Connection _conn;
 
-    public static void instantiate()
+    public static void initialize()
     {
         try
         {
