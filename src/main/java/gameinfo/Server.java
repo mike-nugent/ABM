@@ -1,71 +1,74 @@
 package gameinfo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
-public enum Server 
+public enum Server
 {
-	Beritra 	("BR"),
-	Israphel 	("IS"),
-	Siel		("SL"),	
-	Tiamat		("TM"),
-	Kahrun		("KR"),
-	Unknown		("??");
-	
-	private String _serverString;
-	private Server(String serverString)
-	{
-		_serverString = serverString;
-	}
-	
-	public String getServerString()
-	{
-		 return  _serverString;
-	}
-	
-	public static Server getServer(String serverString)
-	{
-		if(serverString == null)
-			return Server.Unknown;
-		
-		for(Server s : values())
-		{
-			if(s.getServerString().equals(serverString))
-			{
-				return s;
-			}
-		}
-		
-		try
-		{
-			Server s = Server.valueOf(serverString);
-			return s;
-		} 
-		catch (Exception e)
-		{
-			return Unknown;
-		}
-	}
+    Katalam("KT", "Katal"), Danaria("DN", "Danar"), Beritra("BR"), Israphel("IS"), Siel("SL"), Tiamat("TM"), Kahrun("KR"), Unknown("??");
 
-	public static Server getRandom() 
-	{
-		Random random = new Random();
-		return Server.values()[(random.nextInt(values().length -1))];
-	}
+    private String[] _serverStrings;
 
-	public static Vector<Server> getLegalValues() 
-	{
-		Vector<Server> returnLst = new Vector<Server>();
-		for(Server s : values())
-		{
-			if(!s.equals(Unknown))
-			{
-				returnLst.add(s);
-			}
-		}
-		
-		return returnLst;
-	}
+    private Server(final String... serverString)
+    {
+        _serverStrings = serverString;
+    }
+
+    public String getServerString()
+    {
+        return _serverStrings[0];
+    }
+
+    public List<String> getServerStrings()
+    {
+        return Arrays.asList(_serverStrings);
+    }
+
+    public static Server getServer(final String serverString)
+    {
+        if (serverString == null)
+        {
+            return Server.Unknown;
+        }
+
+        for (final Server s : values())
+        {
+            if (s.getServerStrings().contains(serverString))
+            {
+                return s;
+            }
+        }
+
+        try
+        {
+            final Server s = Server.valueOf(serverString);
+            return s;
+        }
+        catch (final Exception e)
+        {
+            return Unknown;
+        }
+    }
+
+    public static Server getRandom()
+    {
+        final Random random = new Random();
+        return Server.values()[(random.nextInt(values().length - 1))];
+    }
+
+    public static Vector<Server> getLegalValues()
+    {
+        final Vector<Server> returnLst = new Vector<Server>();
+        for (final Server s : values())
+        {
+            if (!s.equals(Unknown))
+            {
+                returnLst.add(s);
+            }
+        }
+
+        return returnLst;
+    }
 }

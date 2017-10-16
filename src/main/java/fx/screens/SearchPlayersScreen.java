@@ -38,8 +38,7 @@ import javafx.scene.text.Font;
 
 public class SearchPlayersScreen extends VBox
 {
-    final Button                   searchBtn   = new Button("",
-            new ImageView(IconLoader.loadFxImage("search_icon.png", 30)));
+    final Button                   searchBtn   = new Button("", new ImageView(IconLoader.loadFxImage("search_icon.png", 30)));
     final TextField                searchFiled = new TextField();
     final TableView<PlayerData>    table       = new TableView<PlayerData>();
     private final ComboBox<String> serverControl;
@@ -68,8 +67,7 @@ public class SearchPlayersScreen extends VBox
         searchFiled.textProperty().addListener(new ChangeListener<String>()
         {
             @Override
-            public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-                    final String newValue)
+            public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue)
             {
                 updateSearch();
             }
@@ -89,8 +87,7 @@ public class SearchPlayersScreen extends VBox
         final HBox bottomBox = new HBox();
         bottomBox.setSpacing(15);
         // Server
-        final ObservableList<String> serverOptions = FXCollections.observableArrayList("All Servers", "Kahrun",
-                "Israphel", "Siel", "Tiamat", "Beritra");
+        final ObservableList<String> serverOptions = FXCollections.observableArrayList("All Servers", "Danaria", "Katalam", "Kahrun", "Israphel", "Siel", "Tiamat", "Beritra");
         serverControl = new ComboBox<String>(serverOptions);
         serverControl.getSelectionModel().select("All Servers");
 
@@ -105,9 +102,7 @@ public class SearchPlayersScreen extends VBox
         });
 
         // Class
-        final ObservableList<String> classOptions = FXCollections.observableArrayList("All Classes", "Assassin",
-                "Chanter", "Cleric", "Gladiator", "Gunslinger", "Ranger", "Songweaver", "Sorcerer", "Spiritmaster",
-                "Templar");
+        final ObservableList<String> classOptions = FXCollections.observableArrayList("All Classes", "Assassin", "Chanter", "Cleric", "Gladiator", "Gunslinger", "Ranger", "Songweaver", "Sorcerer", "Spiritmaster", "Templar");
         classControl = new ComboBox<String>(classOptions);
         classControl.getSelectionModel().select("All Classes");
 
@@ -137,8 +132,7 @@ public class SearchPlayersScreen extends VBox
         });
 
         // Rank
-        final ObservableList<String> rankOptions = FXCollections.observableArrayList("All Ranks", "Non Xform",
-                "5-Star Officer", "General", "Great General", "Commander", "Governor");
+        final ObservableList<String> rankOptions = FXCollections.observableArrayList("All Ranks", "Non Xform", "5-Star Officer", "General", "Great General", "Commander", "Governor");
         rankControl = new ComboBox<String>(rankOptions);
         rankControl.getSelectionModel().select("All Ranks");
 
