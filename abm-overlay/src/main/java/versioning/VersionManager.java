@@ -13,8 +13,8 @@ public class VersionManager
 
     // VERSION
     public static final String          CURRENT_VERSION   = MainFX.CURRENT_VERSION;
-    public static String                AVAILABLE_VERSION = getAvailableVersion(
-            "http://yarhar.com/aion/current.version");
+    public static final String          VERSION_SITE      = "http://yarhar.com/aion/current.version";
+    public static String                AVAILABLE_VERSION = getAvailableVersion(VERSION_SITE);
     private static UpdateAvailableAlert alert;
 
     private static String getAvailableVersion(final String address)
@@ -52,8 +52,7 @@ public class VersionManager
     /**
      * Compares two version strings.
      *
-     * Use this instead of String.compareTo() for a non-lexicographical
-     * comparison that works for version strings. e.g. "1.10".compareTo("1.6").
+     * Use this instead of String.compareTo() for a non-lexicographical comparison that works for version strings. e.g. "1.10".compareTo("1.6").
      *
      * @note It does not work if "1.10" is supposed to be equal to "1.10.0".
      *
@@ -61,10 +60,7 @@ public class VersionManager
      *            a string of ordinal numbers separated by decimal points.
      * @param str2
      *            a string of ordinal numbers separated by decimal points.
-     * @return The result is a negative integer if str1 is _numerically_ less
-     *         than str2. The result is a positive integer if str1 is
-     *         _numerically_ greater than str2. The result is zero if the
-     *         strings are _numerically_ equal.
+     * @return The result is a negative integer if str1 is _numerically_ less than str2. The result is a positive integer if str1 is _numerically_ greater than str2. The result is zero if the strings are _numerically_ equal.
      */
     public static int versionCompare(final String str1, final String str2)
     {
@@ -92,7 +88,7 @@ public class VersionManager
     {
         try
         {
-            AVAILABLE_VERSION = getAvailableVersion("http://yarhar.com/aion/current.version");
+            AVAILABLE_VERSION = getAvailableVersion(VERSION_SITE);
 
             System.out.println("Current Version:   " + CURRENT_VERSION);
             System.out.println("Available Version: " + AVAILABLE_VERSION);
@@ -105,8 +101,7 @@ public class VersionManager
                     alert.close();
                 }
 
-                alert = new UpdateAvailableAlert("New Version Available",
-                        "There is newer version of ABM available for download.", CURRENT_VERSION, AVAILABLE_VERSION);
+                alert = new UpdateAvailableAlert("New Version Available", "There is newer version of ABM available for download.", CURRENT_VERSION, AVAILABLE_VERSION);
 
                 alert.show();
                 return true;
@@ -121,8 +116,7 @@ public class VersionManager
             e.printStackTrace();
             System.out.println("There was a problem checking the latest version");
 
-            final CustomAlert alert = new CustomAlert("Minor Issue Detected",
-                    "Could not detect if updates were available or not.");
+            final CustomAlert alert = new CustomAlert("Minor Issue Detected", "Could not detect if updates were available or not.");
             alert.show();
 
             return true;
