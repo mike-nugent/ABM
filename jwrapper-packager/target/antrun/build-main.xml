@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <path id="jwrapper.jar.path">
+    <fileset dir=".">
+      <include name="jwrapper-00*.jar"/>
+    </fileset>
+  </path>
+  <property name="JWrapperJAR" refid="jwrapper.jar.path"/>
+  <java fork="true" jar="${JWrapperJAR}" failonerror="true">
+    <jvmarg value="-Xmx512m"/>
+    <arg value="jwrapper.xml"/>
+  </java>
+</target>
+</project>

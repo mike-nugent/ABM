@@ -1,4 +1,0 @@
-Thanks for installing, Aion Battle Meter is now ready to use.
-
-Note that if this is the first time you are launching or updating ABM, it takes about 30 seconds to start.
-

@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jwrapper-build</artifactId>
+
+	<parent>
+		<groupId>com.yarhar.abm</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>build</artifactId>
+		<relativePath>../build</relativePath>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+
+								<!-- Place any ant task here. You can add anything you can add between 
+									<target> and </target> in a build.xml. -->
+								<!-- This snippet autodetects the name of the JWrapper JAR in the 
+									current directory '.' so you can update JW easily -->
+								<path id="jwrapper.jar.path">
+									<fileset dir=".">
+										<include name="jwrapper-00*.jar" />
+									</fileset>
+								</path>
+								<property name="JWrapperJAR" refid="jwrapper.jar.path" />
+
+								<!-- This runs JWrapper, giving it plenty of memory to compress those 
+									big JVMs right down -->
+								<java jar="${JWrapperJAR}" failonerror="true" fork="true">
+									<jvmarg value="-Xmx512m" />
+									<arg value="jwrapper.xml" />
+								</java>
+
+
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>rename-file</id>
+						<phase>install</phase>
+						<goals>
+							<goal>rename</goal>
+						</goals>
+						<configuration>
+							<sourceFile>JWrapperBuild/ABM-windows64-offline.exe</sourceFile>
+							<destinationFile>JWrapperBuild/ABM.exe</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+</project>

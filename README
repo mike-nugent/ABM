@@ -1,0 +1,11 @@
+To compile the tool for iterative changes, run:
+	cd abm-overlay
+	mvn clean install
+	cd target
+		(jar with dependencies)
+		
+To complie, embed the jar into JWrapper, and wrap that in the Inno Setup Installer, run:
+	cd ASDM
+	mvn clean install
+	cd install-bundle-packager/Output
+		(ABM_Installer.exe)

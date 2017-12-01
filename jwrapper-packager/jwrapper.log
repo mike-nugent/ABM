@@ -1,0 +1,323 @@
+JWrapperCompiler started Mon Oct 16 16:29:11 PDT 2017
+Next arg: jwrapper.tmp
+fullBuild is set to true
+[Config] Will produce a RELEASE build, this will include timestamping and compression but will take longer than a dev build
+[Config] Building file is jwrapper.tmp
+[Updates] Checking for updates...
+[App] Specifying JRE check shim class, no JreVerifier to shim to
+[App 1 of 3] App (user:true) "Aion Battle Meter" = main.MainFX [any further args]
+[App 2 of 3] App (user:false) "JWrapperJreCompatibilityApp" = jwrapper.JWrapperJreCheckShim [any further args]
+[App 3 of 3] App (user:false) "JWrapper Service Management App" = jwrapper.jwutils.service.ManageService [any further args]
+[Config] Build Folder: C:\git\ASDM\jarToExe\JWrapperBuild
+[Config] UpdateURL: (no update URL specified)
+[Config] MainClass on update: (none specified)
+[Config] MainClass to verify JRE compatibility: (none specified)
+[Config] MainClass to run post-install: (none specified)
+[Config] MainClass to run pre-uninstall: (none specified)
+[Config] Minimum splash image time: 850ms
+[Config] Splash PNG: C:\git\ASDM\jarToExe\splash.png
+[Config] Can Override Splash: false
+[Config] Bundle Logo PNG: C:\git\ASDM\jarToExe\transform_icon.png
+[Config] Must Fork: false
+[Config] OSX TGZ Compression level: 0
+[Config] OSX 'App Nap' Allowed: false
+[Config] Will produce an UNSIGNED app for Windows (note elevated apps will have a more severe warning and Antivirus programs may complain)
+[Config] *** WARNING, elevation for Windows specifies that app needs uiAccess but Windows requires the app to be signed for uiAccess
+[Config] Strip exception - keeping file /sunjce_provider.jar
+[Config] Strip exception - keeping file /jce.jar
+[Config] Pack200 exception - not packing file /sunjce_provider.jar
+[Config] Pack200 exception - not packing file /jce.jar
+[Config] Pack200 Effort is 9/9
+[App] Rescaling logos
+[Config] Will not strip JRE (leaving optional files)
+[JRE] About to archive all JREs, **IMPORTANT** this can take a long time the first time, future builds will be much faster...
+[JRE] Archiving JRE Windows32JRE
+[JRE] Archived Windows32JRE (00048569930) already exists. Checking for native launcher...
+[Updates] Update check: 44250826 vs 54634866 (online)
+[Updates] *********************************************
+[Updates] *           NEW VERSION AVAILABLE           *
+[Updates] *********************************************
+[JRE] Native launcher found in JRE archive so skipping
+[JRE] JRE Windows32JRE finished
+[JRE] Archiving JRE Windows64JRE
+[JRE] Archived Windows64JRE (00048569983) already exists. Checking for native launcher...
+[JRE] Native launcher found in JRE archive so skipping
+[JRE] JRE Windows64JRE finished
+[Licensing] Checking JWrapper licensing
+[Licensing] No JWrapper license found
+[Licensing] JWService not allowed
+[Licensing] JWCrypt not allowed
+[Licensing] JW Signed Updates not allowed
+[Licensing] Rebranding not allowed, rebuilding splash using JWrapper splash and logo
+[JWrapper] Building JWrapper 00044250826
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (11) (jwBuildVersion) C:\git\ASDM\jarToExe\JWrapperBuild\jwBuildVersion
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (5120) (jwrapperlib/jwstandalonelaunch.jar) jwrapperlib\jwstandalonelaunch.jar
+[Archive] Adding to classpath: jwrapperlib/jwstandalonelaunch.jar
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (2033679) (jwrapperlib/jwstandalone.jar) jwrapperlib\jwstandalone.jar
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (297145) (JWrapper-ABM-splash.png) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-splash.png
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (6440) (JWrapper-ABM-ICNS.icns) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-ICNS.icns
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (102400) (jwutils_win32.dll) wrappers\windows\jwutils_win32.dll
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (112640) (jwutils_win64.dll) wrappers\windows\jwutils_win64.dll
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (10741) (libjwutils_linux32.so) wrappers\linux\libjwutils_linux32.so
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (14392) (libjwutils_linux64.so) wrappers\linux\libjwutils_linux64.so
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (31556) (libjwutils_macos32.jnilib) wrappers\osx\libjwutils_macos32.jnilib
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (27648) (libjwutils_macos64.jnilib) wrappers\osx\libjwutils_macos64.jnilib
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (90112) (SimpleService.exe) wrappers\windows\SimpleService.exe
+[Archive][JWrapper-JWrapper-00044250826-archive.p2.l2] Adding file (171) (JWrapperLaunch) JWrapperLaunchTemp
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-JWrapper-00044250826-archive.p2.l2
+[Archive] P2 - compressed from 2732055 to 2732055
+[Archive] L2 - compressed from 2732448 to 1015193 (took 1688 / 1688)
+[JWrapper] JWrapper 00044250826 finished
+[App] Building launchers
+[App] Building Windows 32 bit launcher...
+[VerPatch] [C:\git\ASDM\jarToExe\wrappers\windows\verpatch.exe, C:\git\ASDM\jarToExe\JWrapperBuild\ABMLauncher_icon.exe, /va, 0.0.0.0]
+[VerPatch] Setting the version info returned 0
+[App-DEBUG] Created launcher C:\git\ASDM\jarToExe\JWrapperBuild\ABMWinLauncher.exe size=483631
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (483631) (ABMWinLauncher.exe) C:\git\ASDM\jarToExe\JWrapperBuild\ABMWinLauncher.exe
+[Archive][JWrapper-ABM_os_jwwin-00055049142-archive.p2.l2] Adding file (483631) (ABMWinLauncher.exe) C:\git\ASDM\jarToExe\JWrapperBuild\ABMWinLauncher.exe
+[App] Windows launcher finished
+[App] Building Linux 32 bit launcher... - linux32
+[Archive][JWrapper-ABM_os_jwlin32-00055049142-archive.p2.l2] Adding file (1930547) (ABMLinLauncher32) C:\git\ASDM\jarToExe\JWrapperBuild\ABMLinLauncher32
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (1930547) (ABMLinLauncher32) C:\git\ASDM\jarToExe\JWrapperBuild\ABMLinLauncher32
+[App] Linux launcher finished
+[App] Building Linux 64 bit launcher... - linux64
+[Archive][JWrapper-ABM_os_jwlin64-00055049142-archive.p2.l2] Adding file (2218668) (ABMLinLauncher64) C:\git\ASDM\jarToExe\JWrapperBuild\ABMLinLauncher64
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (2218668) (ABMLinLauncher64) C:\git\ASDM\jarToExe\JWrapperBuild\ABMLinLauncher64
+[App] Linux launcher finished
+[App] Building MacOS Native launcher [64bit]...
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (967) (ABMMacLauncher64.app/Contents/Info.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Info.plist
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents/MacOS) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (197692) (ABMMacLauncher64.app/Contents/MacOS/osxlauncher) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS\osxlauncher
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (197420) (ABMMacLauncher64.app/Contents/MacOS/osxwrapper) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS\osxwrapper
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (8) (ABMMacLauncher64.app/Contents/PkgInfo) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\PkgInfo
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (4096) (ABMMacLauncher64.app/Contents/Resources) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (6440) (ABMMacLauncher64.app/Contents/Resources/AppLogo.icns) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\AppLogo.icns
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (297145) (ABMMacLauncher64.app/Contents/Resources/AppSplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\AppSplash.png
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (46764) (ABMMacLauncher64.app/Contents/Resources/elev_mac) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\elev_mac
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents/Resources/params.lproj) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\params.lproj
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (204928) (ABMMacLauncher64.app/Contents/Resources/params.lproj/locversion.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\params.lproj\locversion.plist
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (47) (ABMMacLauncher64.app/Contents/Resources/Tail) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\Tail
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (967) (ABMMacLauncher64.app/Contents/Info.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Info.plist
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents/MacOS) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (197692) (ABMMacLauncher64.app/Contents/MacOS/osxlauncher) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS\osxlauncher
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (197420) (ABMMacLauncher64.app/Contents/MacOS/osxwrapper) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\MacOS\osxwrapper
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (8) (ABMMacLauncher64.app/Contents/PkgInfo) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\PkgInfo
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding folder (4096) (ABMMacLauncher64.app/Contents/Resources) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (6440) (ABMMacLauncher64.app/Contents/Resources/AppLogo.icns) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\AppLogo.icns
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (297145) (ABMMacLauncher64.app/Contents/Resources/AppSplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\AppSplash.png
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (46764) (ABMMacLauncher64.app/Contents/Resources/elev_mac) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\elev_mac
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher64.app/Contents/Resources/params.lproj) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\params.lproj
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (204928) (ABMMacLauncher64.app/Contents/Resources/params.lproj/locversion.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\params.lproj\locversion.plist
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (47) (ABMMacLauncher64.app/Contents/Resources/Tail) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher64.app\Contents\Resources\Tail
+[App] MacOS launcher finished [64bit]
+[App] Building MacOS Java launcher [32bit]...
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (1451) (ABMMacLauncher32.app/Contents/Info.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Info.plist
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/MacOS) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\MacOS
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (47732) (ABMMacLauncher32.app/Contents/MacOS/JavaApplicationStub) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\MacOS\JavaApplicationStub
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (8) (ABMMacLauncher32.app/Contents/PkgInfo) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\PkgInfo
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (4096) (ABMMacLauncher32.app/Contents/Resources) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (6440) (ABMMacLauncher32.app/Contents/Resources/AppLogo.icns) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\AppLogo.icns
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (297145) (ABMMacLauncher32.app/Contents/Resources/AppSplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\AppSplash.png
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/Resources/Java) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (1095065) (ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java\osxwrapper.jar
+[Archive] Will pack200 ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/Resources/params.lproj) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\params.lproj
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (204928) (ABMMacLauncher32.app/Contents/Resources/params.lproj/locversion.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\params.lproj\locversion.plist
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (1095065) (ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java\osxwrapper.jar
+[Archive] Will pack200 ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (1451) (ABMMacLauncher32.app/Contents/Info.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Info.plist
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/MacOS) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\MacOS
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (47732) (ABMMacLauncher32.app/Contents/MacOS/JavaApplicationStub) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\MacOS\JavaApplicationStub
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (8) (ABMMacLauncher32.app/Contents/PkgInfo) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\PkgInfo
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (4096) (ABMMacLauncher32.app/Contents/Resources) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (6440) (ABMMacLauncher32.app/Contents/Resources/AppLogo.icns) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\AppLogo.icns
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (297145) (ABMMacLauncher32.app/Contents/Resources/AppSplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\AppSplash.png
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/Resources/Java) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (1095065) (ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java\osxwrapper.jar
+[Archive] Will pack200 ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding folder (0) (ABMMacLauncher32.app/Contents/Resources/params.lproj) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\params.lproj
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (204928) (ABMMacLauncher32.app/Contents/Resources/params.lproj/locversion.plist) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\params.lproj\locversion.plist
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (1095065) (ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar) C:\git\ASDM\jarToExe\JWrapperBuild\ABMMacLauncher32.app\Contents\Resources\Java\osxwrapper.jar
+[Archive] Will pack200 ABMMacLauncher32.app/Contents/Resources/Java/osxwrapper.jar
+[App] OSX launcher finished
+[App] Building App archive ABM 00055049142
+[App] Adding Linux elevation to archive...
+[App] Will add file to archive... (C:\git\ASDM\target\ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) (=ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) (classpath=true) (dir=false) (protect=false)
+[App] Adding file to archive... (C:\git\ASDM\target\ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) (=ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) (classpath=true) (dir=false) (protect=false)
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (7168839) (ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) C:\git\ASDM\target\ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[Archive] Will pack200 ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (7168839) (ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar) C:\git\ASDM\target\ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[Archive] Will pack200 ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[Archive] Adding to classpath: ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+[App] Adding supplementary files to archive...
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (20203) (JWAppSpec-Aion_Battle_Meter) C:\git\ASDM\jarToExe\JWrapperBuild\JWAppSpec-Aion_Battle_Meter
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (85) (JWAppSpec-JWrapperJreCompatibilityApp) C:\git\ASDM\jarToExe\JWrapperBuild\JWAppSpec-JWrapperJreCompatibilityApp
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (98) (JWAppSpec-JWrapper_Service_Management_App) C:\git\ASDM\jarToExe\JWrapperBuild\JWAppSpec-JWrapper_Service_Management_App
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (297145) (JWrapper-ABM-splash.png) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-splash.png
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (6440) (JWrapper-ABM-ICNS.icns) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-ICNS.icns
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (49390) (JWrapper-ABM-UninstallerICO.icopng) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-UninstallerICO.icopng
+[App] JWService not allowed
+[LicenseZFilter] Excluding jwrapper/jwutils/JWService$ServiceManagementException.class
+[LicenseZFilter] Excluding jwrapper/jwutils/JWService$ServiceMessageHandler.class
+[LicenseZFilter] Excluding jwrapper/jwutils/JWService.class
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (1228816) (jwrapper_utils.jar) C:\git\ASDM\jarToExe\JWrapperBuild\jwutilstmp.jar
+[Archive] Will pack200 jwrapper_utils.jar
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (1228816) (jwrapper_utils.jar) C:\git\ASDM\jarToExe\JWrapperBuild\jwutilstmp.jar
+[Archive] Will pack200 jwrapper_utils.jar
+[Archive] Adding to classpath: jwrapper_utils.jar
+[App] Adding native libs to OS archives, (not the app archive)
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (102400) (jwutils_win32.dll) wrappers\windows\jwutils_win32.dll
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (112640) (jwutils_win64.dll) wrappers\windows\jwutils_win64.dll
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (10741) (libjwutils_linux32.so) wrappers\linux\libjwutils_linux32.so
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (14392) (libjwutils_linux64.so) wrappers\linux\libjwutils_linux64.so
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (31556) (libjwutils_macos32.jnilib) wrappers\osx\libjwutils_macos32.jnilib
+[Archive][JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2] Adding file (27648) (libjwutils_macos64.jnilib) wrappers\osx\libjwutils_macos64.jnilib
+[Archive][JWrapper-ABM_os_jwwin-00055049142-archive.p2.l2] Adding file (102400) (jwutils_win32.dll) wrappers\windows\jwutils_win32.dll
+[Archive][JWrapper-ABM_os_jwwin-00055049142-archive.p2.l2] Adding file (112640) (jwutils_win64.dll) wrappers\windows\jwutils_win64.dll
+[Archive][JWrapper-ABM_os_jwlin32-00055049142-archive.p2.l2] Adding file (10741) (libjwutils_linux32.so) wrappers\linux\libjwutils_linux32.so
+[Archive][JWrapper-ABM_os_jwlin64-00055049142-archive.p2.l2] Adding file (14392) (libjwutils_linux64.so) wrappers\linux\libjwutils_linux64.so
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (31556) (libjwutils_macos32.jnilib) wrappers\osx\libjwutils_macos32.jnilib
+[Archive][JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2] Adding file (27648) (libjwutils_macos64.jnilib) wrappers\osx\libjwutils_macos64.jnilib
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (31556) (libjwutils_macos32.jnilib) wrappers\osx\libjwutils_macos32.jnilib
+[Archive][JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2] Adding file (27648) (libjwutils_macos64.jnilib) wrappers\osx\libjwutils_macos64.jnilib
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (792) (jwrapper_license) C:\git\ASDM\jarToExe\JWrapperBuild\jwrapper_licensing
+[VerPatch] [C:\git\ASDM\jarToExe\wrappers\windows\verpatch.exe, C:\git\ASDM\jarToExe\JWrapperBuild\versioned_session_win.exe, /va, 0.0.0.0]
+[VerPatch] Setting the version info returned 0
+[App] No Windows signing information - App will be UNABLE TO ELEVATE LAUNCH INTO SESSION ON WINDOWS
+[VerPatch] [C:\git\ASDM\jarToExe\wrappers\windows\verpatch.exe, C:\git\ASDM\jarToExe\JWrapperBuild\versioned_elev_win.exe, /va, 0.0.0.0]
+[VerPatch] Setting the version info returned 0
+[App] No Windows signing information - App will be UNABLE TO ELEVATE ON WINDOWS
+[App] Adding MacOS elevation to archive...
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (46764) (elev_mac) wrappers\osx\elev_mac
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (11) (jwBuildVersion) C:\git\ASDM\jarToExe\JWrapperBuild\jwBuildVersion
+[App] Adding 0 appnotes
+[App] Compressing windows offline app archive...
+[Archive][JWrapper-ABM_os_jwwin_marker-00055049142-archive.p2.l2] Adding file (1) (JWAuxiliaryArchive-ABM_os_jwwin) JWAuxiliaryArchive-ABM_os_jwwin
+[Archive][JWrapper-ABM-00055049142-archive.p2.l2] Adding file (129) (JWrapperLaunch) JWrapperLaunchTemp
+[Archive] Merging into C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2
+[Archive] Merging 8941588 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] Merging 698753 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwwin-00055049142-archive.p2.l2
+[Archive] Merging 37 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwwin_marker-00055049142-archive.p2.l2
+NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2
+[Archive] L2 - compressed from 9640378 to 5445943 (took 4866 / 6554)
+[App] Compressing linux32 offline app archive...
+[Archive][JWrapper-ABM_os_jwlin32_marker-00055049142-archive.p2.l2] Adding file (1) (JWAuxiliaryArchive-ABM_os_jwlin32) JWAuxiliaryArchive-ABM_os_jwlin32
+[Archive] Merging into C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwlin32-00055049142-archive.p2.l2
+[Archive] Merging 8941588 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] Merging 1941345 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin32-00055049142-archive.p2.l2
+[Archive] Merging 39 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin32_marker-00055049142-archive.p2.l2
+NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwlin32-00055049142-archive.p2.l2
+[Archive] L2 - compressed from 10882972 to 5858788 (took 5673 / 12227)
+[App] Compressing linux64 offline app archive...
+[Archive][JWrapper-ABM_os_jwlin64_marker-00055049142-archive.p2.l2] Adding file (1) (JWAuxiliaryArchive-ABM_os_jwlin64) JWAuxiliaryArchive-ABM_os_jwlin64
+[Archive] Merging into C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwlin64-00055049142-archive.p2.l2
+[Archive] Merging 8941588 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] Merging 2233117 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin64-00055049142-archive.p2.l2
+[Archive] Merging 39 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin64_marker-00055049142-archive.p2.l2
+NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwlin64-00055049142-archive.p2.l2
+[Archive] L2 - compressed from 11174744 to 5921378 (took 6080 / 18307)
+[App] Compressing macos32 offline app archive...
+[Archive][JWrapper-ABM_os_jwmac32_marker-00055049142-archive.p2.l2] Adding file (1) (JWAuxiliaryArchive-ABM_os_jwmac32) JWAuxiliaryArchive-ABM_os_jwmac32
+[Archive] Merging into C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwmac32-00055049142-archive.p2.l2
+[Archive] Merging 8941588 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] Merging 1315706 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2
+[Archive] Merging 39 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac32_marker-00055049142-archive.p2.l2
+NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwmac32-00055049142-archive.p2.l2
+[Archive] L2 - compressed from 10257333 to 5387415 (took 5094 / 23401)
+[App] Compressing macos64 offline app archive...
+[Archive][JWrapper-ABM_os_jwmac64_marker-00055049142-archive.p2.l2] Adding file (1) (JWAuxiliaryArchive-ABM_os_jwmac64) JWAuxiliaryArchive-ABM_os_jwmac64
+[Archive] Merging into C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwmac64-00055049142-archive.p2.l2
+[Archive] Merging 8941588 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] Merging 1011384 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2
+[Archive] Merging 39 from C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac64_marker-00055049142-archive.p2.l2
+NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwmac64-00055049142-archive.p2.l2
+[Archive] L2 - compressed from 9953011 to 5345242 (took 4962 / 28363)
+[App] Compressing online app archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 17216367 to 8941192
+[Archive] L2 - compressed from 8941588 to 5250821 (took 4566 / 32929)
+[App] Compressing windows online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwwin-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 698671 to 698671
+[Archive] L2 - compressed from 698753 to 195830 (took 352 / 33281)
+[App] Compressing linux32 online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin32-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 1941288 to 1941288
+[Archive] L2 - compressed from 1941345 to 610050 (took 1108 / 34389)
+[App] Compressing linux64 online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwlin64-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 2233060 to 2233060
+[Archive] L2 - compressed from 2233117 to 672655 (took 1369 / 35758)
+[App] Compressing mac32 online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac32-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 2807038 to 1314976
+[Archive] L2 - compressed from 1315706 to 625277 (took 594 / 36352)
+[App] Compressing mac64 online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwmac64-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 1010615 to 1010615
+[Archive] L2 - compressed from 1011384 to 402874 (took 466 / 36818)
+[App] Compressing cross platform online os archive...
+[Archive] NOTE: Compressing
+[Archive] Post processing C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_os_jwcp-00055049142-archive.p2.l2
+[Archive] P2 - compressed from 8631468 to 7139406
+[Archive] L2 - compressed from 7141033 to 2077022 (took 3882 / 40700)
+[App] App archive finished
+[CmdLine] Building Command Line Java Wrapper
+[CmdLine] Constructing static properties file...
+[JWrapperCompiler] NULL CACerts - creating an empty one
+[Applet] Building Applet wrapper
+[Applet] No explicit jarsigner path set, will try to autodetect from current JRE
+[Applet] No applet signing info, unable to produce applet (must be signed to work properly)
+[Applet] Applet wrapper finished
+[JavaScript] Building JS Download Embed Script
+[JavaScript] JS Download Embed Script finished
+[Windows] Building Windows Offline wrapper
+[JWrapperCompiler] NULL CACerts - creating an empty one
+[Archive][(Win32Tail)] Adding file (73216) (lzma.exe) C:\git\ASDM\jarToExe\JWrapperBuild\lzma.exe
+[Archive][(Win32Tail)] Adding file (297145) (nativesplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\nativesplash.png
+[Archive][(Win32Tail)] Adding file (0) (cacerts) C:\git\ASDM\jarToExe\JWrapperBuild\cacerts
+[Archive][(Win32Tail)] Adding file (1015193) (JWrapper-JWrapper-00044250826-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-JWrapper-00044250826-archive.p2.l2
+[Archive][(Win32Tail)] Adding file (11) (JWrapper-JWrapper-version.txt) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-JWrapper-version.txt
+[Archive][(Win32Tail)] Adding file (38097117) (JWrapper-Windows32JRE-00048569930-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-Windows32JRE-00048569930-archive.p2.l2
+[Archive][(Win32Tail)] Adding file (5445943) (JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2
+[Archive][(Win32Tail)] Adding file (11) (JWrapper-ABM-version.txt) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-version.txt
+[Windows] Embedding icon...
+[VerPatch] [C:\git\ASDM\jarToExe\wrappers\windows\verpatch.exe, C:\git\ASDM\jarToExe\JWrapperBuild\ABM-windows32-offline.exe_icon.exe, /va, 0.0.0.0]
+[VerPatch] Setting the version info returned 0
+[Windows] Windows wrapper finished
+[Windows] Building Windows Offline wrapper
+[JWrapperCompiler] NULL CACerts - creating an empty one
+[Archive][(Win64Tail)] Adding file (73216) (lzma.exe) C:\git\ASDM\jarToExe\JWrapperBuild\lzma.exe
+[Archive][(Win64Tail)] Adding file (297145) (nativesplash.png) C:\git\ASDM\jarToExe\JWrapperBuild\nativesplash.png
+[Archive][(Win64Tail)] Adding file (0) (cacerts) C:\git\ASDM\jarToExe\JWrapperBuild\cacerts
+[Archive][(Win64Tail)] Adding file (1015193) (JWrapper-JWrapper-00044250826-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-JWrapper-00044250826-archive.p2.l2
+[Archive][(Win64Tail)] Adding file (11) (JWrapper-JWrapper-version.txt) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-JWrapper-version.txt
+[Archive][(Win64Tail)] Adding file (38097117) (JWrapper-Windows64JRE-00048569983-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-Windows64JRE-00048569983-archive.p2.l2
+[Archive][(Win64Tail)] Adding file (5445943) (JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM_offline_jwwin-00055049142-archive.p2.l2
+[Archive][(Win64Tail)] Adding file (11) (JWrapper-ABM-version.txt) C:\git\ASDM\jarToExe\JWrapperBuild\JWrapper-ABM-version.txt
+[Windows] Embedding icon...
+[VerPatch] [C:\git\ASDM\jarToExe\wrappers\windows\verpatch.exe, C:\git\ASDM\jarToExe\JWrapperBuild\ABM-windows64-offline.exe_icon.exe, /va, 0.0.0.0]
+[VerPatch] Setting the version info returned 0
+[Windows] Windows wrapper finished
+[MacOS] Finished cleanup
+[FINISHED] JWrapper build is complete (127s)

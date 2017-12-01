@@ -1,0 +1,26 @@
+<jwrapper>
+<BuildOutputFolder>JWrapperBuild</BuildOutputFolder>
+<BundleName>ABM</BundleName>
+<SplashPNG>splash.png</SplashPNG>
+<BundleLogoPNG>transform_icon.png</BundleLogoPNG>
+<InstallType>CurrentUser</InstallType>
+<App>
+  <Name>Aion Battle Meter</Name>
+  <LogoPNG>transform_icon.png</LogoPNG>
+  <MainClass>main.MainFX</MainClass>
+</App>
+<SupportedLanguages>en</SupportedLanguages>
+<Windows32JRE>C:\Program Files\Java\jdk1.8.0_101</Windows32JRE>
+<Windows64JRE>C:\Program Files\Java\jdk1.8.0_101</Windows64JRE>
+<SkipLinux>true</SkipLinux>
+<SkipMacOS>true</SkipMacOS>
+<NoStripJREs>true</NoStripJREs>
+<WindowsElevation>RequireAdministrator</WindowsElevation>
+<WindowsElevationUiAccess>true</WindowsElevationUiAccess>
+<File classpath='yes'>..\abm-overlay\target\ABM-0.0.1-SNAPSHOT-jar-with-dependencies.jar</File>
+<JvmOptions>
+</JvmOptions>
+<!-- IMPORTANT place custom content BELOW this comment for compatibility with JW App -->
+
+
+</jwrapper>

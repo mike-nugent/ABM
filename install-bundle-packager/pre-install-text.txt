@@ -1,0 +1,5 @@
+Greetings Highdaeva! You are about to install Aion Battle Meter.
+Note that this program creates folders in the following locations:
+
+C:/Program Files(x86)/Aion Battle Metter
+C:/aion-battle-meter
