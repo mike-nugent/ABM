@@ -1,2 +1,11 @@
+Outdated:
 cd "C:/Program Files (x86)/NCSoft/Aion"
 echo g_chatlog = “0” > system.ovr
+
+Todo:
+http://stackoverflow.com/questions/6563141/hiding-my-program-in-the-system-tray-in-windows
+https://docs.oracle.com/javase/tutorial/uiswing/misc/systemtray.html
+
+executable jar (jar from the mvn build file)
+JWrapper (exe converter for the jar)
+Inno setup compiler (installer for the .exe)
